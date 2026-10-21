@@ -1,0 +1,9 @@
+# Arquivos temporários de testes e desenvolvimento
+*.pid
+*.log
+__pycache__/
+.DS_Store
+Thumbs.db
+*.tmp
+_test_*.cjs
+test-ui-*.html
