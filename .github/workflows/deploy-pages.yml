@@ -1,0 +1,55 @@
+name: Publicar FLORESTA no GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'Jogo.html'
+      - 'PC.html'
+      - 'Mobile.html'
+      - 'assets/**'
+      - 'modulos/**'
+      - 'sw.js'
+      - 'manifest.webmanifest'
+      - '.github/workflows/deploy-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.head_commit.message != 'Preparar GitHub Pages' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Baixar arquivos do jogo
+        uses: actions/checkout@v4
+      - name: Verificar versão completa
+        run: |
+          test -s index.html
+          test -s Jogo.html
+          test -s PC.html
+          test -s Mobile.html
+          test -d modulos
+          test -d assets
+      - name: Configurar Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Enviar conteúdo estático
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - name: Publicar
+        id: deployment
+        uses: actions/deploy-pages@v4
