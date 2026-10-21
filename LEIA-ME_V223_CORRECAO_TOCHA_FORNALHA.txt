@@ -1,0 +1,18 @@
+FLORESTA V223 — CORREÇÃO DA FORNALHA E TOCHA
+Base: V222 Ferraria POV (mesmo jogo, PC + Mobile).
+
+CORREÇÃO
+- Tecla F NÃO liga nem apaga mais a tocha. Esse atalho foi removido do motor original.
+- Tocha fica acesa ao ser equipada; E continua guardando/equipando a tocha.
+- Removidos os botões de apagar tocha do HUD de PC, menu de ações e menu Mobile.
+- A interface do motor agora informa isTorchLit(), evitando erro quando a fornalha tenta acender.
+- F continua sendo a tecla de construir, colocar pedras, adicionar combustível e acender a fornalha quando focada.
+- A ação contextual da fornalha permanece acessível por botão no PC e no celular.
+
+COMO ACENDER
+1. Construa uma fornalha completa (16 pedras).
+2. Equipe um galho e pressione F perto da fornalha para colocar combustível.
+3. Equipe a tocha (E, se estiver guardada), aponte para a fornalha e pressione F ou o botão “Acender fornalha”.
+4. A chama leva ~2 segundos para se estabilizar. Use O ao lado da fornalha para o modo Ferraria POV.
+
+Se houver problemas, confira que todas as pastas assets e fonte foram extraídas junto com PC.html e Mobile.html.

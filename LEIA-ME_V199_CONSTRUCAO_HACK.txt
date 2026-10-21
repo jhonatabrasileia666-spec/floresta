@@ -1,0 +1,31 @@
+FLORESTA V199 — CONSTRUÇÃO V198 + MODO HACK CORRIGIDO NA TECLA Z
+Base original: Floresta_V196_Modo_Hack_Corrigido_Tecla_Z_PC_Mobile.zip.
+Integração: construção modular da V198 com parede e piso sem frestas, mantendo todo o restante do jogo do ZIP original, incluindo modo Hack, alquimia V195, cavernas e montaria.
+
+COMO ABRIR
+Extraia o ZIP inteiro e abra PC.html no computador ou Mobile.html no celular.
+
+CONSTRUÇÃO
+- B: abre o menu de construção.
+- F: posiciona/monta a próxima peça (uma por vez).
+- R: gira 90 graus.
+- Q: sobe um andar; Shift+Q (ou PageDown): desce um andar.
+- Z: abre o modo Hack em qualquer momento do jogo (e não muda o andar da construção).
+- Mobile: botões próprios de construção, materiais e andar.
+
+MATERIAIS NA SOBREVIVÊNCIA
+Troncos e tábuas são os objetos físicos carregados, como na Floresta.
+Pedras, galhos e cipós são retirados do inventário normal.
+No modo Hack com "Materiais infinitos: SIM" a construção também usa as peças físicas do jogo, sem consumir os itens.
+
+ENCAIXES (V198)
+- Troncos horizontais de parede com diâmetro padronizado apenas na montagem e pequena sobreposição, sem frestas entre fileiras.
+- Paredes alinhadas à borda externa dos pisos de cada módulo.
+- Módulos e cantos conectados; paredes que começam antes do piso se ajustam ao concluir o piso.
+- Piso de troncos/tábuas, paredes, portas, janelas, pilares, telhados, escadas, pisos superiores.
+
+VALIDAÇÃO
+- Código JavaScript integrado passou na checagem de sintaxe Node.js.
+- Confirmação de que o atalho Z continua presente no script do Hack e está ausente das teclas de navegação da construção.
+- Integridade de todos os membros do ZIP conferida. Validação em partida real (PC/Android) ainda é necessária.
+- Observação: construções não são persistidas após sair da sessão, limitação já existente no sistema V198.

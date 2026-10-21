@@ -1,0 +1,14 @@
+FLORESTA V205 — PISOS, ENCAIXES E TELHADOS
+Base: V204 completa, preservando a aranha V37, carga de 15 tábuas, Hack Z, alquimia, floresta e construção.
+
+CORREÇÕES:
+1. PISO ELEVADO / CÂMERA: peças de piso parcialmente montadas agora têm alturas de apoio físicas individuais. O personagem não deve afundar na madeira enquanto a obra está inacabada. Piso de fundação de 0,82 m não é mais tratado como um degrau normal (0,42 m de limite): precisa subir usando acessos apropriados.
+2. BRECHAS: seis tábuas da fundação elevada agora cobrem toda a grade modular de 3,20 m com leve sobreposição nas bordas; piso de pedra também usa blocos mais largos. Previsão de encaixe testa a posição do cursor antes de arredondar para grade mundial.
+3. TELHADO: snap baseado no topo REAL de paredes e pilares concluídos, inclusive sobre fundação elevada ou em terreno com alturas diferentes. O telhado aceita apoio nas extremidades das paredes, cantos de pilares e continuação de telhados adjacentes. Versões inclinadas corrigidas para a face inferior não cortar o topo dos apoios.
+4. MATERIAIS E RECURSOS: seguem sendo os mesmos do jogo, com colocação por peça.
+
+PC: B Construção, F coloca peça, R gira, E alterna encaixe, Q / Shift+Q troca andar, Home térreo, Z Modo Hack.
+MOBILE: use o painel de Construção e os controles de toque.
+
+TESTES AUTOMÁTICOS: sintaxe JavaScript, encaixe em dois pilares com fundação elevada, continuidade de telhado, colisão no volume elevado, apoio em peças ainda inacabadas, cobertura de módulos e integridade do ZIP.
+LIMITAÇÃO: renderização e colisão do motor 3D completo não foram verificadas em uma partida no seu aparelho; teste especial das estruturas anteriores é recomendado.

@@ -1,0 +1,17 @@
+FLORESTA V244 — CORREÇÃO REAL DA APARÊNCIA DO MONSTRO LUTADOR
+
+Erro constatado ao comparar os 60.828 vértices das malhas expandidas:
+- Posição FBX versus GLB: diferença máxima de 0,0000000075 unidade.
+- UV horizontal FBX versus GLB: diferença máxima de 0.
+- UV vertical: FBX estava INVERTIDO em relação ao GLB.
+- Após aplicar (V = 1 - V) no FBX, o UV coincide exatamente com o GLB.
+
+A V243 aplicava a textura GLB com flipY=false aos UVs FBX, pintando o corpo em regiões erradas da textura (rosto/armadura/botas trocados).
+Esta versão ajusta as coordenadas de textura sem mexer nos ossos, na malha e nas 19 animações.
+Também reduz a emissão exagerada da V243 para manter as cores do GLB.
+
+VERSÃO COMPLETA: extraia em uma pasta NOVA e abra PC.html ou Mobile.html.
+PATCH: substitua o arquivo modulos/135_monstro_19_animacoes_v239.js da V243.
+
+VALIDADO: geometria/UV dos arquivos originais, leitura dos 19 clipes e integridade do JS.
+PENDENTE: teste visual no navegador real com o render PSX ligado.

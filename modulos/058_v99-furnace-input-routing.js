@@ -1,0 +1,1 @@
+window.addEventListener('keydown',function(e){if(window.gameFurnace?.handleKey(e)){e.preventDefault();e.stopImmediatePropagation();}},true);window.addEventListener('pointerdown',function(e){if(window.gameFurnace?.handlePointer(e)){e.preventDefault();e.stopImmediatePropagation();}},true);

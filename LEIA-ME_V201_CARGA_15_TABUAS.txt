@@ -1,0 +1,28 @@
+FLORESTA V201 — ARANHA COM 15 TABUAS / RETIRADA CORRIGIDA
+Base: Floresta V200 completa (construção sem frestas, Modo Hack na tecla Z).
+Abra PC.html ou Mobile.html, depois de extrair o ZIP inteiro.
+
+CORREÇÕES V201:
+- A aranha pode carregar até 15 tábuas na traseira, organizadas em 3 fileiras e 5 camadas.
+- Até 6 troncos por aranha; até 15 peças no total (misturando troncos/tábuas).
+- Para transportar: carregue tábuas reais no ombro com G ou tronco com Q e, atrás da aranha, use U.
+- Para retirar: aproxime-se da aranha e use K, ou toque em CARGA > RETIRAR CARGA.
+- Se houver espaço no ombro, a peça volta diretamente ao sistema original de transporte.
+- Se não houver espaço, a peça vai para o chão. Tábuas são organizadas em pilhas nativas de até 5.
+- Troncos descarregados ficam no chão e podem ser retomados com J quando o ombro estiver livre;
+  também podem ser cortados em tábuas com o machado.
+- A contagem no menu mostra tábuas e troncos separadamente.
+- Modelo, animações, escalada e ataque da aranha V37 foram preservados.
+- Modo Hack na tecla Z, construção V199, alquimia, sobrevivência e demais sistemas preservados.
+
+CONTROLES:
+PC: Q — pegar tronco; G — pegar pilha de tábuas; U — carregar na aranha;
+K — retirar da aranha; J — recuperar tronco descarregado no chão; Z — hack; B — construção.
+Mobile: botões de pegar madeira e menu CARGA > COLOCAR NA ARANHA / RETIRAR CARGA.
+
+TESTES:
+- Checagem de sintaxe JavaScript dos módulos alterados.
+- Testes de lógica da capacidade 15, transbordo para o chão, retorno ao ombro,
+  limite de 6 troncos e atualização da contagem.
+- Integridade do ZIP verificada.
+- A partida 3D completa ainda precisa ser testada em PC/Android.

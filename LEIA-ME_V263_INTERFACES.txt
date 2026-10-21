@@ -1,0 +1,12 @@
+FLORESTA V263 — INTERFACE E PERSONAGEM
+
+Base: V262 com áudio restaurado.
+* Entrada automática por plataforma no index.html (PC.html / Mobile.html mantidos).
+* Contexto de controles compartilhado; barra rápida não toma scroll da interface.
+* Atalhos F4/F8/F9/F10 removidos do gameplay; botão de inspeção 3D preservado.
+* Criador simples de CABELO (corte, cor e volume), com acessórios ligados ao osso Head da malha original.
+* Aparência passa a fazer parte do save unificado. Perfis anteriores continuam importáveis.
+* Corpo e rig originais preservados (sem substituir o avatar).
+* Atenção: renderização do cabelo no personagem e coexistência com armaduras requerem teste visual na partida.
+* Outros campos (rosto e estrutura corporal) NÃO foram implementados nesta versão.
+* Ao publicar no GitHub Pages substitua todos os arquivos e confira se o SW antigo foi atualizado.

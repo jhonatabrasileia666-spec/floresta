@@ -1,0 +1,24 @@
+FLORESTA V239 — Monstro Lutador texturizado (GLB + 19 animações FBX)
+
+Esta versão mantém todos os 278 arquivos da base unificada V238 e acrescenta:
+- assets/monstro-v239/Monstro_Texturizado.glb: malha original com textura.
+- assets/monstro-v239/Personagem_19_Animacoes_Integradas.fbx: esqueleto Mixamo com 19 AnimationStacks.
+- modulos/135_monstro_19_animacoes_v239.js: IA, combate, animação e spawn.
+
+Como testar:
+1. Extraia o ZIP mantendo a estrutura de diretórios inteira.
+2. Sirva a pasta por um servidor HTTP (ex. GitHub Pages), abra PC.html ou Mobile.html.
+3. Entre na partida e abra Diretor/Spawn pelo botão existente.
+4. Clique '+1 Monstro Lutador (19 animações)'. O monstro nasce perto do jogador.
+5. Monstro também pode aparecer naturalmente nas noites depois do dia 1.
+
+No console: window.gameNewMonster.state mostra se GLB/FBX carregaram,
+quantidade de clips lidos e número de pares de ossos usados no retarget.
+window.gameNewMonster.spawn(1) para spawn manual na partida.
+
+Os arquivos GLB/FBX têm esqueletos distintos. A V239 aplica retarget de
+movimentos via rotações globais relativas à pose original de cada rig. Os 19
+clipes permanecem preservados no asset FBX; teste gráfico e de combate real
+no navegador ainda é necessário para validar fielmente todas as poses.
+
+Mantém as páginas PC.html e Mobile.html separadas, com Jogo.html comum.

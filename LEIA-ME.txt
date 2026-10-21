@@ -1,0 +1,51 @@
+FLORESTA V195 — ALQUIMIA (CORREÇÃO DO LIVRO E DA BANCADA)
+
+COMO INICIAR
+Extraia o ZIP completamente (não execute diretamente do compactador).
+Abra PC.html no computador ou Mobile.html no dispositivo móvel.
+O jogo foi preservado a partir do pacote V195 recebido anteriormente, derivado da V194.
+
+COMO PREPARAR UMA POÇÃO NA BANCADA
+1. Explore o mapa e COLETE flores usando F ou o botão na tela.
+2. Construa um VARAL INDEPENDENTE (menu Construção / Alquimia) com galhos e cipó, peça por peça.
+3. Aproxime-se do varal, pressione E e PENDURE as flores ainda frescas.
+4. Aguarde secar. Volte e toque em RETIRAR PLANTA; só a planta seca pode ser triturada.
+5. Vá até uma bancada de alquimia concluída e pressione E (ou L).
+6. No painel da bancada, pressione ABRIR LIVRO DE RECEITAS. A seção RECEITAS abre diretamente.
+7. Ao desbloquear uma receita coletando suas espécies, clique em PREPARAR ESTA POÇÃO.
+8. A receita selecionada exibe o ingrediente necessário e se está FRESCO, SECO ou EM PÓ.
+9. Escolha a ERVA SECA no inventário, pressione COLOCAR NO PILÃO e depois TRITURAR COM PILÃO.
+10. Repita com os demais ingredientes; os pós ficam no inventário.
+11. Depois que todos os pós estiverem prontos, pressione MISTURAR E ENCHER FRASCO.
+12. A poção entra no inventário, aparece no painel e pode ser BEBIDA ou APLICADA no machado.
+13. Pressione SAIR DA BANCADA ou ESC para restaurar a câmera do jogo.
+
+LIVRO DE RECEITAS (GRIMÓRIO)
+Acesse o livro na parte superior do painel da bancada. Há três abas:
+- RECEITAS: fórmulas conhecidas e botão Preparar esta poção.
+- HERBÁRIO: registra plantas coletadas; as desconhecidas continuam ocultas.
+- PISTAS: fornece dicas graduais sem revelar todas as combinações.
+Receitas bloqueadas são exibidas como lacradas até que todas as plantas da fórmula sejam descobertas.
+A tela também explica se falta coletar, secar, triturar ou misturar alguma erva.
+
+VARAL
+É uma construção própria, separada da bancada, que admite até 5 flores por varal.
+Secagem: 12 segundos no criativo, 90 segundos na sobrevivência.
+É possível montar mais de um varal e retirar individualmente as plantas secas.
+
+PRINCIPAIS CORREÇÕES DESTA ENTREGA
+- Eliminada a reconstrução automática do painel a cada 480 ms (interrompia cliques, seleções e listas).
+- Livro de receitas com abertura direta, botão de fechamento, seleção da poção e instruções.
+- Colocação explícita da erva seca NO pilão, seguida de trituração, sem pular a etapa.
+- Seleção guiada de ingredientes, com situação do estoque e pós pendentes.
+- Atualização do progresso de secagem sem recriar botões e dificultar os toques.
+- Botões e áreas clicáveis ajustados para mouse e toque.
+- Preservados os modelos, receitas, equipamentos, restante da floresta e arquivos originais.
+
+VERIFICAÇÕES
+- Código JavaScript de alquimia: sintaxe validada com Node.js.
+- Interações da interface de receitas: testadas isoladamente no Chromium via Playwright.
+- Arquivos PC/Mobile, integridade do ZIP e presença da correção embutida: verificados.
+- O funcionamento 3D COMPLETO do jogo no navegador não foi validado nesta execução.
+- A limitação já existente no pacote recebido (última gravação de áudio truncada) permanece; as 13 gravações íntegras foram preservadas.
+- O registro de progresso da alquimia é salvo localmente no navegador, não sincronizado entre aparelhos.

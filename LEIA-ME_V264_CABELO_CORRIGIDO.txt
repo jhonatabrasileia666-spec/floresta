@@ -1,0 +1,14 @@
+FLORESTA V264 — CORREÇÃO DO CRIADOR DE CABELO
+
+Base: V263; sem alterações no motor de combate, câmera POV, áudio, saves ou IA.
+
+- Menu inicial agora pode rolar verticalmente em telas baixas.
+- Botão "Personagem — cabelos" aparece após "Novo Jogo".
+- Quatro cortes em miniaturas clicáveis, oito cores e controle de volume.
+- Prévia instantânea no criador; clicar APLICAR grava a escolha.
+- Cabelo 3D criado em unidades adequadas ao esqueleto Mixamo do jogador, ancorado ao osso da cabeça.
+- Durante POV o cabelo fica oculto para não tampar os olhos. Para ver no jogo, ative o botão CÂMERA: 3ª PESSOA de inspeção.
+- A aparência segue a chave e o formato existentes no save V263.
+- Não substitui o corpo original e não altera o rig; modelos de rosto/corpo não incluídos.
+
+Publique TODOS os arquivos no GitHub Pages. Após publicar, recarregue a página para receber o cache V264.

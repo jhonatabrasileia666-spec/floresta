@@ -1,0 +1,28 @@
+FLORESTA V204 — ENCAIXE POR PONTOS + COLISÕES
+Base: Floresta V203; preserva PC/Mobile, Aranha V37, carga de 15 tábuas e Hack Z.
+
+PESQUISA DE REFERÊNCIA
+Valheim: construção modular com pontos nas extremidades/arestas e indicação de encaixe.
+Grounded 2: paredes e pisos encaixados na malha de módulos; variantes de construção.
+
+ALTERAÇÕES
+- Pisos adjacentes: borda compartilhada; mesmo nível superior mesmo em terreno desigual.
+- Paredes: snap automático nos quatro lados do piso; face externa do muro acompanha aresta do piso.
+- Cantos: paredes novas reconhecem extremidades de outras paredes, incluindo conexões a 90 graus.
+- Pilares: alinham com os quatro cantos dos pisos.
+- Escadas/telhados: tentam encaixar nas bases existentes, herdam cotas de altura.
+- A prévia mostra um ponto verde de conexão quando um snap válido foi selecionado.
+- E alterna encaixes próximos. No Mobile, botão 'Outro encaixe'.
+- Conserto de colisões: tira o caso da V203 que deixava atravessar livremente ao começar parcialmente dentro da construção.
+- Colisão robusta com verificação por subpassos, porta livre e janela com peitoril sólido.
+- Encaixe usa materiais reais existentes, sem inventário novo.
+- Inicialização da física aguarda o controlador de movimentação estar pronto.
+
+CONTROLES
+B construção; F colocar; R girar; E escolher outro ponto de encaixe; Q subir nível; Shift+Q descer; Home térreo; Z Hack.
+PC: PC.html. Mobile: Mobile.html. Extraia o ZIP completo na mesma pasta.
+
+VERIFICAÇÕES
+node --check do script de construção; testes isolados de posicionamento floor/wall/pillar e de colisão da parede/porta/janela/andar superior; integridade CRC de todos os arquivos ZIP.
+IMPORTANTE: testes isolados não substituem testar uma partida 3D real, com todas as animações e controles ativos.
+Limitação preservada: a construção não é salva entre sessões.

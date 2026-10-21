@@ -1,0 +1,26 @@
+FLORESTA V222 — FERRARIA POV PC E MOBILE
+Base: Floresta_V221_Barras_Vida_Tematicas_PC_Mobile(1).zip, sem retirada dos arquivos anteriores.
+
+Extraia TODO o ZIP (incluindo fonte e assets). Abra PC.html ou Mobile.html.
+
+COMO USAR
+1. Construa uma fornalha existente (16 pedras). Alimente-a com galhos e acenda com a tocha do próprio jogo.
+2. Leve 2 minérios de ferro até a fornalha completa. Aproxime-se e use O no PC ou o botão FERRARIA no celular.
+3. Escolha "Fundir minério". A fornalha deve estar acesa, com combustível. Cada ciclo leva 10 segundos de chama ativa, gera 1 barra e pausa se apagar. Barras prontas ficam na fornalha até a retirada.
+4. Com 2 barras quentes e 4 pedras, use "Construir bigorna". A estação real 3D é colocada em uma área livre perto da fornalha.
+5. Vá até a bigorna, pressione O ou o botão contextual. Escolha entre cabo de ferro, lâmina de machado, cabeça de martelo, ponta de lança e placa de ferro. Deposite uma barra e martele manualmente: 12 golpes, 4 fases visuais; após 6 golpes, vire com R ou botão. O metal esfria durante o trabalho; recupere uma barra fria e reaqueça na fornalha se preciso.
+6. Na aba "Montar", combine componentes forjados com galho/cipó. Monte nas 3 etapas POV (alinhar, encaixar e amarrar). Resultados entram no inventário nativo.
+
+INTERFACE
+PC: O ao lado de fornalha/bigorna, clique/ESPAÇO para golpe na bigorna, R virar, ESC sair.
+MOBILE: botão FERRARIA contextual, controles de martelar / virar / encaixar / sair na própria tela.
+Nenhum atalho novo usa as teclas F1–F12. Modo POV bloqueia movimento e combate enquanto o painel estiver aberto.
+
+DETALHES E LIMITES
+- Usa o calor, estado e combustível da fornalha original; usa minério iron_ore V216 e gameInventory.
+- A bigorna e as barras são reais dentro da sessão de jogo; não há persistência nova de estações no arquivo salvo (o jogo original não oferece persistência de fornalhas para este módulo).
+- Os equipamentos finais de ferro são montados e coletáveis no inventário; NÃO foram acoplados aos modelos, atalhos, dano ou animações nativas de combate. Essa integração exige etapa específica para não quebrar as armas já existentes.
+- Novos minérios e runas ainda NÃO estão jogáveis. As receitas são declaradas em dados para extensão posterior.
+- Não substitui a alquimia, armas, HUD, mineração, árvores ou monstros da V221.
+- Saída de metal na fornalha: máximo de 3 barras pendentes; barras guardadas ao sair do POV (na sessão).
+- Para economizar recursos, uma grande quantidade de texturas e áudio anteriores permanece na HTML original.

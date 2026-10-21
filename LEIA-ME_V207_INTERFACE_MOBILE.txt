@@ -1,0 +1,33 @@
+FLORESTA V207 — INTERFACE MOBILE DO JOGO (PC INTACTO)
+Base: Floresta V206 Mobile (todos os sistemas do jogo preservados).
+
+PC: abrir PC.html. O PC usa a interface original sem a camada V207.
+MOBILE: abrir Mobile.html. Recomenda-se celular na horizontal.
+
+HUD MOBILE
+- Molduras de madeira escura e bronze, com brilho dourado, inspiradas nas capturas fornecidas.
+- Vida/Nivel no alto à esquerda; bússola e relógio centralizados.
+- Três botões superiores: Mochila, Construir, Menu/Pausar.
+- Analógico esquerdo, correr e agachar; à direita atacar, pular, esquivar e pegar.
+- Barra central de itens originais com seis itens visíveis por vez; arraste para acessar os outros dois.
+- Botão de poder sempre acessível, selecionando entre habilidades REAIS do jogo.
+- Painel de aranha com botões ligados ao sistema existente (montar, guardar e retirar carga, chamar).
+
+PAINÉIS
+- Mochila: interface reestilizada; itens, quantidades, detalhes e equipar continuam nativos.
+- Construção: toque primeiro numa peça para ler materiais e visualizar; em seguida Posicionar
+  chama a seleção ORIGINAL da construção V205 (incluindo seus encaixes e validações).
+- Poderes: botão permanente de lançar e pequeno seletor de habilidades existentes.
+- Aranha: contador e controles conectados à montaria e à carga existentes.
+
+PRESERVAÇÃO
+- PC sem CSS/JS V207 ativados.
+- Nenhuma alteração no motor, personagens, construções, aranha, alquimia ou Modo Hack Z.
+- Scripts CSS e JS separados em fonte para facilitar futuras modificações.
+
+VALIDAÇÃO
+- Checagem de sintaxe JavaScript.
+- Teste de interface simulado em 1280x720, 896x414 e 720x360.
+- Teste de seleção e confirmação de peças pelo controlador original (simulado).
+- Integridade ZIP e verificação de inclusão no HTML.
+- Teste completo dentro do jogo 3D em aparelho físico: pendente.

@@ -1,0 +1,11 @@
+FLORESTA V227 — FERRARIA VISUAL, BRAÇOS REAIS, R E HACK
+
+Correção da causa principal: arquivos de código em /fonte/ não eram executados, pois a V224 já tinha ferraria e modo Hack embutidos no HTML gigante. Esta V227 substitui diretamente os dois scripts embutidos no HTML realmente carregado por PC.html e Mobile.html.
+
+- Ferro entrando: animação 3D POV em primeiro plano com dois minérios indo à boca do forno enquanto funda. Barra quente fica visível e anima a retirada para a mochila, sem oclusão por pedra da fornalha.
+- Bigorna: remove a geometria de braços estáticos da estação. Em vez de criar cilindros, tenta extrair os vértices dos braços do próprio personagem animado (True First Person), usando os pesos do esqueleto. Apenas os braços aparecem no POV; o martelo segue a mão. Se o rig humano ainda não estiver carregado, a ferraria continua funcionando sem braços falsos.
+- Hack: inclui minério de ferro em “Repor materiais ×99”, no código embutido executado. No modo “Materiais infinitos: SIM” o minério não é consumido; desligue para consumo normal.
+- Tecla R: não abre mais Craft quando o jogador está posicionando construções, fornalha ou trabalhando na ferraria. Fora dessas atividades, o Craft continua com R.
+- Mantém o resto do projeto V224, com peças e receitas da V225.
+
+ATENÇÃO: esta versão não foi validada em hardware gráfico real; após abrir, teste com uma partida e o console de erros se necessário.

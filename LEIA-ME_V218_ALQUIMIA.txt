@@ -1,0 +1,11 @@
+FLORESTA V218 — SPRITES COMPLETOS DA ALQUIMIA
+Base: V217 Sprites Inventário entregue nesta conversa.
+Extraia o ZIP inteiro e abra PC.html ou Mobile.html.
+
+Adicionados sprites individuais para as nove espécies nas versões fresca, seca e em pó:
+Flor escarlate, Lavanda violeta, Flor de brasa, Planta alienígena, Pulmonária azul, Taças vermelhas, Cogumelo luminoso, Folha abissal e Flor azul.
+Frascos: Cura da floresta, Cura profunda, Óleo de brasa, Essência de vigor e Tônico do luar.
+Cada estado é visualmente diferente. Plantas frescas têm folhas vivas; secas ficam enrugadas e desbotadas; pós aparecem em recipientes rasos.
+As imagens foram ligadas aos IDs reais do inventário, usados pela grade e pela prévia ampliada. Os sprites dos equipamentos, a barra rápida e o minério da V217 permanecem.
+PNGs transparentes separados em assets/alquimia-v218. As imagens também estão incorporadas ao HTML.
+Verificação: 32 IDs e PNGs, transparência, sintaxe do script de imagens e preservação integral de todos os outros scripts da V217.

@@ -1,0 +1,21 @@
+FLORESTA V253 - VERSAO UNIFICADA (PC / MOBILE)
+
+BASE PRESERVADA: V246 Monstro Lutador, textura V244, combos V245, alinhamento V246.
+INTEGRADO DA V231: pegadas dos quatro equipamentos forjados, escudo, forja física.
+INTEGRADO DA V236: seis FBX e combos de espada, arsenal infinito no Hack/Criativo.
+INTEGRADO DA V252: carrinho corrigido com carga, 3 animacoes originais (Push Start/Pushing/Push Stop), mãos na barra, POV estabilizada e pitch inferior de -0.44 rad.
+
+COMO INICIAR:
+- Extrair TODO o ZIP mantendo as pastas. Abrir PC.html no PC ou Mobile.html no celular.
+- Para GitHub Pages: subir TODOS os arquivos incluindo modulos, assets e fonte. Usar index.html.
+- Para atualizar uma V246 existente, extrair o PATCH sobre a pasta V246 (sobrescrever).
+- Nao misture com um HTML V252 monolitico: o jogo V253 usa Jogo.html e modulos separados.
+
+VALIDACAO REALIZADA:
+- Confere os caminhos referenciados, integridade ZIP, sintaxe JS e presença dos módulos/arquivos.
+- Ainda requer partida real para confirmar integracao visual de camera, equipamento e combos.
+
+CUIDADOS:
+- Modulos 131 (camera V225), 132 (sangue), 135 (orc V246) nao foram substituidos.
+- O hook V252 foi inserido no tick do motor, apos avatar e antes do renderizador.
+- Sistema das versões adicionadas é experimental junto à base V246; mantenha uma cópia.

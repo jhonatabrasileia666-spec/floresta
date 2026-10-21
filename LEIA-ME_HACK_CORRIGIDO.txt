@@ -1,0 +1,28 @@
+FLORESTA V196.1 - MODO HACK CORRIGIDO (PC + MOBILE)
+
+ABRIR O JOGO
+- Extraia o ZIP inteiro para uma mesma pasta.
+- PC: abra PC.html e inicie Sobrevivencia ou Criativo.
+- Mobile: abra Mobile.html.
+- Durante a partida, pressione Z ou toque no botao HACK.
+- O botao HACK fica visivel, mesmo antes de iniciar o modo, para facilitar o diagnostico.
+
+USAR
+1. Pressione Z e depois ATIVAR MODO HACK.
+2. Selecione RECEBER TODOS OS ITENS, ERVAS, POCOES etc.
+3. Para recursos infinitos, use Materiais infinitos: SIM.
+4. Chamar Aranha V37 cria a montaria proxima ao jogador; pode levar alguns instantes para o modelo original ficar pronto.
+5. Desligar o modo Hack restaura o consumo de itens (os recebidos permanecem).
+
+CORRECOES DESTA VERSAO
+- Modo Hack agora integrado dentro do HTML principal, eliminando dependencias de carregamento externo e do atributo defer.
+- Atalho Z registrado antes dos controles originais do jogo para evitar conflitos.
+- Menu libera o cursor quando aberto em primeira pessoa com pointer lock.
+- O botao HACK fica sempre acessivel.
+- Corrigida a ordem de fechamento do documento HTML: scripts de ambientacao/alquimia/audio permanecem dentro do HTML.
+- Aranha chamada um pouco mais perto na ativacao via Hack para permitir montar sem caminhar tanto.
+- Preservados os dois modos e sistemas de alquimia, caverna e construcao.
+
+VALIDACAO
+- Sintaxe isolada do JS do Hack e teste automatizado da interface feitos.
+- Teste completo do jogo 3D no Chromium depende de acesso ao arquivo local, bloqueado neste ambiente.

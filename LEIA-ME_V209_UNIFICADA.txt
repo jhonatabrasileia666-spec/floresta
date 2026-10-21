@@ -1,0 +1,28 @@
+FLORESTA V209 — VERSÃO UNIFICADA (PC + MOBILE)
+
+Base principal: V207, com interface mobile V206/V207 e demais sistemas dessa linha.
+Recursos incorporados:
+• V75: laboratório criativo de dragões (Montanha, Esqueleto e Tarisland colossal de 36 m), com animações, montaria e pouso da Montanha.
+• V196: forma original do tronco preservada ao começar a cortar uma árvore (deformação localizada do entalhe).
+• V207: interface customizada de celular, exclusiva para a versão Mobile.
+• V208: fogo do machado com 8 quadros, aro de chamas, cabo 3D original e efeitos.
+
+INSTRUÇÕES
+1. Extraia o ZIP inteiro para uma mesma pasta.
+2. No computador, abra PC.html.
+3. No celular, abra Mobile.html; prefira tela em paisagem.
+4. Para os dragões, entre no modo Teste/Criativo: o painel "CRIATIVO · DRAGÕES" estará disponível.
+5. Para o fogo, utilize o Óleo de Brasa pela bancada de alquimia, seguindo o comportamento da V208.
+
+DETALHES TÉCNICOS
+• A integração de dragões adapta a detecção do GLTFLoader para a base mais nova.
+• Os modelos de dragão permanecem incluídos no HTML. Para diminuir uso de memória, os assets são descompactados quando um dragão é solicitado.
+• Scripts sintaticamente validados com Node.js: controlador de dragões, montaria, HUD V206/V207, fogo V208 e controlador da árvore.
+• Os dados JSON do fogo e dos dragões foram preservados.
+• A execução 3D completa no PC e em celulares reais ainda precisa de validação prática.
+• A quantidade de dados de alta resolução dos dragões torna o carregamento potencialmente pesado em aparelhos com pouca memória.
+• Não foram recriados modelos, sprites nem efeitos: os recursos dos quatro pacotes foram reunidos.
+
+FONTES
+Os arquivos da pasta fonte/ são materiais de referência da linhagem V207.
+A correção original da árvore V196 está em fonte/lumber-v196.js.

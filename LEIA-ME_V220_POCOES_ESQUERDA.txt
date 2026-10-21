@@ -1,0 +1,21 @@
+FLORESTA V220 — POÇÕES NA MÃO ESQUERDA (PC + MOBILE)
+Extraia o ZIP inteiro. Abra PC.html ou Mobile.html.
+
+P: equipa ou guarda a poção na mão esquerda.
+Scroll com a poção equipada: percorre os frascos disponíveis nos dois sentidos.
+Cada troca atualiza o sprite no slot e o modelo na mão. Y: usa a poção escolhida.
+O scroll pula poções vazias e dá a volta na lista. Equipar ou trocar não consome.
+Ao acabar um tipo de poção, a próxima disponível fica selecionada e equipada.
+Sem poção equipada, o scroll normal das ferramentas continua funcionando.
+Shift+scroll conserva o controle dos itens da mão esquerda do jogo.
+
+A arma permanece na mão direita, incluindo durante a animação de beber.
+Clique de ataque e botão Atacar do mobile continuam usando a arma da direita.
+Mobile: toque no frasco para equipar/guardar e em Usar para beber/aplicar.
+A seta abre a lista de poções; deslizar sobre o slot também percorre os frascos.
+O inventário tem a ação Equipar na mão esquerda / Guardar frasco.
+Poção, escudo, tocha e graveto esquerdo ocupam a mesma mão: equipar um guarda o outro.
+
+Atalhos antigos separados: Shift+P invoca a aranha no criativo; Alt+P pausa o relógio.
+Os modelos de vidro, rolha, amarração e cores dos sprites foram preservados.
+Todos os sistemas e arquivos da V219 estão incluídos.

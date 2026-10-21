@@ -1,0 +1,24 @@
+FLORESTA V221 — BARRAS DE VIDA TEMÁTICAS (PC + MOBILE)
+Extraia o ZIP inteiro. Abra PC.html ou Mobile.html.
+
+As barras antigas com retratos/imagens sobre a vida foram substituídas.
+Agora o preenchimento é calculado a partir do HP real, incluindo zero e reset.
+Nome, barra e quantidade de vida são desenhados em áreas separadas.
+A moldura não contém vida estática pintada nem retratos do monstro.
+
+15 temas com cores e ornamentos correspondentes às criaturas:
+Zumbi: verde/musgo e folhagem. Olho Voador: rosa e olho.
+Orc: oliva e flechas. Cogumelo: âmbar e esporos.
+Lenhador: madeira. Esqueletos/centauro: osso e marfim.
+Centauro de fogo: ossos queimados e brasa. Necromante: verde espectral e runas.
+Nocturne: violeta e asas. Lobisomem: carmesim e presas.
+Trolloc: ferrugem, sangue e chifres. Ignis: brasa e chamas.
+Gigante: cinza azulado, pedra e fissuras. Mestre Marcial: bronze e runas.
+
+Barras flutuantes ficam acima da cabeça e têm tamanho limitado na tela.
+Ignis e Gigante usam a mesma linguagem visual nas barras de boss.
+Informações de fase e vulnerabilidade continuam visíveis abaixo da barra.
+Barras de bosses simultâneos se organizam sem sobreposição.
+O Trolloc mantém apenas a barra flutuante, como inimigo de evento.
+
+As poções na mão esquerda da V220 e os demais sistemas foram preservados.

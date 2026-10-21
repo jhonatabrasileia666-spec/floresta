@@ -1,0 +1,1419 @@
+{
+  "version": "V265",
+  "date": "2026-10-21",
+  "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
+  "merged_from": [
+    "Floresta_V225_Camera_Imersiva_Visivel_PC_Mobile.html",
+    "Floresta_V227_Animacao_Drinking_FBX_Pocoes_PC_Mobile.html",
+    "Floresta_V228_Sangue_Pele_Animada_PC_Mobile.html",
+    "Floresta_V228_Carrocas_Construiveis_PC_Mobile.html",
+    "Floresta_V224_Mobilia_Livre_Escadas_Sobre_Piso_PC_Mobile.html",
+    "Floresta_V256E_Escudos_Ajustados_PC_Mobile_COMPLETO (1).zip"
+  ],
+  "script_count": 147,
+  "script_modules": [
+    {
+      "file": "000_floresta-release.js",
+      "script": "000_floresta-release",
+      "bytes": 934,
+      "external_bytes": 934,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "d5fcdf5f0c0f73c9893a3441f1d55583d8ba909815d338417038896909bf683b"
+    },
+    {
+      "file": "000_floresta-stream-v254.js",
+      "script": "000_floresta-stream-v254",
+      "bytes": 5824,
+      "external_bytes": 5824,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "7bac389779096a3592f5682180262dcb19f0a99cc129fb82923cf3631b6e0f6f"
+    },
+    {
+      "file": "001_floresta-hack-z-entrada.js",
+      "script": "001_floresta-hack-z-entrada",
+      "bytes": 382,
+      "external_bytes": 382,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "399998adc49d6632c80bb90e17ad0d3872e2ca063d65a3aa6dfa5fea907f31c0"
+    },
+    {
+      "file": "002_legacy_001.js",
+      "script": "002_legacy_001",
+      "bytes": 134,
+      "external_bytes": 134,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "f2432bbe1eecd018b0fefc4198afac17ae834266127048de88f5db9b1051aadd"
+    },
+    {
+      "file": "003_floresta-v183-art-assets.js",
+      "script": "003_floresta-v183-art-assets",
+      "bytes": 3809325,
+      "external_bytes": 3809325,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "fd627edc44c79f6ad860506e6dfd69bcbd5dc3637e1e70a30ad7b5e573e307fa"
+    },
+    {
+      "file": "004_floresta-menu172-bootstrap.js",
+      "script": "004_floresta-menu172-bootstrap",
+      "bytes": 6180,
+      "external_bytes": 6180,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "801d794b3b388dc72d8351632e64ea1a83622491cb5115a7c5ddf8bb8110a6c9"
+    },
+    {
+      "file": "005_v48-three-classic.js",
+      "script": "005_v48-three-classic",
+      "bytes": 1630266,
+      "external_bytes": 1630266,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "a3d45a02b0b91d140e0cc13bf588b53b46ac79837ebd6bcbce7a609c48e2d3e6"
+    },
+    {
+      "file": "006_v48-fbx-classic.js",
+      "script": "006_v48-fbx-classic",
+      "bytes": 809058,
+      "external_bytes": 809058,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "700f1cea63bfab941e049f81bf9fb706abbf4207e36fec7506deafd0b470e5e8"
+    },
+    {
+      "file": "007_v48-skeleton-classic.js",
+      "script": "007_v48-skeleton-classic",
+      "bytes": 588499,
+      "external_bytes": 588499,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "a516f5b7ff4694604ecd5a243a94c7c3a126be86b2491e217991cf6f70f4326c"
+    },
+    {
+      "file": "008_v48-local-import-shim.js",
+      "script": "008_v48-local-import-shim",
+      "bytes": 513,
+      "external_bytes": 513,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "ba56d47cfb504a62e3574efd1fe9d7ea78ea5167633474bb3e57b29e381a7338"
+    },
+    {
+      "file": "009_v47-ios-bootstrap.js",
+      "script": "009_v47-ios-bootstrap",
+      "bytes": 105014,
+      "external_bytes": 105014,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "14dcf001866b19f07606769cff3c2cefb59a695a95308ffbe0b4e4d07f60a111"
+    },
+    {
+      "file": "010_configuracao-inline-v30.js",
+      "script": "010_configuracao-inline-v30",
+      "bytes": 1145,
+      "external_bytes": 1145,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "a17d76adfd3b78d0b70724f0732872e04a0bb1adaddff23c1148599f2466ee29"
+    },
+    {
+      "file": "011_iron-meshy-v216.js",
+      "script": "011_iron-meshy-v216",
+      "bytes": 1799852,
+      "external_bytes": 1799852,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "e15e22c73aa029a1ba47e79f6aa74f444e6d5df09b0d5d689892a4a8aff3bd03"
+    },
+    {
+      "file": "012_potion_models_227.js",
+      "script": "012_potion_models_227",
+      "bytes": 3331,
+      "external_bytes": 3331,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "466f3fc818a89984d41af05bc27ed6168552c5047f73bfc0eb8af146d2684444"
+    },
+    {
+      "file": "013_enemy-bars-v221.js",
+      "script": "013_enemy-bars-v221",
+      "bytes": 5676,
+      "external_bytes": 5676,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "b9a91b51ef3f7a5896db7007b78b29ba98b743e849485b90ded7217a4d6068ae"
+    },
+    {
+      "file": "014_engine_core_camera_blood.js",
+      "script": "014_engine_core_camera_blood",
+      "bytes": 589363,
+      "external_bytes": 589363,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "c6a1fc63813b6058d768c394777b7ea12b7cbeb5f5945a40f8d0e2f6b860a8c4"
+    },
+    {
+      "file": "015_legacy_014.js",
+      "script": "015_legacy_014",
+      "bytes": 6918385,
+      "external_bytes": 6918385,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "13e2375cb0fa4fd92e7d9e27534af9052eb3bd117c3d71d80d20c0330d2eeb34"
+    },
+    {
+      "file": "016_legacy_015.js",
+      "script": "016_legacy_015",
+      "bytes": 12321,
+      "external_bytes": 12321,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "c9f7ab5c0369c12a6e19a5a03dd92de52e11cace8b9d8e6e281979e76d462c8f"
+    },
+    {
+      "file": "017_legacy_016.js",
+      "script": "017_legacy_016",
+      "bytes": 21357,
+      "external_bytes": 21357,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "29c85c7992fdecc3e678f2f821b1fffd125aca6d8b8f1094e91f5e6a93ac073f"
+    },
+    {
+      "file": "018_meshy-martelo-v211.js",
+      "script": "018_meshy-martelo-v211",
+      "bytes": 4694207,
+      "external_bytes": 4694207,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "760cf4d62e667e02f8e5abb7ca17c118f0f5933fb7a68eec044078ead73cf95e"
+    },
+    {
+      "file": "019_floresta-v212-fbx-mineracao-originais.js",
+      "script": "019_floresta-v212-fbx-mineracao-originais",
+      "bytes": 32548,
+      "external_bytes": 32548,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "9b5dd911db7240bc99d1c4b934b43df0cd1e293301d0a1bb6b002e6aa8a430e5"
+    },
+    {
+      "file": "020_legacy_019.js",
+      "script": "020_legacy_019",
+      "bytes": 738770,
+      "external_bytes": 738770,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "e77b3bd3afcdb12ed62336c5e5ffd96be75f709b2b7521fe55f5991f6f190433"
+    },
+    {
+      "file": "021_legacy_020.js",
+      "script": "021_legacy_020",
+      "bytes": 35756,
+      "external_bytes": 35756,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "098643e6574d47723bb8f291ab0da088d333421244e08f003b8484ccd4b4102c"
+    },
+    {
+      "file": "022_legacy_021.js",
+      "script": "022_legacy_021",
+      "bytes": 1766935,
+      "external_bytes": 1766935,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "43aa672cda450ff86e559ee0688f73fd16a20998528f9c7e0630f6e4fc2b782e"
+    },
+    {
+      "file": "023_f182-difficulty-system.js",
+      "script": "023_f182-difficulty-system",
+      "bytes": 2211,
+      "external_bytes": 2211,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "a0de0e48e645390972fe22a8b9540ccb824bcb287c4c582f3865ac4ad61435d4"
+    },
+    {
+      "file": "024_legacy_023.js",
+      "script": "024_legacy_023",
+      "bytes": 9212585,
+      "external_bytes": 9212585,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "e9006991723ea9f87e7d2cce5344e970285e00478bc86e7317575fbb9388c022"
+    },
+    {
+      "file": "025_legacy_024.js",
+      "script": "025_legacy_024",
+      "bytes": 407185,
+      "external_bytes": 407185,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "9cfd994020a207ac2678a04417da5a9b2610133b0a55bd7bf50252960cf72462"
+    },
+    {
+      "file": "026_legacy_025.js",
+      "script": "026_legacy_025",
+      "bytes": 100144,
+      "external_bytes": 100144,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "4a73c87fe7abed0852faae5bece93a7b60aaee0a8b1265a9a2c6f99a932668f7"
+    },
+    {
+      "file": "027_legacy_026.js",
+      "script": "027_legacy_026",
+      "bytes": 1710845,
+      "external_bytes": 1710845,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "d773d67afff10e9c5a831515af118a2d0aa21c521f891fca26abdee38e988318"
+    },
+    {
+      "file": "028_legacy_027.js",
+      "script": "028_legacy_027",
+      "bytes": 35640,
+      "external_bytes": 35640,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "bf2c7f4ce891ffab057a18277e7d62dc76bf0f1a8b82896a3b5c39630258ec78"
+    },
+    {
+      "file": "029_v139-log-splitter-ground-stacking.js",
+      "script": "029_v139-log-splitter-ground-stacking",
+      "bytes": 23991,
+      "external_bytes": 23991,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "40ca4cc54951cc595b91ff72413a3c42a38564f84c525234dd6b2cc2fff617cb"
+    },
+    {
+      "file": "030_legacy_029.js",
+      "script": "030_legacy_029",
+      "bytes": 9188412,
+      "external_bytes": 9188412,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "e84ed7103500192040df2de13e3c6fe68b22454503c6b345203815e308eb9b39"
+    },
+    {
+      "file": "031_coleta-inline-v18.js",
+      "script": "031_coleta-inline-v18",
+      "bytes": 17371,
+      "external_bytes": 17371,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "c4b313c366a8ec8070e2f7169b0cb3fd1d7bf33904563cbd5891a4c77602001e"
+    },
+    {
+      "file": "032_mouse-pointer-lock-v24.js",
+      "script": "032_mouse-pointer-lock-v24",
+      "bytes": 4272,
+      "external_bytes": 4272,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "34a878077d521e2ed7d84a00d6856e0ff087d60a8a510e3b23e49daeeefffe77"
+    },
+    {
+      "file": "033_boot-diagnostic-v30.js",
+      "script": "033_boot-diagnostic-v30",
+      "bytes": 781,
+      "external_bytes": 781,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "da375b863d532fc822e89e04f8c95a40d6a33e500f3b4867327c7d7ed346b29c"
+    },
+    {
+      "file": "034_legacy_033.js",
+      "script": "034_legacy_033",
+      "bytes": 367,
+      "external_bytes": 367,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "45e55ca0e04d601bf1ccbc9a77b9413d459aa1fc8cb7a5176e64872a7994486e"
+    },
+    {
+      "file": "035_legacy_034.js",
+      "script": "035_legacy_034",
+      "bytes": 8979,
+      "external_bytes": 8979,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "c04b3abc96079ec4681167108e1c998c0b151b74bf608333a52557f4de15d1f2"
+    },
+    {
+      "file": "036_v48-iphone-files-diagnostic.js",
+      "script": "036_v48-iphone-files-diagnostic",
+      "bytes": 1194,
+      "external_bytes": 1194,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "9b6f85b6e55711f8d7d3c4f8d938d7fdc901b537886c75226c6f93c867379735"
+    },
+    {
+      "file": "037_v50-iphone-autostart.js",
+      "script": "037_v50-iphone-autostart",
+      "bytes": 2155,
+      "external_bytes": 2155,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "20bf3d50ca170cd580da75ec62eb22ce8d51add59bb305b3bab175e9f450f655"
+    },
+    {
+      "file": "038_v51-pwa-bootstrap.js",
+      "script": "038_v51-pwa-bootstrap",
+      "bytes": 2241,
+      "external_bytes": 2241,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "049065f40dfc40573f061ee50265b0ddc44121d05a37a962728693146dc32515"
+    },
+    {
+      "file": "039_legacy_038.js",
+      "script": "039_legacy_038",
+      "bytes": 12384,
+      "external_bytes": 12384,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "a51d3d8355b673b6ef8df341c28f87505f3dee97d4871f7297eba6e204a441b0"
+    },
+    {
+      "file": "040_legacy_039.js",
+      "script": "040_legacy_039",
+      "bytes": 10481,
+      "external_bytes": 10481,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "8d1454403096c83d87d28d4acb622b17e69a175e47d22365acd8007f47582791"
+    },
+    {
+      "file": "041_legacy_040.js",
+      "script": "041_legacy_040",
+      "bytes": 5554,
+      "external_bytes": 5554,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "4063a06791af7f3620ce3fb887189e2e02f2cf8db21e8283c764c61db16c927f"
+    },
+    {
+      "file": "042_legacy_041.js",
+      "script": "042_legacy_041",
+      "bytes": 28165,
+      "external_bytes": 28165,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "55df35e1e8b469c89330c93eb366e904a1c38d4590a1f1cb3e6ec43531f178ae"
+    },
+    {
+      "file": "043_legacy_042.js",
+      "script": "043_legacy_042",
+      "bytes": 18479,
+      "external_bytes": 18479,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "4ae38d275c686e29a3d2018f653b28ed85bebe56a180854258701ff5f521eacf"
+    },
+    {
+      "file": "044_v65-floresta-viva.js",
+      "script": "044_v65-floresta-viva",
+      "bytes": 20031,
+      "external_bytes": 20031,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "61659f0a3aee37dee0d06541d8230074ee818f0b96d1bff11696e46a50d6ce4c"
+    },
+    {
+      "file": "045_v76-grass-model-B.js",
+      "script": "045_v76-grass-model-B",
+      "bytes": 2062575,
+      "external_bytes": 2062575,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "3b00358ed425298e85c774097a048904e2110ef9f3f478a6ff90df1721152c78"
+    },
+    {
+      "file": "046_legacy_045.js",
+      "script": "046_legacy_045",
+      "bytes": 1076,
+      "external_bytes": 1076,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "c918547ee5571f3a090898757d55e11c50c8ef90b426f06f0bbb60f964aa4b39"
+    },
+    {
+      "file": "047_legacy_046.js",
+      "script": "047_legacy_046",
+      "bytes": 155125,
+      "external_bytes": 155125,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "843a21d57b45ccd0d070a181acf91a49a3b3658fad4546cf31611a0ff0bf17d1"
+    },
+    {
+      "file": "048_legacy_047.js",
+      "script": "048_legacy_047",
+      "bytes": 15698,
+      "external_bytes": 15698,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "606cf3d9c65a0b3636ca402f6cfd115851430fb2575ae4593f3ea2a5942f0945"
+    },
+    {
+      "file": "049_legacy_048.js",
+      "script": "049_legacy_048",
+      "bytes": 34487,
+      "external_bytes": 34487,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "29ce46006e44b8ab16398dc724b148ebe83ec0868102a04fb912f873e97669d2"
+    },
+    {
+      "file": "050_legacy_049.js",
+      "script": "050_legacy_049",
+      "bytes": 1311653,
+      "external_bytes": 1311653,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "3cad7757625661ed265120904a6631a71e5f43e1f7a2b474a69cf6c5ed541de6"
+    },
+    {
+      "file": "051_legacy_050.js",
+      "script": "051_legacy_050",
+      "bytes": 1734360,
+      "external_bytes": 1734360,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "ebcdaa78f36a7ad3103dca4fc60ec9b0f75614c46c76ae3593cc94e84ea68200"
+    },
+    {
+      "file": "052_legacy_051.js",
+      "script": "052_legacy_051",
+      "bytes": 117326,
+      "external_bytes": 117326,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "7215c759710a67c40840af89f817c1a12de68b6f3aa4ac8d07fd614f575e568e"
+    },
+    {
+      "file": "053_legacy_052.js",
+      "script": "053_legacy_052",
+      "bytes": 2244,
+      "external_bytes": 2244,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "b65c539b6f86b70b23be511a9439b6a22062efe7000ac8e3004302da9f279fd7"
+    },
+    {
+      "file": "054_legacy_053.js",
+      "script": "054_legacy_053",
+      "bytes": 984189,
+      "external_bytes": 984189,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "ca770aeb15727bf33c9a16f25521f60133e2d8306c2e0e5e1bd9e36a0c96916c"
+    },
+    {
+      "file": "055_legacy_054.js",
+      "script": "055_legacy_054",
+      "bytes": 3702,
+      "external_bytes": 3702,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "548bc5d58ca41e38ee2cfea270837090a2fee2fbade9b746544b610891c5902f"
+    },
+    {
+      "file": "056_legacy_055.js",
+      "script": "056_legacy_055",
+      "bytes": 13310,
+      "external_bytes": 13310,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "3dd84735ddd31180946bb944b263f4eb71385e212e3b79d6e714bafe97961823"
+    },
+    {
+      "file": "057_legacy_056.js",
+      "script": "057_legacy_056",
+      "bytes": 5477201,
+      "external_bytes": 5477201,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "3d8f6c3133643cfedd9f28fc69e12e5d8f566f760763d0820a1daf24ff9b4068"
+    },
+    {
+      "file": "058_v99-furnace-input-routing.js",
+      "script": "058_v99-furnace-input-routing",
+      "bytes": 288,
+      "external_bytes": 288,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "33abf33e160eab9d1231de9597c3918c42c16fa0f19b54263863c273488c1ee0"
+    },
+    {
+      "file": "059_v99-furnace-integrated.js",
+      "script": "059_v99-furnace-integrated",
+      "bytes": 20122,
+      "external_bytes": 20122,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "14204eee854c58b026011c6d5b75d1016067fe98ba8c9ed5c1188e5934d7a543"
+    },
+    {
+      "file": "060_v100-zombie-exact-asset-runtime.js",
+      "script": "060_v100-zombie-exact-asset-runtime",
+      "bytes": 11020,
+      "external_bytes": 11020,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "2ad72507465072b65aad3b3dfe7191ab004382547937d4bdb0bc9dafd6f5331e"
+    },
+    {
+      "file": "061_v99-zombie-visual-patch-disabled.js",
+      "script": "061_v99-zombie-visual-patch-disabled",
+      "bytes": 43,
+      "external_bytes": 43,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "4ff4f6dc8b498b715f0eea61ffd41da86a9807db9b4c3eb875d9c8df2411c331"
+    },
+    {
+      "file": "062_v100-zombie-exact-visuals.js",
+      "script": "062_v100-zombie-exact-visuals",
+      "bytes": 4218,
+      "external_bytes": 4218,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "116c95b6884f2f24b219494b63700c7f4aee3e304c6c6587a26fa8e2958d4999"
+    },
+    {
+      "file": "063_v103-fps-observer.js",
+      "script": "063_v103-fps-observer",
+      "bytes": 476,
+      "external_bytes": 476,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "dda3d3453fe8d679e60a6d3a86b7fdee5ebebea219ddff6d07418ec726d75c36"
+    },
+    {
+      "file": "064_v104-undead-necromancer.js",
+      "script": "064_v104-undead-necromancer",
+      "bytes": 57503,
+      "external_bytes": 57503,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "824359323fd7a0f9a8dfaed34dffc88a4f681690e5ffd5a96fdc3328c444c8d3"
+    },
+    {
+      "file": "065_v104-performance-policy.js",
+      "script": "065_v104-performance-policy",
+      "bytes": 566,
+      "external_bytes": 566,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "0b8c5cc2fb8c8b601c7e7337524055b2af251dac22463145efef43049ccd76e4"
+    },
+    {
+      "file": "066_v107-craft-pointerlock-continuity.js",
+      "script": "066_v107-craft-pointerlock-continuity",
+      "bytes": 882,
+      "external_bytes": 882,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "7574502b4a0cbd44586067b399ee6fd88eee642b6bc62b79b4adf3a6e345f97d"
+    },
+    {
+      "file": "067_v109-ignis-monster-friendly-fire-marker.js",
+      "script": "067_v109-ignis-monster-friendly-fire-marker",
+      "bytes": 111,
+      "external_bytes": 111,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "b7d85e27bf8b81c0d3bfc2782ec18f154505567846753c8adf966190c349d322"
+    },
+    {
+      "file": "068_v110-quick-hands.js",
+      "script": "068_v110-quick-hands",
+      "bytes": 6389,
+      "external_bytes": 6389,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "d18c902f64adcccd56a6b78e622734c205ec69eef97dcbf03bbeeb1da0cfec6c"
+    },
+    {
+      "file": "069_v116-ignis-legacy-power-mastery-system.js",
+      "script": "069_v116-ignis-legacy-power-mastery-system",
+      "bytes": 30181,
+      "external_bytes": 30181,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "bfec7e05c82001df32fc73e7ba352e9914198bc083b348a3c862f3e2d7979373"
+    },
+    {
+      "file": "070_v112-test-creative-zone.js",
+      "script": "070_v112-test-creative-zone",
+      "bytes": 9871,
+      "external_bytes": 9871,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "9003487933ef39e5401175650662d586017d6097650ac5ea49d11a9f56132b1a"
+    },
+    {
+      "file": "071_forest-environment-v100.js",
+      "script": "071_forest-environment-v100",
+      "bytes": 21765,
+      "external_bytes": 21765,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "b2f6f3b6b660ba5a970630e2ad790650450032e948ed4d9f4b38aad98304f98e"
+    },
+    {
+      "file": "072_v119-forest-lighting-style.js",
+      "script": "072_v119-forest-lighting-style",
+      "bytes": 9884,
+      "external_bytes": 9884,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "01245f7aa4175db13405344243425a2743a8c82034cdb67a54bc9d75738d1507"
+    },
+    {
+      "file": "073_v120-dense-forest-zones.js",
+      "script": "073_v120-dense-forest-zones",
+      "bytes": 12594,
+      "external_bytes": 12594,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "e43406827ecdc48f92431c6cd909fc9aa3558e80d89f5ecbf9192e9f00be1b3f"
+    },
+    {
+      "file": "074_v122-lobisomem-config.js",
+      "script": "074_v122-lobisomem-config",
+      "bytes": 126,
+      "external_bytes": 126,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "190e6a4d531f246c4ec544a3dffb6b1384f281a879c0822d0d32eb80c72926e1"
+    },
+    {
+      "file": "075_v118-lobisomem.js",
+      "script": "075_v118-lobisomem",
+      "bytes": 43492,
+      "external_bytes": 43492,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "400fe8c180f8f03bc172048907b061ef2f853b0e89634d64c794320f79f18528"
+    },
+    {
+      "file": "076_v122-lobisomem-random-night.js",
+      "script": "076_v122-lobisomem-random-night",
+      "bytes": 2513,
+      "external_bytes": 2513,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "70277ffa9a98e5f6db363885c16ecc5397fb471c52e6befc3978c28351f22d14"
+    },
+    {
+      "file": "077_v122-director-werewolf.js",
+      "script": "077_v122-director-werewolf",
+      "bytes": 439,
+      "external_bytes": 439,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "6d0f04d7dff3914374ee7e18d813cbe6275433f0b83ae359ad2218328b0d0447"
+    },
+    {
+      "file": "078_v122-director-werewolf-info.js",
+      "script": "078_v122-director-werewolf-info",
+      "bytes": 298,
+      "external_bytes": 298,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "24a2055ead6013e90f0071539946ee5e4cabbe6a544eec3fc7dcb67808bc33b0"
+    },
+    {
+      "file": "079_v124-shadow-fix.js",
+      "script": "079_v124-shadow-fix",
+      "bytes": 1096,
+      "external_bytes": 1096,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "0238776c14edae75d17cf9d259bc8b9b388e7258aefb0876311d57b5925c0f89"
+    },
+    {
+      "file": "080_v134-border-mountains-runtime.js",
+      "script": "080_v134-border-mountains-runtime",
+      "bytes": 26716,
+      "external_bytes": 26716,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "291ccffcb41ad3e337fd62b4acd06e2e8d0b8215044a6bc8c4ad61df92d8380c"
+    },
+    {
+      "file": "081_v141-plank-carry-final-hook.js",
+      "script": "081_v141-plank-carry-final-hook",
+      "bytes": 411,
+      "external_bytes": 411,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "44039147416e32073ad445bcfb76e77f23e260154957628330a998299a74648d"
+    },
+    {
+      "file": "082_construction_224.js",
+      "script": "082_construction_224",
+      "bytes": 1077681,
+      "external_bytes": 1077681,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "d41fcff192e8a7635ba64e3620f2272e51fb6e65636c41bfadeeddaffdc48284"
+    },
+    {
+      "file": "083_v149-graphics-v146-look-far-detail.js",
+      "script": "083_v149-graphics-v146-look-far-detail",
+      "bytes": 15948,
+      "external_bytes": 15948,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "0bc9306045a65dae8f530abe513d6a7dcb3cc3848af44837c75d3d80d35e7799"
+    },
+    {
+      "file": "084_v157-daylight-clear.js",
+      "script": "084_v157-daylight-clear",
+      "bytes": 2335,
+      "external_bytes": 2335,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "1fb0005927dc60697e82a39996f1d4fa1c92bb894bdee52b06a13252b1cab737"
+    },
+    {
+      "file": "085_v168e-pc-parry-postura.js",
+      "script": "085_v168e-pc-parry-postura",
+      "bytes": 156532,
+      "external_bytes": 156532,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "b66f92e39b3766a03eff8ff77ef15a870bb127b40a289a7bd1728ad0b2d0eb74"
+    },
+    {
+      "file": "086_v168s-spear-input.js",
+      "script": "086_v168s-spear-input",
+      "bytes": 3055,
+      "external_bytes": 3055,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "2e599e6ac34dad04604c00dcf985309d3c33ed5fbfeca9c48ef7dc62bf8fca23"
+    },
+    {
+      "file": "087_floresta-v183-ui-upgrades.js",
+      "script": "087_floresta-v183-ui-upgrades",
+      "bytes": 1389,
+      "external_bytes": 1389,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "a4e7cccbd5d99d5d15bc6d749e57648eb7492af1f0121951382f045f5d27f010"
+    },
+    {
+      "file": "088_floresta-v183-boss-skins.js",
+      "script": "088_floresta-v183-boss-skins",
+      "bytes": 2183,
+      "external_bytes": 2183,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "e63249eae9c61a862a5f1f1cfe2352b29d03f43489d0d18cc56d9658c379eb6b"
+    },
+    {
+      "file": "089_legacy_088.js",
+      "script": "089_legacy_088",
+      "bytes": 1408923,
+      "external_bytes": 1408923,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "75ed12ccd18e2a95b4c01cc5c72223d640a74b461b038766dac1def212f1763c"
+    },
+    {
+      "file": "090_legacy_089.js",
+      "script": "090_legacy_089",
+      "bytes": 119150,
+      "external_bytes": 119150,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "891afdb46ed7eb74bf4589f2d301adeb0a713f5c638cdbda58989c35fa4e2994"
+    },
+    {
+      "file": "091_legacy_090.js",
+      "script": "091_legacy_090",
+      "bytes": 321527,
+      "external_bytes": 321527,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "0e8c9c5d2a0ed2808c72438939873755525339c20fb77fd5aba07fb59b0981e9"
+    },
+    {
+      "file": "093_legacy_092.js",
+      "script": "093_legacy_092",
+      "bytes": 22468,
+      "external_bytes": 22468,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "883a9e29de2c86b830b651e36c8442f8cb3fd159b352fb0ad8df6c7d69e4097c"
+    },
+    {
+      "file": "094_legacy_093.js",
+      "script": "094_legacy_093",
+      "bytes": 3634,
+      "external_bytes": 3634,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "4d5a9de0c975cb5f434eafca7234be9f76eea014a623bbba1a3db80d6ef2a933"
+    },
+    {
+      "file": "095_legacy_094.js",
+      "script": "095_legacy_094",
+      "bytes": 93927,
+      "external_bytes": 93927,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "ed26a3f391ed2caae0c854dece9be361e2167e5216f5b1be5261b0c3f53cac63"
+    },
+    {
+      "file": "096_legacy_095.js",
+      "script": "096_legacy_095",
+      "bytes": 26947,
+      "external_bytes": 26947,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "9034c957614e4381d3d2a849c348015bfd0382fcd2a4f23deac941d55c452342"
+    },
+    {
+      "file": "097_hack-v227.js",
+      "script": "097_hack-v227",
+      "bytes": 16653,
+      "external_bytes": 16653,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "f2b936a75a4c0a83592493326c213b3f314f360fa8405dbce96ab8ecf48323b0"
+    },
+    {
+      "file": "098_v168-mestre-marcial-integrado.js",
+      "script": "098_v168-mestre-marcial-integrado",
+      "bytes": 47158,
+      "external_bytes": 47158,
+      "kind": "classic",
+      "load": "on-demand",
+      "sha256": "288444a344b083c260f3f6302070a8c98108cc7545a159f77d47e0f7ac7d2618"
+    },
+    {
+      "file": "099_legacy_098.js",
+      "script": "099_legacy_098",
+      "bytes": 1203,
+      "external_bytes": 1203,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "19818edfc2969f3c12df8a8dbfa10cf6a13991bd6080bb513d248b69d1d042e7"
+    },
+    {
+      "file": "100_v168j-armor-durability.js",
+      "script": "100_v168j-armor-durability",
+      "bytes": 3395,
+      "external_bytes": 3395,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "e85242867d46163a5f727e5b9f2e68fe3285f6b7b7b26554c949eae81a730684"
+    },
+    {
+      "file": "101_v168s-physically-lit-forest.js",
+      "script": "101_v168s-physically-lit-forest",
+      "bytes": 9356,
+      "external_bytes": 9356,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "4aafacb5eb3e4a78e5b17159590ac0d7c46a1246bcde6415e6e01d8202fad6c1"
+    },
+    {
+      "file": "102_v168s-unbound-performance-monitor.js",
+      "script": "102_v168s-unbound-performance-monitor",
+      "bytes": 1844,
+      "external_bytes": 1844,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "96492e269ddd7023a47f16261207a98e565c185c78e83c0ead60df0668ee54f9"
+    },
+    {
+      "file": "103_v169-packed-assets.js",
+      "script": "103_v169-packed-assets",
+      "bytes": 4988015,
+      "external_bytes": 4988015,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "8ac259a50b14bd0a6ce2f8f764b0b72b8a551a42c8f1caa07b74f934810fdb65"
+    },
+    {
+      "file": "104_v169-nature-integration.js",
+      "script": "104_v169-nature-integration",
+      "bytes": 23634,
+      "external_bytes": 23634,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "ef77ae922ed9c949b4e952e7a4a0501255e6e54cb38ddc45bd08577904058924"
+    },
+    {
+      "file": "105_v170-extra-original-assets.js",
+      "script": "105_v170-extra-original-assets",
+      "bytes": 5960993,
+      "external_bytes": 5960993,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "7c4cd4ccfac0a8c86ac5454221d4ee6d1688d5eb5446198d7e51a519df9aee11"
+    },
+    {
+      "file": "106_v170-new-biomes.js",
+      "script": "106_v170-new-biomes",
+      "bytes": 9346,
+      "external_bytes": 9346,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "1a15cf8fda111db52e48cd7cd613c1e2de7645f8b173c915da8f930622cddde2"
+    },
+    {
+      "file": "107_hud171-adapter.js",
+      "script": "107_hud171-adapter",
+      "bytes": 8896,
+      "external_bytes": 8896,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "d6ab87b40dc6f95f9b828c4ff8534036654703b98921b03729edbd247103bd76"
+    },
+    {
+      "file": "108_floresta-menu172-controller.js",
+      "script": "108_floresta-menu172-controller",
+      "bytes": 24871,
+      "external_bytes": 24871,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "bdc8744907673db4b44871fd69b9ba8e6ddca78ea4ff53bbddc3a07196c98008"
+    },
+    {
+      "file": "109_ui173-controller.js",
+      "script": "109_ui173-controller",
+      "bytes": 5829,
+      "external_bytes": 5829,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "7207af4769c8b78b97cf08c5121001b0af71d035fd6e2d4596f90da38f37c1e9"
+    },
+    {
+      "file": "110_v175-third-person-inspection-pc.js",
+      "script": "110_v175-third-person-inspection-pc",
+      "bytes": 6337,
+      "external_bytes": 6337,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "79de2c96b2075a6d7134eb6a6932fdc878ee78fc3d66ebcd4bd405b7d9435f6c"
+    },
+    {
+      "file": "111_v175-trolloc-model-animations.js",
+      "script": "111_v175-trolloc-model-animations",
+      "bytes": 25581,
+      "external_bytes": 25581,
+      "kind": "classic",
+      "load": "on-demand",
+      "sha256": "ba10b1a4478b47dd9928acc145107293e2f7111d8d0d2c92a9641e289dbd9ca1"
+    },
+    {
+      "file": "112_v175-trolloc-night-event.js",
+      "script": "112_v175-trolloc-night-event",
+      "bytes": 7483,
+      "external_bytes": 7483,
+      "kind": "classic",
+      "load": "on-demand",
+      "sha256": "f52834bf9a0792659ae0ac38f107faa4fe9d6c001935af3b22070aafc0475985"
+    },
+    {
+      "file": "113_v175-merge-manifest.js",
+      "script": "113_v175-merge-manifest",
+      "bytes": 155,
+      "external_bytes": 155,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "58172c0816b862c8233689f96f657a4eb1d101d2556b84bacf0d3b75ddbcc166"
+    },
+    {
+      "file": "115_alchemy_227.js",
+      "script": "115_alchemy_227",
+      "bytes": 92041,
+      "external_bytes": 92041,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "c0c3a3e3a0129d44bfb9d556ea70d2754155fb4f4867da3ac9b6b824035aacbd"
+    },
+    {
+      "file": "116_floresta-audio-v177-assets.js",
+      "script": "116_floresta-audio-v177-assets",
+      "bytes": 1591,
+      "external_bytes": 1591,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "479a2744ee595d77b82006cd186e317861dc5f5440868c8a09b8a08a00378fbd"
+    },
+    {
+      "file": "117_floresta-v206-mobile-ui.js",
+      "script": "117_floresta-v206-mobile-ui",
+      "bytes": 7974,
+      "external_bytes": 7974,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "24c09ca5f18b60822cc3e45de6da67b1227f21dbb6ad6e5240e6ca5950b6e989"
+    },
+    {
+      "file": "118_floresta-v207-ui.js",
+      "script": "118_floresta-v207-ui",
+      "bytes": 15536,
+      "external_bytes": 15536,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "c664ef6c0ad224dfe953c50d77a23e1f142d0cd63a7bbfba0b464019cac6df55"
+    },
+    {
+      "file": "120_floresta-mountain-climb-clips-v66.js",
+      "script": "120_floresta-mountain-climb-clips-v66",
+      "bytes": 321530,
+      "external_bytes": 321530,
+      "kind": "classic",
+      "load": "on-demand",
+      "sha256": "eeb0d2a4193240397c78625d32356062b4b74e01fc7faf6c76172daca1072343"
+    },
+    {
+      "file": "121_floresta-dragons-v52.js",
+      "script": "121_floresta-dragons-v52",
+      "bytes": 24691,
+      "external_bytes": 24691,
+      "kind": "classic",
+      "load": "on-demand",
+      "sha256": "3006c05370984d22fb67d76c91b3b34bb560c1b0095fe71c5235a20e1498aaf2"
+    },
+    {
+      "file": "122_floresta-mountain-dragon-mount-v57.js",
+      "script": "122_floresta-mountain-dragon-mount-v57",
+      "bytes": 57688,
+      "external_bytes": 57688,
+      "kind": "classic",
+      "load": "on-demand",
+      "sha256": "c9b894317fdb37158bed1e6edf44596efcf67324d2db3be6fc267676c54e258a"
+    },
+    {
+      "file": "123_v203-fire-frames.js",
+      "script": "123_v203-fire-frames",
+      "bytes": 2332081,
+      "external_bytes": 2332081,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "28e5a45c45085f5882d6f4ab94bff91f37c8343a7d6eb367dcaec143f19ea763"
+    },
+    {
+      "file": "124_v203-flame-oil-animation.js",
+      "script": "124_v203-flame-oil-animation",
+      "bytes": 9632,
+      "external_bytes": 9632,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "943b5c76ff6a505e59e526480b47f466c7db8796e06722e3db117e6313d37436"
+    },
+    {
+      "file": "125_legacy_124.js",
+      "script": "125_legacy_124",
+      "bytes": 0,
+      "external_bytes": 0,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "126_drinking-fbx-v227__integrado.js",
+      "script": "126_drinking-fbx-v227__integrado",
+      "bytes": 69352,
+      "external_bytes": 69352,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "dee707f5107c9d0de473bc130943bf60e4d54760f8eb6c0235a174aee27a565b"
+    },
+    {
+      "file": "127_potion_slot_drinking_227.js",
+      "script": "127_potion_slot_drinking_227",
+      "bytes": 23818,
+      "external_bytes": 23818,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "cf5de7329cbc1585d21d1be2f9ec7cafec59997a562f26839437696d4aaffb8e"
+    },
+    {
+      "file": "128_forged_mesh_assets_230.js",
+      "script": "128_forged_mesh_assets_230",
+      "bytes": 19562226,
+      "external_bytes": 19562226,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "8ecdb58578b2a2f2a08b3abf31813eba5fcd04046f883308b82d7593614065e0"
+    },
+    {
+      "file": "129_forge_230.js",
+      "script": "129_forge_230",
+      "bytes": 46385,
+      "external_bytes": 46385,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "9f014c04553a5153cc6efb86f171c64f09ad4ea05e303334c0d9950347a61d61"
+    },
+    {
+      "file": "130_equipment_230.js",
+      "script": "130_equipment_230",
+      "bytes": 11768,
+      "external_bytes": 11768,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "4374388a9f1b9fd0e92d9c57b869f426918ee5432e2634cf52798a1fba6b34c0"
+    },
+    {
+      "file": "131_camera225-inline__integrado.js",
+      "script": "131_camera225-inline__integrado",
+      "bytes": 12717,
+      "external_bytes": 12717,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "abcc3c367fde2a524252db018d31bbce56d67069fcb779487430d587a05181f6"
+    },
+    {
+      "file": "132_blood226-inline__integrado.js",
+      "script": "132_blood226-inline__integrado",
+      "bytes": 24910,
+      "external_bytes": 24910,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "ce35e46c34c247bec5674f3770238710f2a9551513fa90a6484d882b02fe9ea4"
+    },
+    {
+      "file": "133_floresta-v228-transport-assets__integrado.js",
+      "script": "133_floresta-v228-transport-assets__integrado",
+      "bytes": 3856250,
+      "external_bytes": 3856250,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "b7e9c7158421b4b3e5212aad34605177b82b4c633874c614e32faf6e40fbf0aa"
+    },
+    {
+      "file": "134_floresta-v228-transport-built__integrado.js",
+      "script": "134_floresta-v228-transport-built__integrado",
+      "bytes": 24849,
+      "external_bytes": 24849,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "830fd9890e0780ea5fe8d427b04728a5ea2fa7f0f033c63ed29482bb2a231373"
+    },
+    {
+      "file": "135_monstro_19_animacoes_v239.js",
+      "script": "135_monstro_19_animacoes_v239",
+      "bytes": 32517,
+      "external_bytes": 32517,
+      "kind": "classic",
+      "load": "on-demand",
+      "sha256": "ebabab30c1ef09c4e20c952cb2b215ee53bace35291f34837203588d8d7c6f2a"
+    },
+    {
+      "file": "136_sword_combo_v236.js",
+      "script": "136_sword_combo_v236",
+      "bytes": 303737,
+      "external_bytes": 303737,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "09dcdc2ab1da55c49b95b4ff771ee6660757843d56be6585d926cbc276b4fc09"
+    },
+    {
+      "file": "137_arsenal_infinito_v236.js",
+      "script": "137_arsenal_infinito_v236",
+      "bytes": 15508,
+      "external_bytes": 15508,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "6251da6edbdd71de7355b494ccd042e0529b88b2f90b7b7f344199cc8374f02c"
+    },
+    {
+      "file": "138_cart_fbx_frames_v252.js",
+      "script": "138_cart_fbx_frames_v252",
+      "bytes": 177019,
+      "external_bytes": 177019,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "29acc419459f0862ce54ed681f8974de4c7411177d1df7fce9d48fec3b3f2476"
+    },
+    {
+      "file": "139_cart_pose_camera_v252.js",
+      "script": "139_cart_pose_camera_v252",
+      "bytes": 12564,
+      "external_bytes": 12564,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "b12179db32cbb8331c8772879a2e9e92caffd24a640975a59acf0978bf0f9a10"
+    },
+    {
+      "file": "140_combat_precision_v257.js",
+      "script": "floresta-v257-combat",
+      "bytes": 6093,
+      "external_bytes": 6093,
+      "kind": "classic",
+      "load": "startup",
+      "sha256": "056f7169bdeb2a505176c309cec18f46e8fdc11a2d6637920eff7c40d1c793e8"
+    },
+    {
+      "file": "141_ai_shared_v258.js",
+      "script": "floresta-v258-ai-core",
+      "kind": "classic",
+      "load": "startup",
+      "bytes": 4376,
+      "external_bytes": 4376,
+      "sha256": "ccf8079393fb1517f9ae2a58c200137be30c32fb218701c0ca232218878f4233"
+    },
+    {
+      "file": "142_jornada_inicial_v259.js",
+      "script": "floresta-v259-primeira-jornada",
+      "kind": "classic",
+      "load": "startup",
+      "bytes": 13157,
+      "external_bytes": 13157,
+      "sha256": "1b3f1421c60223e0156f8ade31979e2ec0383e3118c67dfe05f4a47ffe8d15a5"
+    },
+    {
+      "file": "143_floresta_v260_neblina.js",
+      "script": "floresta-v260-visao-alquimia",
+      "kind": "classic",
+      "load": "startup",
+      "bytes": 1258,
+      "external_bytes": 1258,
+      "sha256": "99d2a395eb46b1ebe30114daf6121bbb2a78f742e5fe060545ace2552f2d6916"
+    },
+    {
+      "file": "144_floresta_atmosfera_v261.js",
+      "script": "floresta-v261-atmosfera",
+      "kind": "classic",
+      "load": "startup",
+      "bytes": 9661,
+      "external_bytes": 9661,
+      "sha256": "068ed2d0b71083f0cd5c69c70ccc187174e6f0210d7f2561a40fc45e564bd938"
+    },
+    {
+      "file": "145_floresta_audio_v262.js",
+      "script": "floresta-v262-audio",
+      "kind": "classic",
+      "load": "startup",
+      "bytes": 6852,
+      "external_bytes": 6852,
+      "sha256": "0f4de8899cb307bd7ac802a42c39d661974da88c5e1c61dd11bd17746dfe6da2"
+    },
+    {
+      "file": "146_input_context_v263.js",
+      "script": "146_input_context_v263",
+      "kind": "classic",
+      "load": "startup",
+      "bytes": 5208,
+      "external_bytes": 5208,
+      "sha256": "226937505d4aa055806ea52a50282eea4786744ae01e3f2faf354aa21685a4e7"
+    },
+    {
+      "file": "147_character_creator_v263.js",
+      "script": "147_character_creator_v263",
+      "kind": "classic",
+      "load": "startup",
+      "bytes": 12894,
+      "external_bytes": 12894,
+      "sha256": "5c02edd9a91982842dc7d0da8318a9d7d1b40cb8485d291d106317737c956d3b"
+    },
+    {
+      "file": "140_hotbar_escudo_v256.js",
+      "script": "floresta-v265-hotbar-escudo",
+      "kind": "classic",
+      "load": "startup",
+      "bytes": 15296,
+      "external_bytes": 15296,
+      "sha256": "a230c4ddbcd343a6522a007d4391cc6a169e4f3bd6eba9dd330201a5f261e197"
+    }
+  ],
+  "v255_changes": [
+    "salvamento unificado perfil + construcoes + alquimia + caverna + pocoes",
+    "nova partida isolada com backup do mundo ativo",
+    "importacao compatível com V172",
+    "bloqueio de regravação no pagehide durante troca de mundo",
+    "revisão de cache e arquivos PC/Mobile"
+  ],
+  "release": {
+    "version": "V265",
+    "name": "V264 + escudos V256E",
+    "base": "V264",
+    "platforms": [
+      "PC",
+      "Mobile"
+    ]
+  },
+  "v256_changes": [
+    "Versão pública centralizada: título, menu, entrypoints, streaming e metadados da build.",
+    "Manifesto regenerado a partir de todos os módulos, incluindo carregamento sob demanda.",
+    "Cache PWA V256 com ativação de nova versão e invalidação do cache antigo.",
+    "Histórico de módulos, APIs e chaves de save V255 preservados para compatibilidade."
+  ],
+  "startup_script_count": 140,
+  "ondemand_script_count": 0,
+  "edition": "Escudos alinhados no antebraço + barra rápida configurável",
+  "v258_changes": [
+    "Monstro Lutador: fintas, contra-ataques, recuo e entradas laterais sem trocar FBX.",
+    "Lobisomem: audição, última posição conhecida, perda de trilha e proteção contra salto/ataque através de paredes.",
+    "Esqueletos guerreiros: defesa próxima a necromantes e flanqueamento cooperativo.",
+    "Necromantes: busca de linha de visão, reposicionamento e projéteis bloqueados por obstáculos.",
+    "Gigante: ataques corpo a corpo não ignoram paredes, avisos de pisão/impacto/arremesso; navegação anterior preservada.",
+    "Ignis: recuperar linha de visão antes de conjurar; fases/ataques originais preservados.",
+    "Módulo leve compartilhado de percepção/locomoção adicionado sem alterar saves."
+  ],
+  "release_notes": "V265 une somente a ancoragem anatômica dos escudos V256E e a barra rápida configurável à base V264 sem substituir as melhorias V257–V264.",
+  "v260_changes": [
+    "Construção: resistência material (pedra/tronco/tábua/galho), informação na gestão e reparo coerente com o material.",
+    "Golpes em área do Gigante agora afetam a integridade de estruturas completas próximas sem destruir saves ou peças.",
+    "Forja: ritmo de marteladas + temperatura influenciam tempo de trabalho (10/12/14 batidas) e feedback de execução; montagens preservadas.",
+    "Alquimia: Essência de Vigor reduz dano por 120 segundos, com defesa maior contra fogo; Tônico do Luar melhora visão através da neblina por 120 segundos.",
+    "Efeitos temporários exportados/importados junto com o save V255 e não persistem quando inicia mundo novo.",
+    "A visão melhorada atua apenas durante o desenho da cena e restaura a densidade original, sem afetar iluminação/estilo PSX.",
+    "PC e Mobile: mesmos ajustes de gameplay, cache atualizado e identificador da versão V260."
+  ],
+  "v261_changes": [
+    "Atmosfera sonora espacial com WebAudio: galhos, folhagem, sussurros e passos somente próximos a inimigos reais; som posicionado no mundo.",
+    "Ciclos silenciosos e vento suave variável, dependentes de noite, progressão e pausa; áudio só começa após interação do jogador.",
+    "Golpes de machado que realmente atingem árvore geram ruído de corte; árvore caída gera ruído de queda detectável pela IA.",
+    "Tocha acesa sinaliza luz, separadamente de ruído, para a IA V258; Lobisomem ganha alcance maior de percepção visual da tocha (com linha de visão).",
+    "Respeita caverna, menu, criativo, pause e visibilidade da aba; opção de desligar efeito persistida por navegador.",
+    "Sem alterações de gráficos, shader Retro PSX, neblina, modelos, animações, câmera ou spawns oficiais."
+  ],
+  "v262_changes": {
+    "tracks": "13 trilhas OGG originais agora carregadas de assets/audio sob demanda, sem base64 de 16MB injetado como JavaScript",
+    "menu": "Música do menu começa após gesto real do usuário e retorna ao fechar a partida",
+    "world": "Playlists de dia, entardecer e noite; músicas dos chefes Gigante e Ignis",
+    "environment": "Áudio procedimental existente e atmosfera V261 agora são iniciados ao entrar na partida",
+    "cache": "Cache PWA V262 atualizado para arquivos OGG",
+    "compatibility": "Preservados saves e mecânicas V261 sem alterar mapas ou equipamentos"
+  },
+  "number": 265,
+  "v263_changes": [
+    "index.html seleciona PC/Mobile automaticamente",
+    "controle contextual e scroll protegido",
+    "atalhos de função removidos",
+    "criador de cabelo aplicado no rig animado e salvo em perfil"
+  ],
+  "fixes": [
+    "Menu cabe em telas baixas; opção Personagem visível",
+    "Miniaturas dos quatro cortes e cores selecionáveis",
+    "Geometria do cabelo convertida para escala real do rig Mixamo",
+    "Preservação da câmera POV e saves V255/V263"
+  ],
+  "v265_changes": [
+    "Escudo prateado e escudo de madeira ancorados no antebraço esquerdo via ossos existentes",
+    "Placas dos escudos mantidas em pé com alça e braçadeira",
+    "Barra rápida configurável (9 espaços) e scroll de menus preservado",
+    "Integração cirúrgica: resto dos arquivos vem da V264 completa",
+    "Cache SW renovado sem alteração do esquema de salvamento"
+  ]
+}

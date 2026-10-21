@@ -1,0 +1,24 @@
+FLORESTA V216 — FERRO MESHY
+Base utilizada: Floresta_V215_Mineracao_PC_Mobile_DOWNLOAD_CORRIGIDO(1).zip.
+Extraia todo o ZIP e abra PC.html ou Mobile.html.
+
+O modelo Silver_Crystal_Cluste enviado foi integrado como depósito de minério de ferro.
+49 depósitos: 44 pela floresta e 5 nas regiões elevadas. Terreno íngreme, corredores e obstáculos próximos são evitados na distribuição pela floresta.
+Equipe a picareta, aproxime-se e mire no depósito. Clique no PC ou use Atacar no celular.
+Depósitos pequenos: 3 golpes e 1–2 minérios. Médios: 5 golpes e 3–5 minérios. Ricos: 8 golpes e 7–12 minérios.
+Somente picareta causa dano ao minério. Machado, martelo e poderes não o extraem.
+No último impacto, o depósito some, libera sua colisão e adiciona minério de ferro diretamente ao inventário.
+Se a mochila estiver cheia e não existir pilha de ferro, o depósito é preservado.
+A mineração e as animações da V215 permanecem integradas.
+
+ASSET
+FBX original: Meshy_AI_Silver_Crystal_Cluste_1016225227_texture.fbx.
+Geometria otimizada com UVs e mapas de cor, normais, rugosidade e metalicidade do modelo enviado.
+Três níveis: 23.998, 5.988 e 1.498 triângulos. Geometrias e texturas compartilhadas pelos depósitos.
+O FBX original permanece no ZIP de origem enviado pelo usuário; não é necessário para executar o jogo.
+
+VALIDAÇÃO
+ZIPs de entrada íntegros; scripts JavaScript validados.
+Testes no Chromium: modelo texturizado; bloqueio de martelo/machado; alcance; um impacto por golpe; coleta; acumulação no inventário; remoção de colisão; proteção contra mochila cheia e falha de inclusão.
+Integração no jogo: 49 depósitos e impacto da picareta confirmados.
+Não houve medição de FPS em aparelho físico nem teste completo de todos os sistemas preexistentes.

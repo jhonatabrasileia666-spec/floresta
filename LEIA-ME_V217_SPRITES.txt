@@ -1,0 +1,8 @@
+FLORESTA V217 — SPRITES
+Extraia tudo e abra PC.html ou Mobile.html.
+Base: V216 Ferro Meshy entregue nesta conversa.
+16 sprites transparentes aplicados nos itens correspondentes da mochila e na prévia ampliada; os 9 itens da barra rápida usam os novos sprites.
+Frasco âmbar: Óleo de brasa. Ripa: arte da tábua.
+Troncos e tábuas mantêm o sistema físico de transporte; este ajuste não muda quais itens cabem na mochila.
+PNGs separados em assets/inventario-v217; imagens incorporadas ao HTML.
+Mineração e sistemas da V216 preservados.

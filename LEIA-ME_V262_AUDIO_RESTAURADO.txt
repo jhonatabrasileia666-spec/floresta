@@ -1,0 +1,16 @@
+FLORESTA V262 — ÁUDIO RESTAURADO (PC + MOBILE)
+
+Base integral: V261 Atmosfera Reativa. Nenhum gameplay ou save modificado.
+
+Corrigido:
+- 13 trilhas originais OGG extraídas em assets/audio (menu, floresta, chefes).
+- Reprodutor real com música do menu, playlists dia/entardecer/noite e chefes.
+- Desbloqueio de áudio no clique do menu (antes do bloqueio de eventos do jogo).
+- Áudio ambiente original V65 inicia ao entrar no jogo; áudio reativo V261 também.
+- Áudio direcional V261 ajustado para ser audível a distâncias úteis.
+- Pausa e retomada ao minimizar, entrar na caverna ou voltar ao menu.
+- Cache PWA V262 inclui arquivos OGG.
+
+IMPORTANTE: publique a PASTA TODA no GitHub Pages, incluindo assets/audio!
+Os navegadores precisam de gesto do jogador para liberar a música: um clique/toque no menu.
+Para diagnóstico no console: FlorestaAudioV262.status e FlorestaAtmosferaV261.status

@@ -1,0 +1,21 @@
+FLORESTA V219 — POÇÕES EQUIPÁVEIS (PC + MOBILE)
+
+Extraia o ZIP inteiro. Abra PC.html no computador ou Mobile.html no celular.
+
+Há um slot exclusivo de poções ao lado dos nove slots de ferramentas.
+Use a seta para escolher entre os cinco frascos disponíveis na mochila.
+Toque no frasco para equipar ou guardar. Equipar não consome o item.
+O inventário também oferece a opção Equipar frasco / Guardar frasco.
+
+PC: 0 equipa/guarda; Shift+0 troca a poção; Y usa a selecionada.
+Com o mouse capturado pelo jogo, o clique de ataque usa o frasco equipado.
+Mobile: toque no slot para equipar, em Usar para beber ou no botão de ataque
+quando estiver segurando a poção. O botão passa a mostrar Usar poção.
+
+Cada uso consome uma unidade. Frascos vazios não podem ser equipados.
+O último frasco é guardado automaticamente. A troca fica bloqueada ao beber.
+O óleo de brasa conserva o efeito original de machado flamejante por 90 s.
+
+Os cinco modelos de vidro têm corpo arredondado, rolha, corda no gargalo e
+líquido com a cor do respectivo sprite. A animação de beber usa o novo frasco.
+Todos os arquivos e sistemas da versão V218 foram incluídos neste pacote.

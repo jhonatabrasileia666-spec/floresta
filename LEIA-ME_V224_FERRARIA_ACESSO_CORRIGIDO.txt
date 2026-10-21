@@ -1,0 +1,31 @@
+FLORESTA V224 — FERRARIA POV ACESSÍVEL | PC + MOBILE
+Base: V223 com correção da tocha. Sem alteração de tecla F.
+
+O PROBLEMA
+Na V222/V223 o botão FERRARIA só aparecia se houvesse uma fornalha terminada (16/16 pedras) e o jogador estivesse a menos de 3,05 metros. Caso não atendesse à condição, o jogador não recebia instrução alguma, parecendo que a ferraria não existia. O JS e CSS eram arquivos externos que poderiam não carregar se o HTML fosse aberto fora da pasta do ZIP.
+
+CORREÇÕES V224
+- Botão FERRARIA visível durante o jogo no PC e celular; ao pressionar O também é possível abrir o modo POV ou consultar as instruções.
+- Sem fornalha perto, abre um guia com os passos e estado da estrutura mais próxima, em vez de silenciosamente não fazer nada.
+- Fornalha incompleta próxima: o modo POV abre e mostra quantas pedras faltam; fundição só libera com 16 pedras.
+- Fornalha completa próxima: abre imediatamente o painel POV da fundição (quando não há outro menu/modal ativo).
+- Botão ganha rótulos de contexto: ABRIR FORNALHA / COMPLETAR FORNALHA / FORJAR NA BIGORNA.
+- Acesso ampliado para 3,7m das estações; interação física do fogo usa distância original do jogo (até 3m).
+- O código JS/CSS da ferraria agora está incorporado no HTML principal para evitar dependência de caminhos em arquivos separados.
+- Mantém a tecla F livre da função apagar tocha introduzida antes da V223.
+- Mantém moldes, bigorna, inventário, marteladas e montagens anteriores.
+
+COMO ENTRAR NA FERRARIA
+1. Comece uma partida normalmente.
+2. Procure o botão FERRARIA na interface (no celular ou PC), ou pressione O.
+3. Se estiver longe da fornalha, abre guia. Se estiver ao lado, entra em POV.
+4. Se aparecer 8/16 pedras, por exemplo, complete as 8 que faltam pelo sistema normal de construção.
+5. Com a fornalha completa, abra POV, coloque galhos, acenda com tocha, funda 2 minérios por barra.
+6. Produza 2 barras, pegue 4 pedras e use CONSTRUIR BIGORNA no POV da fornalha.
+7. Aproxime-se da bigorna e abra FERRARIA/O para escolher e martelar peças.
+8. ESC fecha a ferraria ou o guia.
+
+TESTES
+- Sintaxe do novo módulo validada com Node.
+- Verificações de interação via navegador com motor simulado (guia, fornalha incompleta, fornalha completa, controles) disponíveis.
+- Os 252MB do jogo completo não puderam ser executados visualmente na sessão de testes; testar numa partida real para confirmar integração.

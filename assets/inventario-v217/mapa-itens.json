@@ -1,0 +1,18 @@
+{
+  "axe": "axe.png",
+  "hammer": "hammer.png",
+  "pickaxe": "pickaxe.png",
+  "spear": "spear.png",
+  "torch": "torch.png",
+  "wood_shield": "wood_shield.png",
+  "armor": "armor.png",
+  "alq_potion_fogo": "alq_potion_fogo.png",
+  "rock": "rock.png",
+  "branch": "branch.png",
+  "vine": "vine.png",
+  "wood_chip": "wood_chip.png",
+  "log": "log.png",
+  "plank": "plank.png",
+  "shaft": "shaft.png",
+  "iron_ore": "iron_ore.png"
+}

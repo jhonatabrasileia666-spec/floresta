@@ -1,0 +1,18 @@
+FLORESTA V256 — IDENTIFICAÇÃO UNIFICADA (PC / MOBILE)
+Base: V255 Salvamento Unificado (mantida integralmente).
+
+A versão pública do jogo é V256. No menu, na aba do navegador, nas entradas
+PC.html / Mobile.html, em window.FlorestaBuild.version e no manifesto
+versao-manifest.json, todos os dados da compilação indicam V256.
+
+A versão é definida no manifesto e gerada em modulos/000_floresta-release.js.
+Versões de módulos antigos (como v183, v239), nomes dos scripts,
+IDs do jogo e chaves do save V255 NÃO são renomeados: identificam
+recursos históricos e o formato persistente. Renomeá-los pode quebrar o jogo.
+
+O service worker usa cache floresta-v256-runtime-1 e substitui versões antigas.
+Em GitHub Pages publique TODO o conteúdo da pasta, não apenas index.html.
+
+Teste sugerido: abra PC.html e Mobile.html, confira aba e rodapé do menu,
+inspecione window.FlorestaBuild.version, veja se saves antigos carregam,
+abra recursos sob demanda e valide a atualização após publicar no Pages.

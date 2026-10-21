@@ -1,0 +1,29 @@
+FLORESTA V258 — IA TÁTICA (PC/MOBILE)
+Base: V257 Combate Físico. Arquivos completos, sem remover sistemas.
+
+IMPLEMENTAÇÃO
+- Monstro Lutador: finta sem dano, recuo após combo, mudança de flanco, esquiva de resposta.
+- Lobisomem: percepção baseada em linha de visão e ruído do jogador; último local conhecido;
+  busca quando perde o alvo; pulo e dano corpo a corpo barrados por obstáculos.
+- Esqueletos guerreiros: proteção do necromante e flanqueamento em dupla; golpes com linha livre.
+- Necromante: procura novo ângulo quando não vê o jogador; projéteis não atravessam paredes.
+- Gigante: mantém navegação e planejamento avançados, reforça bloqueio de golpes em obstáculos
+  e anuncia três ataques especiais.
+- Ignis: recua/reaproxima quando não há visibilidade para conjurar; mantém fases e padrões.
+
+ARQUIVOS IMPORTANTES
+- PC.html, Mobile.html, Jogo.html, index.html
+- modulos/141_ai_shared_v258.js = percepção/locomoção compartilhadas
+- modulos/135_monstro_19_animacoes_v239.js = tática do lutador, carregado por streaming
+- modulos/075_v118-lobisomem.js = caçada
+- modulos/064_v104-undead-necromancer.js = aliados e magia
+- modulos/052_legacy_051.js e 047_legacy_046.js = boss gigantes/ignis
+
+VALIDAÇÃO
+Verificação estática de sintaxe e integridade; ainda requer teste real de gameplay
+em PC e Mobile. Publicar TODOS os arquivos, com pasta modulos e assets.
+Não abrir via file://; usar GitHub Pages ou servidor local.
+
+NÃO ALTERADO
+- Rig e animações FBX, modelo GLB, câmera POV, equipamento, save unificado V255,
+  carregamento sob demanda V254, inventário, forja, alquimia e construção.

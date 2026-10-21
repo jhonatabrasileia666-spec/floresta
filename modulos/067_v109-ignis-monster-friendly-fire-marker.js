@@ -1,0 +1,1 @@
+window.gameIgnisMonsterFriendlyFire={version:"V109B",heatWave:true,solarExplosion:true,giantBossExcluded:true};

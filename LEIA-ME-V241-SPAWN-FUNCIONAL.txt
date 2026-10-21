@@ -1,0 +1,13 @@
+FLORESTA V241 — Monstro Lutador: SPAWN e modo offline corrigidos
+
+Use PC.html / Mobile.html. O modo HTTP (GitHub Pages) continua compatível.
+Também permite abrir localmente PC.html, usando base64 empacotado do GLB+FBX caso fetch local seja bloqueado.
+
+Diretor / Spawn: +1 Monstro Lutador, ou escolha Monstro Lutador na seleção de criaturas.
+Aguarde o texto 'Monstro Lutador pronto', pressione Spawn e feche o Diretor.
+O inimigo nasce a cerca de 6,5 m à frente da câmera com uma placa no alto por 12,5 segundos.
+Quando a criação falha, Diretor mostra 'FALHA NO SPAWN: ...' em vez de afirmar que apareceu.
+
+Dica: se abrir a pasta local, extraia tudo sem remover assets/ e modulos/.
+No console: window.gameNewMonster.state, window.gameNewMonster.active.
+A integração da IA e animações permanece sujeita a teste visual em uma partida real.

@@ -1,0 +1,16 @@
+FLORESTA V230 — EQUIPAMENTOS FORJADOS EQUIPÁVEIS
+
+Para jogar: extraia TODO o ZIP mantendo as pastas, abra PC.html ou Mobile.html.
+
+Ferraria: primeiro forje cabo e lâmina/ponta/placa. Depois abra Montar e monte o item final.
+
+Itens equipáveis no inventário (selecionar item > Equipar):
+- Machado crescente sombrio: mão direita, ataques nativos do machado.
+- Espada longa prateada: mão direita, ataques nativos do machado (animações próprias da espada ainda não desenvolvidas).
+- Lança prateada: mão direita, ataques nativos da lança.
+- Escudo prateado: mão esquerda, bloqueio nativo do escudo.
+
+Os modelos OBJ Meshy convertidos e texturizados da V228 continuam embutidos na página principal.
+As opções continuam compatíveis com os nomes de itens de inventário V228/V229.
+
+Validação: sintaxe dos módulos e teste isolado de equipar/guardar/passar render; execução visual completa precisa ser verificada na partida.

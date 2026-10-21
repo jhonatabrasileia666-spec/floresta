@@ -1,0 +1,26 @@
+FLORESTA V212 — ANIMAÇÃO ORIGINAL DE MINERAÇÃO COM PICARETA (PC E MOBILE)
+
+Base: V211 enviada pelo usuário. Extraia todos os arquivos e abra PC.html ou Mobile.html.
+
+IMPLEMENTADO
+- Dois clipes reais do pack Human Crafting Animations FREE, 30 quadros cada:
+  HumanM@MiningOneHand01_R - Wall.fbx (pedra/veios nas paredes)
+  HumanM@MiningOneHand01_R - Ground.fbx (solo, quando se olha para baixo)
+- Convertidos para keyframes de rotação (JSON inline) e adaptados ao mesmo avatar 3D.
+- Animação aplicada ao braço/antebraço/mão direitos e parte do tronco, sem duplicar o personagem.
+- Picareta original V211 continua presa à mão real do personagem.
+- A tecla 9 / botão Picareta equipa; clique ou botão Atacar inicia o golpe.
+- Lógica V211 de detecção de ferro, alcance e dano não foi alterada.
+- Não substitui nem altera sprites, crafting físico, oficina, lanças, machados, inimigos ou sistemas de PC/Mobile.
+
+ARQUIVOS
+PC.html, Mobile.html — redirecionam para o mesmo jogo com os modos corretos.
+Floresta_V212_Mineracao_Animacao_FBX_PC_Mobile.html — jogo completo.
+assets/animacoes_mineracao_v212/ — FBX originais para reutilização futura.
+fonte/mineracao-fbx-clips-v212.json — dados de keyframes importados.
+
+NOTAS DE VALIDAÇÃO
+Originais FBX parseados com FBXLoader do próprio jogo: 56 ossos; 1 clipe por FBX; 30 quadros.
+Integração implementada no jogo completo e validada sintaticamente. O ambiente de testes
+não permitiu executar o jogo 3D completo num navegador, portanto encaixe visual e
+FPS reais ainda precisam ser conferidos em PC/aparelho móvel.

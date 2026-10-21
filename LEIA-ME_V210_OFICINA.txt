@@ -1,0 +1,32 @@
+FLORESTA V210 — OFICINA VISUAL (PC + MOBILE)
+==============================================
+
+Base preservada: Floresta V209 — dragões V75, árvores V196, interface mobile V207, fogo do machado V208, sistemas de sobrevivência e construção.
+
+INICIAR
+1. Extraia o ZIP inteiro mantendo todas as pastas.
+2. Abra PC.html ou Mobile.html.
+3. Após entrar no mundo do jogo, clique em "OFICINA · EDITOR" ou aperte F2 (PC).
+4. Clique em um objeto para selecioná-lo. Use 1/2/3/4 para selecionar/mover/girar/escalar.
+5. No editor: botão direito + arrastar gira a câmera; botão do meio arrasta a câmera; roda aproxima; WASD movimenta, Q/E desce/sobe e Shift acelera.
+6. Na coluna da esquerda, crie árvore, rocha, parede, piso, pilar, bloco, esfera, fogueira, luz, ou importe um GLB.
+7. Na coluna da direita, edite posição, rotação, escala, visibilidade, cor, transparência e nome; veja animações originais dos dragões quando selecionados.
+8. Para animar objetos, mova a linha do tempo, ajuste o objeto, clique + Quadro em cada pose; use Reproduzir. Há presets de Giro, Flutuar e Balançar.
+9. "Salvar" usa armazenamento deste navegador. "Exportar JSON" cria um arquivo de projeto portátil. "Abrir" importa JSON. É recomendado EXPORTAR depois de editar.
+10. Ctrl+Z desfaz, Ctrl+Y refaz, Ctrl+D duplica, Delete exclui objeto do editor ou oculta objeto original. F2/Esc fecha.
+
+MÓDULOS NOVOS
+- fonte/editor-v210.js
+- fonte/editor-v210.css
+
+LIMITAÇÕES IMPORTANTES
+- A Oficina edita objetos 3D visuais em execução; objetos recém-criados não são registrados automaticamente nas colisões físicas, sistema de crafting, IA ou inventário.
+- É um editor embutido de cena, e não substitui o Blender/Unity: não há escultura detalhada de malha, weight-paint, edição direta de clips esqueléticos ou compilação de um jogo standalone.
+- A linha do tempo cria animações simples de posição, rotação e escala; dragões conservam os controladores próprios de clipes e montagem.
+- Alterações em objetos originais (ex.: árvores geradas aleatoriamente) são associadas à posição na hierarquia 3D da sessão. Após recarregar, somente são aplicadas se a hierarquia e o nome ainda coincidirem. Isso evita transformar o objeto errado.
+- Objetos GLB importados são preservados com dados base64 quando o projeto é EXPORTADO em JSON; salvamento local não inclui o GLB pesado. Reimporte o JSON exportado para restaurar.
+- Terreno procedural nativo, inteligência dos inimigos, física e animações de personagens ainda requerem ferramentas específicas para edições permanentes.
+- As alterações só entram no jogo de maneira persistente ao abrir e carregar o projeto; não reescrevem o HTML original automaticamente.
+- Esta atualização passou em verificações de sintaxe e montagem. Validação prática em hardware real ainda pode revelar diferenças de compatibilidade.
+
+A V209 permanece disponível como versão anterior, intacta.

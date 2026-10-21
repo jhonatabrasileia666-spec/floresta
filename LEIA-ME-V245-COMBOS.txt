@@ -1,0 +1,16 @@
+FLORESTA V245 — MAIS VARIAÇÃO NOS GOLPES DO MONSTRO LUTADOR
+
+Mudanças SOMENTE na lógica de combate do monstro:
+- 8 movimentos de soco alternados por famílias de animações e uma fila sem repetição imediata.
+- Boxing_7 foi excluído da seleção porque é praticamente igual a Boxing (o clipe continua carregado).
+- Combos de 1 a 4 ataques, geralmente 2 ou 3, com transição fluida entre golpes.
+- Cabeçada ocasional na finalização, sem aparecer em combos consecutivos.
+- Esquiva ocasional na distância curta; pequenas variações na cadência.
+- Receber dano interrompe o combo e evita acertar o jogador durante uma animação de reação.
+- Mantidos intactos: modelo, FBX, UV corrigidos V244, textura GLB, animações importadas e orientação do inimigo.
+
+VERSÃO COMPLETA: extraia em pasta NOVA e abra PC.html ou Mobile.html.
+PATCH: copie modulos/135_monstro_19_animacoes_v239.js deste ZIP para a mesma pasta da V244, substituindo o arquivo.
+
+VALIDADO: estrutura de JS, arquivos originais preservados, testes da seleção de ataques e integridade ZIP.
+PENDENTE: avaliação visual da sequência de golpes durante uma luta real no navegador.

@@ -1,0 +1,11 @@
+FLORESTA V243 — Monstro Lutador com textura, 19 animações em posição e correção de orientação.
+
+Abra PC.html ou Mobile.html numa pasta extraída. Não abra dentro do ZIP.
+
+Correções sobre V242:
+- 19 clipes começam na mesma orientação, evitando golpes com o corpo de lado/de costas.
+- Movimento horizontal do quadril nos FBX reduzido para não somar ao deslocamento feito pela IA.
+- Mesh e skinning originais do FBX preservados; mapa de cores do GLB original, com iluminação leve local no material.
+- Demais sistemas do jogo preservados.
+
+Testes: 19 clipes inspecionados com FBXLoader/Three.js em Node; rotação inicial máxima residual 0,000003°; deslocamento horizontal maximo 0,211m após normalização; sintaxe JS validada. Renderização/combate em navegador real ainda não validados.

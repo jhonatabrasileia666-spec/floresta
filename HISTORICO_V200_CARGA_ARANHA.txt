@@ -1,0 +1,24 @@
+FLORESTA V200 — ARANHA / TRANSPORTE DE MADEIRA ORIGINAL
+Base exata: V199 (construção sem frestas e Hack na tecla Z).
+PC: abra PC.html; Android: abra Mobile.html.
+
+CORRIGIDO
+- Agora a aranha reconhece o tronco REAL carregado pelo lenhador.
+- Reconhece as tábuas REAIS carregadas no ombro, transferindo uma por vez.
+- Até 6 peças na traseira da aranha; sem clonagem de troncos ao carregar.
+- Retirada de cada tronco retorna ao lenhador e a de tábuas devolve à pilha do ombro.
+- Carga permanece vinculada à montaria em movimento, ataque e pulo.
+- O painel de carga volta a aparecer se a aranha for invocada depois de entrar na partida.
+- Modo Hack Z, craft, construção V199, montaria V37 e demais recursos preservados.
+
+COMO TESTAR
+1. Inicie a partida, ative Modo Hack pelo Z (se necessário), chame a aranha.
+2. Corte uma árvore, pegue o tronco com Q e chegue à traseira da aranha.
+3. Use U (PC) ou CARGA > COLOCAR NA ARANHA (Mobile).
+4. Com tábuas no ombro, use U várias vezes, até o limite de 6 peças.
+5. K (PC) ou RETIRAR CARGA (Mobile) devolve uma peça ao ombro;
+   para retirar um tronco, precisa estar sem outra carga no ombro.
+6. A tecla J continua servindo para madeira especial do laboratório.
+
+OBSERVAÇÃO: testes estáticos do JavaScript e integridade do ZIP realizados.
+A movimentação e as ações 3D ainda precisam de teste dentro do jogo no seu aparelho.

@@ -1,0 +1,20 @@
+FLORESTA V213 — MINERAÇÃO VISÍVEL, PC E MOBILE
+
+Base: V212 / V211. Todos os sistemas anteriores preservados.
+
+Correção:
+- O golpe FBX de mineração estava quase imperceptível por interferência da mão posicionada em idle (V212).
+- A mão direita agora percorre um arco amplo: prepara acima do ombro, ataca na frente, retorna à posição de descanso.
+- Os keyframes do pack Human Crafting Animations FREE permanecem aplicados no esqueleto original, antes da correção de alcance da mão.
+- A picareta 3D original gira em torno da empunhadura, acompanhando o golpe e o pulso.
+- Golpes diferentes para terreno (olhando para baixo) e rochas/paredes.
+- Janela de acerto ajustada para a descida da ferramenta.
+
+Teste:
+1. Extraia TODO o ZIP para uma pasta.
+2. Abra PC.html (PC) ou Mobile.html (celular).
+3. Equipe uma picareta fabricada (atalho 9 no PC), clique para atacar.
+4. Confira levantamento acima do ombro e descida sobre rocha.
+
+Validações automáticas: sintaxe JavaScript do módulo de mineração, integridade do ZIP e links de entrada.
+Não foi possível validar a aparência real no navegador 3D deste ambiente: teste visual no dispositivo ainda necessário.

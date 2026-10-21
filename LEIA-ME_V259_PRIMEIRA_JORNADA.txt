@@ -1,0 +1,13 @@
+FLORESTA V259 — PRIMEIRA JORNADA
+
+Base: V258 (IA tática) com carregamento inteligente, saves unificados e combate físico mantidos.
+
+Nova partida de sobrevivência: jornada reativa de sete marcos: andar, pegar galho e pedra, criar machado, iniciar proteção/equipar tocha, atravessar primeira noite, investigar pedra com marcas e explorar montanhas.
+Objetivos não pausam nem mudam artificialmente o relógio; o jogador mantém liberdade total.
+A pedra marcada é um pequeno indício físico não colidível que surge apenas após a primeira noite e pode ser encontrada perto do jogador.
+O estado da jornada acompanha o mundo exportado/importado pelo sistema de saves da V255.
+Saves anteriores continuam compatíveis e não ativam a jornada automaticamente.
+HUD pode ser ocultado e recuperado pelo botão Jornada.
+
+Executar PC.html ou Mobile.html em servidor (GitHub Pages), mantendo TODA a pasta modulos e assets.
+Testar em jogo: abertura da nova partida, inventário/craft físico, ciclo noite/amanhecer, pista de pedra, salvamento e carregamento.

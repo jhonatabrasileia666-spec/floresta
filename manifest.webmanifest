@@ -1,0 +1,25 @@
+{
+  "name": "FLORESTA V263 — Survival Dark Fantasy",
+  "short_name": "FLORESTA",
+  "description": "Sobrevivência, construção, forja e criaturas sobrenaturais.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050805",
+  "theme_color": "#141e16",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "version": "V263"
+}

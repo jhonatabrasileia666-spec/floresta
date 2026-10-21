@@ -1,0 +1,29 @@
+FLORESTA V238 — UNIFICAÇÃO MODULAR (18/10/2026)
+
+ABERTURA
+  PC.html     — execução para teclado/mouse (platform=pc)
+  Mobile.html — execução para telas touch (platform=mobile)
+  index.html  — redireciona ao PC para GitHub Pages
+  Jogo.html   — página principal
+  modulos/    — scripts carregados na ordem original para facilitar alterações
+
+INCORPORADO A PARTIR DOS ARQUIVOS DISPONÍVEIS
+  V230: ferramentas/armas de ferro equipáveis e forja por peças.
+  V224: construção expandida, mobiliário livre, escadas entre andares, salvamento.
+  V227: clips FBX extraídos para beber, ajustes visuais de frasco e animações de poções.
+  V225: atualização visível da câmera (bob de corrida, lateral, ataque, dano).
+  V228: efeitos de sangue e ferimentos em monstros.
+  V228: transporte e carroças construíveis.
+  Base V230 inclui demais sistemas anteriores, com controle da tocha integrado.
+
+IMPORTANTE
+  As ZIPs V232-V237 do carrinho foram identificadas na Biblioteca, mas os bytes
+  não estavam autorizados para extração neste ambiente. A unificação de transporte
+  usa a V228 e NÃO atesta as três animações Push Start/Pushing/Push Stop da V237.
+  Isto é integração de código com verificações estáticas; NÃO equivale a teste
+  completo jogando em PC, Mobile ou carga de memória no dispositivo real.
+
+GITHUB PAGES
+  Envie TODOS OS ARQUIVOS E PASTAS mantendo a estrutura. Não envie só index.html.
+  Cada módulo foi mantido abaixo do limite por arquivo do GitHub.
+  Para continuar adicionando updates, prefira módulos separados e registre versões.

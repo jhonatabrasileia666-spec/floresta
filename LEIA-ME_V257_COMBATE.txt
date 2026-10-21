@@ -1,0 +1,12 @@
+FLORESTA V257 — COMBATE FÍSICO / PC e Mobile
+
+Base: V256. Compatibilidade de saves V255 preservada.
+
+Espada: não dispara eventos de impacto do machado. Um único acerto por animação com varredura derivada da mão POV, orientação da câmera, distância, colisão da lâmina e linha de visão.
+Atinge zumbis, criaturas, Monstro Lutador, esqueletos, necromantes, aranhas da caverna, Mestre Marcial, Trolloc, Lobisomem e pontos fracos do Gigante.
+Contato confirmado ativa hitstop local de 43 ms, áudio sintetizado diferente por tipo de alvo e efeito de impacto de câmera já existente.
+Monstro Lutador: indicação de golpe à frente e verificação da linha de visão antes de causar dano ao jogador.
+Parry, escudo, rolamento e combos mantidos. Os ataques de machado/lança não foram reformulados nesta etapa.
+
+Testar no jogo: espada contra alvos diversos, golpe sem atingir, ataque através de parede, combinações ataque+pulo, escudo/parry, diretor, PC e Mobile.
+O teste de sintaxe não substitui testes de gameplay e desempenho real.

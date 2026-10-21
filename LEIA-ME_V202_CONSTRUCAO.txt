@@ -1,0 +1,24 @@
+FLORESTA V202 — ESCADAS, JANELAS E MAIS PECAS MODULARES
+Base: Floresta V201, preservando hack Z e a aranha com transporte de ate 15 tabuas / 6 troncos.
+Abra PC.html ou Mobile.html, com o ZIP extraído integralmente.
+
+CORRECOES
+- Escada: seis degraus planos e espacados em 0,50m de subida, com duas vigas laterais. Agora a superficie de apoio do personagem usa exatamente a posicao e a altura de cada degrau. 8 tabuas por escada.
+- Escada larga: 14 tabuas, mesma logica de apoio e largura dupla.
+- A escada pode partir de um piso existente, alinhada a altura da superficie do mesmo.
+- Janela: peitoril inferior, topo, colunas laterais e ABERTURA VAZADA de verdade no centro. 8 tabuas.
+- Janela panoramica: abertura vertical maior, 6 tabuas. As janelas continuam funcionando como parede para a colisao do corpo.
+
+NOVAS OPCOES NO MENU B > CHAO, PAREDES, PILAR, TELHADO E ESCADA
+- Passarela estreita; fundacao elevada (3 troncos + 6 tabuas).
+- Meia-parede; parede triangular; cerca de galhos e cipo; janela panoramica.
+- Pilar de pedra; telhado inclinado e cobertura plana; escada larga.
+- Todas usam os sistemas reais de troncos, tabuas, pedras, galhos e cipos da Floresta.
+- Pecas montadas uma a uma, com previa, grade modular e giro R.
+
+CONTROLES PC: B construcao, F colocar, R girar, Q/Shift+Q andar, Z modo hack.
+MOBILE: abrir construcao e usar botoes de posicionamento/andares.
+
+VALIDACAO: node --check dos scripts atualizados; extracao e teste de integridade ZIP; testes de geometria e formulas de degraus.
+Jogo completo em 3D nao validado em hardware; teste os degraus e a janela no seu aparelho.
+O jogo nao salva as construcoes ao encerrar a sessao, como nas versoes anteriores.

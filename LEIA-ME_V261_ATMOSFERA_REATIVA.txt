@@ -1,0 +1,24 @@
+FLORESTA V261 — ATMOSFERA REATIVA
+BASE: FLORESTA V260 (carregamento V254 + saves V255 + IA V258 + primeira jornada V259 + ofícios V260)
+
+DURANTE A NOITE
+* Sons discretos e posicionais de galhos, folhagem e eventuais sussurros a distância.
+* Passos ameaçadores extras SÓ aparecem ao redor de zumbis existentes; não inventa inimigos ou spawn.
+* Pausas de silêncio, vento baixo e maior tensão a partir da noite 3.
+* Barulho de machado apenas quando a árvore real é acertada; barulho de queda quando ela cai. Ambos alertam a IA via FlorestaAI.noise.
+* Tocha equipada e ACESA vira pista VISUAL, que o lobisomem pode investigar se há linha de visão. Apagar ou guardar apaga a pista.
+* O lobisomem recebe alcance visual noturno maior ao ver a luz; não enxerga através de paredes.
+
+PROTEÇÕES
+* Não altera PSX, grama, shaders, neblina, câmera, luzes, modelos ou animações aprovados.
+* Não muda a noite 5 de Ignis nem probabilidades oficiais de spawn.
+* Áudio separado com WebAudio, só depois de interação válida do jogador; muta no menu, pausa, aba oculta, caverna e criativo.
+* Volume baixo por padrão. Sem exigência de baixar trilha adicional.
+* Para desligar os novos sons, no console: FlorestaAtmosferaV261.setEnabled(false). Para reativar: ...setEnabled(true). A preferência é salva no navegador.
+* Inspeção pelo console: FlorestaAtmosferaV261.status
+
+PUBLICAÇÃO
+Hospedar a pasta INTEIRA por servidor HTTPS (ex.: GitHub Pages), incluindo Jogo.html, index.html, PC.html, Mobile.html, modulos, assets, sw.js. Não usar file://.
+
+VALIDAÇÃO
+Verificação estática e testes de comportamento simulados. Teste de jogo real PC e Mobile ainda necessário: luz, distância percebida pelo lobisomem, corte de árvore, áudio espacial com fones e pausa/menu/caverna.

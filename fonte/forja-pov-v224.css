@@ -1,0 +1,51 @@
+/* FLORESTA V222 — Ferraria POV. Interface independente PC / Mobile. */
+#forge222Entry{position:fixed;right:16px;bottom:220px;z-index:2300;display:none;min-height:44px;padding:10px 15px;border:1px solid #cc9a58;border-radius:9px;background:#211c16ee;color:#ffdfae;font:800 13px system-ui;box-shadow:0 3px 18px #0008;cursor:pointer;touch-action:manipulation}
+#forge222Entry.show{display:block}
+#forge222Panel{position:fixed;inset:0;z-index:25030;display:none;pointer-events:none;color:#f4e8d4;font:13px/1.35 system-ui}
+#forge222Panel.open{display:block}
+#forge222Panel .forge-top{position:absolute;top:14px;left:50%;transform:translateX(-50%);pointer-events:auto;display:flex;gap:10px;align-items:center;justify-content:space-between;width:min(640px,calc(100vw - 24px));padding:10px 14px;border:1px solid #947751bb;border-radius:9px;background:#1a1815e9;box-sizing:border-box}
+#forge222Panel .forge-top strong{font:700 18px Georgia;color:#ffcf91}
+#forge222Panel button{touch-action:manipulation;cursor:pointer;border:1px solid #b08855a8;border-radius:7px;padding:9px 11px;background:#363026;color:#fceacf;font:700 12px system-ui;min-height:39px}
+#forge222Panel button:disabled{opacity:.38;cursor:not-allowed}
+#forge222Panel button:not(:disabled):active{background:#916e3c}
+#forge222Panel button.primary{background:#936332;border-color:#e9b66a;color:#fff2d9}
+#forge222Panel .forge-side{pointer-events:auto;position:absolute;top:75px;left:16px;width:min(315px,calc(100vw - 32px));max-height:calc(100dvh - 105px);overflow-y:auto;background:#171612ed;border:1px solid #8e7755;border-radius:12px;padding:12px;box-shadow:0 8px 26px #0009;box-sizing:border-box}
+#forge222Panel .forge-side h3{font:700 17px Georgia;color:#efca91;margin:5px 0 10px}
+#forge222Panel .forge-side p{margin:6px 0 10px;color:#cebfaa}
+#forge222Panel .forge-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:9px}
+#forge222Panel .forge-stat{padding:8px;background:#27251d;border:1px solid #554b38;border-radius:6px;font-size:12px}
+#forge222Panel .forge-stat b{display:block;color:#ffcd87;font-size:15px}
+#forge222Panel .forge-row{display:flex;align-items:center;justify-content:space-between;gap:7px;margin:6px 0}
+#forge222Panel .forge-row button{flex:1}
+#forge222Panel .forge-recipe{width:100%;display:block;margin:6px 0;text-align:left}
+#forge222Panel .forge-recipe.selected{border-color:#ffd08c;background:#6f4b2d}
+#forge222Panel .forge-recipe small{display:block;font-weight:400;color:#c5bba6;margin-top:3px}
+#forge222Panel .forge-progress{height:12px;border:1px solid #957653;background:#282720;border-radius:10px;overflow:hidden;margin:9px 0}
+#forge222Panel .forge-progress>div{height:100%;background:linear-gradient(90deg,#c9511d,#ffd16d);transition:width .18s}
+#forge222Panel .forge-work{position:absolute;right:24px;bottom:30px;width:min(290px,calc(100vw - 32px));padding:12px;border:1px solid #a88961;border-radius:10px;background:#191915eb;pointer-events:auto;box-sizing:border-box;text-align:center}
+#forge222Panel .forge-work button{width:100%;margin:4px 0;min-height:47px;font-size:14px}
+#forge222Panel .forge-work .notice{font-size:12px;color:#f0c68d;min-height:30px}
+#forge222Panel .forge-tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:12px}
+#forge222Panel .forge-tabs button.active{background:#885827}
+#forge222Panel .forge-footer{font-size:11px;color:#cdb99a;margin-top:12px;line-height:1.4}
+#forge222Panel .forge-flash{position:absolute;top:44%;left:50%;transform:translate(-50%,-50%);font:bold 16px Georgia;color:#ffe6b7;text-shadow:0 0 10px #b35d23;opacity:0;pointer-events:none}
+#forge222Panel .forge-flash.hit{animation:forge222hit .28s linear}
+@keyframes forge222hit{0%{opacity:1;transform:translate(-50%,-50%) scale(1.25)}100%{opacity:0;transform:translate(-50%,-50%) scale(.9)}}
+@media(max-width:760px){#forge222Entry{right:8px;bottom:31%;padding:10px;font-size:12px;z-index:2300}#forge222Panel .forge-top{top:4px;padding:6px 9px}#forge222Panel .forge-top strong{font-size:15px}#forge222Panel .forge-side{top:61px;left:6px;width:min(245px,53vw);max-height:calc(100dvh - 130px);padding:8px;font-size:11px}#forge222Panel .forge-side h3{font-size:14px}#forge222Panel .forge-work{right:5px;bottom:6px;width:min(185px,44vw);padding:7px}#forge222Panel .forge-work button{min-height:43px;font-size:12px;padding:5px}#forge222Panel .forge-stats{grid-template-columns:1fr 1fr}#forge222Panel .forge-stat{padding:5px}#forge222Panel .forge-stat b{font-size:12px}}
+
+/* V224 - entrada permanente e orientações contextuais, sem tecla de F apagar tocha. */
+#forge222Entry{z-index:2150000000;right:12px;bottom:170px;background:#38271ced;border:2px solid #e5ae63;box-shadow:0 4px 22px #000b;max-width:240px}
+#forge222Panel{z-index:2150000001}
+#forge222Panel .forge-warning{padding:11px;border:1px solid #f0b45e;background:#5a3418;color:#ffdbad}
+#forge224Guide[hidden]{display:none!important}
+#forge224Guide{position:fixed;inset:0;z-index:2150000002;background:#080809c9;display:flex;justify-content:center;align-items:center;color:#f4e2c2;padding:12px;font:14px/1.5 system-ui}
+#forge224Guide article{width:min(560px,96vw);max-height:90dvh;overflow:auto;border:2px solid #bb8e51;border-radius:14px;background:#211b17;padding:16px 20px;box-shadow:0 18px 60px #000a}
+#forge224Guide header{display:flex;justify-content:space-between;gap:14px;align-items:center;color:#fcd08a;font-weight:800;font-size:17px}
+#forge224Guide button{border:1px solid #caad80;background:#4e3e30;color:#ffead0;border-radius:7px;cursor:pointer;padding:10px;min-height:43px}
+#forge224Guide ol{padding-left:22px}#forge224Guide li{margin-bottom:8px}#forge224Guide p{margin-top:16px}#forge224Guide kbd{background:#4b3d32;padding:2px 5px;border-radius:3px;border:1px solid #877357}
+#forge224Guide .forge-note{font-size:12px;color:#cbb9a0}
+@media(max-width:760px){#forge222Entry{bottom:33%;right:5px;max-width:150px;font-size:12px}#forge224Guide article{padding:12px;font-size:13px}}
+
+/* V228 — miniaturas dos itens Meshy na escolha de moldes. */
+#forge222Panel .forge228-icon{width:43px;height:43px;object-fit:contain;float:left;margin:0 9px 3px 0;filter:drop-shadow(0 1px 4px #000b)}
+#forge222Panel .forge-recipe:has(.forge228-icon){min-height:60px}

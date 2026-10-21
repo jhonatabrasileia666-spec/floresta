@@ -1,0 +1,47 @@
+FLORESTA V255 — SALVAMENTO UNIFICADO (BASE V254)
+
+Arquivos para jogar: PC.html e Mobile.html. Hospedar a PASTA COMPLETA no GitHub Pages/servidor HTTP, como na V254.
+
+1. SALVAR JOGO COMPLETO
+   Menu principal > Carregar / Salvar > Salvar jogo completo.
+   Um único slot local e o arquivo exportado (.json) V255 incluem:
+   - posição, inventário, dia/hora, equipamentos, progressão e poderes;
+   - construções, móveis e depósitos da versão V224;
+   - receitas descobertas, bancadas e varais da alquimia V195;
+   - rainha e recompensa da caverna V186;
+   - poção selecionada da barra rápida.
+   Preferências visuais e de controle permanecem globais ao dispositivo.
+
+2. CARREGAR / IMPORTAR
+   Ao carregar, os armazenamentos específicos são restaurados ANTES de reiniciar o jogo.
+   Isso evita misturar construções de uma partida com personagem de outra.
+   Arquivos V172 antigos são aceitos, mas NÃO possuíam construções/alquimia/caverna.
+   Se existir mundo antigo neste mesmo navegador, há um botão de migração opcional.
+   Importar V172 reinicia os dados ativos desse mundo e preserva uma cópia de recuperação.
+
+3. NOVA PARTIDA
+   Limpa progressão, alquimia, construções, caverna, poção e identificador do mundo.
+   Mantém o perfil do slot anterior para a função Carregar (até ser substituído por novo save).
+   Há cópia do estado ativo em localStorage['floresta-world-recovery-v255'].
+   Uma cópia do slot anterior pode ser restaurada em 'Recuperar save anterior'.
+
+4. PROTEÇÃO CONTRA REGRAVAÇÃO ANTIGA
+   Durante a transição/reload, handlers de salvamento da construção, alquimia e caverna
+   não regravam os dados antigos depois que o novo mundo foi preparado.
+   Gravadores de dados usam rollback em caso de falha; se o navegador negar armazenamento,
+   o jogo não reinicia nem apaga os arquivos de save já salvos.
+
+5. LIMITES E TESTES
+   Não inclui a persistência de árvores derrubadas, cadáveres ou inimigos comuns.
+   Não inclui sincronização de saves entre aparelhos; use Exportar / Importar.
+   Cinco verificações automatizadas da lógica passaram. Sintaxe dos módulos verificada.
+   Navegador automatizado bloqueado pelo ambiente: TESTAR O JOGO via HTTPS nos dispositivos.
+   Não substitua apenas PC.html/Mobile.html: todos os módulos atualizados devem ser publicados.
+
+CHECKLIST DE TESTE MANUAL
+A) Construa 1 parede, 1 bancada de alquimia, desbloqueie receita, salve e exporte.
+B) Comece NOVA PARTIDA e confirme construção/alquimia vazias.
+C) Carregue o save e confirme parede, bancada, receita, inventário e dia.
+D) Saia do navegador, reabra e confirme que os sistemas permanecem no mundo ativo.
+E) Teste importação de V172 em uma cópia de segurança.
+F) Repita A-D em PC e Mobile.

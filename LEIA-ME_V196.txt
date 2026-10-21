@@ -1,0 +1,52 @@
+FLORESTA V196 — MODO HACK OPCIONAL / PC E MOBILE
+
+BASE: Floresta V195 Alquimia com Livro e Bancada Corrigidos.
+Esta atualização acrescenta um módulo integrado de Hack, sem criar jogo separado.
+
+COMO ABRIR
+1. Extraia o ZIP por completo (incluindo a pasta fonte/).
+2. No computador, abra PC.html; no celular, abra Mobile.html.
+3. Escolha Sobrevivência ou Teste/Criativo e inicie a partida.
+4. Pressione Z no computador ou toque no botão HACK na tela.
+   O atalho Z funciona durante uma partida iniciada, com foco no jogo.
+5. Use ATIVAR MODO HACK antes de gerar montarias ou recursos.
+
+FUNÇÕES
+- RECEBER TODOS OS ITENS: libera 44 tipos de itens integrados ao inventário real;
+  6 materiais, 6 ferramentas/equipamentos, 27 variações das nove plantas
+  (frescas, secas, pó) e 5 tipos de poções já existentes. Desbloqueia as
+  plantas e as fórmulas da V195 no herbário/grimório.
+- REPOR MATERIAIS: garante até 99 de cada material (sem apagar outros itens).
+- TODAS AS FERRAMENTAS: garante pelo menos um exemplar de cada equipamento.
+- ERVAS, PÓS E POÇÕES: garante 30 unidades por forma de cada planta e 12
+  frascos de cada receita. Os modelos e as receitas são os originais.
+- MATERIAIS INFINITOS: não desconta os itens consumíveis do inventário
+  enquanto o Hack estiver ligado. As construções físicas ainda exigem
+  posicionar e colocar cada peça.
+- CHAMAR ARANHA V37: gera uma montaria usando o modelo/rig/ataques aprovados,
+  sem obrigar a vencer a Rainha na Caverna. A aranha aparece à frente do jogador.
+  Aproxime-se do corpo para montar, com E ou M no PC ou MONTAR no Mobile.
+  Pular montado = Espaço (PC) ou PULAR (Mobile); atacar = clique ou ATAQUE.
+- GERAR TRONCOS / TÁBUAS: aparecem no chão, com os modelos do jogo e as ações
+  originais de carregar e transportar. Limite nativo: 45 peças simultâneas.
+- RECUPERAR VIDA: usa a função original do jogo.
+
+COMPORTAMENTO E PRECAUÇÕES
+- Desligado ao iniciar uma nova sessão: a Sobrevivência não começa modificada.
+- Ao desligar, o consumo dos itens volta ao normal. O inventário já recebido
+  e as aranhas geradas permanecem nesta partida, até serem descartados.
+- O inventário normal continua com 20 espaços até o Hack ser usado; nesse
+  momento amplia para 80 espaços para exibir todos os itens concedidos.
+- Não altera o modelo do personagem, a física da montaria, o ciclo dia/noite,
+  os inimigos, a caverna, a bancada, o varal, o estilo gráfico ou o craft físico.
+- A aranha é a montaria realmente implementada e utilizável na base V195.
+  Inimigos e chefes não foram convertidos em montarias fictícias.
+- Alguns comportamentos do jogo precisam ser exercitados no navegador real
+  com GPU para validação total; os testes isolados não cobrem física 3D.
+
+VERIFICAÇÕES DA ENTREGA
+- Scripts alterados: verificação de sintaxe Node.js.
+- Menu e regras de inventário: testados em Chromium isolado com APIs simuladas
+  (44 itens, 9 plantas, 5 poções, reposição, consumo infinito, desligamento,
+  invocação da aranha e geração de madeira).
+- Integridade ZIP: será confirmada ao empacotar.

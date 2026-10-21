@@ -1,0 +1,1 @@
+V195: corrigida a abertura do grimório e fluxo guiado da bancada. Eliminada a atualização integral da UI a cada meio segundo. Mantidos PC, Mobile e motor original do jogo.

@@ -1,0 +1,23 @@
+FLORESTA V203 — SEGUNDO ANDAR E COLISÕES
+Base: V202 com as 22 construções, Modo Hack (Z), aranha 15 tábuas e restante preservados.
+
+CORREÇÕES
+- Construção sempre volta à seleção TÉRREO ao abrir o menu ou cancelar projeto.
+- No menu: botões ANDAR - / ANDAR + / TÉRREO em PC e Mobile.
+- Enquanto posiciona peça: Q sobe, Shift+Q ou PageDown desce, Home volta ao térreo.
+- Pisos elevados só sustentam quando jogador está na altura correta: não teletransportam o personagem de baixo para cima.
+- Ao sair de um piso elevado o jogador cai; descida pelos degraus agora respeita os seis patamares.
+- Se uma escada ocupar a mesma célula do piso de cima, o piso ganha uma abertura real para a passagem (inclusive com recorte visual nas tábuas/troncos).
+- Colisões em 3 dimensões para paredes, portas, janelas, pilares, pisos, telhados, bases e laterais das escadas.
+- Portas mantêm passagem; janelas mantêm moldura e peitoril sólidos.
+- Estruturas de andares superiores não impedem passagem no térreo.
+- Colisão com múltiplos subpassos para não atravessar paredes finas por velocidade; desliza nos cantos.
+
+VALIDAÇÃO
+- JavaScript sem erros de sintaxe (node --check).
+- Simulados: parede sólida, porta livre, janela com peitoril, colisões por altura, caminhada sem atravessar parede fina,
+  chão não teletransporta ao 2º andar, queda ao sair da borda, descida por degraus e vão de escada no piso superior.
+- Integridade ZIP (CRC) verificada.
+- Partida 3D completa e interação no aparelho ainda precisam ser testadas.
+
+LIMITE: peças de construção continuam sem persistência entre sessões (limitação da V202).

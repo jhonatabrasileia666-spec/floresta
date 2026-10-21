@@ -1,0 +1,33 @@
+FLORESTA V206 — INTERFACE MOBILE MELHORADA
+Base original: Floresta V205, preservada integralmente nos sistemas de jogo.
+
+ABRIR
+PC: abra PC.html. O design do PC não é alterado.
+Mobile: extraia todo o ZIP e abra Mobile.html. Recomenda-se paisagem.
+
+O QUE MUDOU EXCLUSIVAMENTE NO MOBILE
+- Joystick isolado à esquerda; botões de correr e agachar ao lado.
+- Ataque, pulo e botão contextual de pegar/soltar organizados à direita.
+- Oito itens rápidos centralizados em uma barra mais compacta.
+- Atalhos superiores: mochila, construção, aranha, poderes e menu.
+- Controles da aranha acessíveis por painel temporário, incluindo carregar/retirar.
+- Construção: categorias compactas, duas colunas em paisagem, botão girar,
+  ação principal, alternar encaixe e controles de andar.
+- Inventário e painel de ações organizados para uso por toque.
+- Ajuste de transparência na seção CONTROLES DO CELULAR do menu nativo.
+- Margens de segurança para áreas de gesto / tela com recortes.
+
+AÇÕES
+Pegar: usa o mesmo comando Q do jogo.
+Soltar madeira no ombro: usa G, conforme os controladores nativos.
+Construir: abre o menu de construção V205 sem mudar as receitas.
+Aranha: chama as funções nativas de montar, carregar e descarregar.
+
+PRESERVADO
+Floresta V205: pisos, paredes, telhados, aranha V37 (15 tábuas),
+Modo Hack (Z), alquimia, montarias, inimigos, PC e Mobile.
+
+VALIDAÇÃO
+A sintaxe do controlador JS e os controles da interface foram testados em
+um cenário DOM simulado em larguras de tela diferentes, inclusive PC sem ativação.
+A partida 3D completa requer validação no seu aparelho.

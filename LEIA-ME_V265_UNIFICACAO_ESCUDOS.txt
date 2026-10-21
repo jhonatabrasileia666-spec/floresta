@@ -1,0 +1,14 @@
+FLORESTA V265 — Unificação dos escudos V256E com a base completa V264
+
+BASE: V264 — Criador de cabelo corrigido, controle por contexto, áudio V262, atmosfera V261, ofícios V260, jornada V259, IA V258, combate V257, saves V255 e carregamento V254.
+
+INTEGRAÇÃO V256E (sem substituir arquivos de versões posteriores):
+- Escudo de madeira e prateado presos ao antebraço esquerdo, em pé, com alça na mão e tira de apoio no braço.
+- Geometria e textura originais dos escudos preservadas; somente o código de posicionamento e alças foi migrado.
+- Barra rápida com 9 espaços configuráveis pelo inventário; teclas 1 a 9 e rolagem somente no jogo, sem capturar scroll de menus.
+- Animações da forja, câmera POV, terceira pessoa, controle de contexto e som não foram substituídos.
+
+Abra index.html, PC.html ou Mobile.html após extrair TODO o ZIP; para carregamento completo use GitHub Pages ou servidor HTTP (arquivos assets/stream).
+
+Verificações: sintaxe JS, referências de scripts e arquivos externos, hashes dos arquivos que deveriam permanecer idênticos, teste de integridade do ZIP.
+Limite: estes testes não equivalem a uma partida visual completa. Confira pessoalmente o escudo na mão e no antebraço em PC e Mobile.

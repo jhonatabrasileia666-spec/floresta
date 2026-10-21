@@ -1,0 +1,21 @@
+FLORESTA V254 - STREAMING DE RECURSOS (ETAPA 1)
+
+Arquivos para jogar: PC.html e Mobile.html (servidor HTTP / GitHub Pages).
+NÃO abra o jogo por file://: recursos grandes exigem fetch HTTP.
+Publicar a PASTA INTEIRA sem alterar os caminhos dos arquivos.
+
+1. Floresta/motor base continuam com carregamento original.
+2. Caverna da Rainha: 14,4 MB removidos do carregamento inicial; JSON externo solicitado ao entrar.
+3. Dragões: 63,3 MB não entram mais no início; JSON externo e controladores carregam ao ativar o criativo.
+4. Monstro Lutador: runtime adiado para a noite (dia 2+) e o Diretor.
+5. Mestre Marcial: runtime sob demanda (Diretor). 4 modelos/animações gzip e 2 texturas JPEG externos.
+6. Trolloc: runtime a partir do dia 6 ou Diretor; 7 recursos FBX gzip e PNG externos, buscados na aparição.
+7. Cachê: sw.js armazena apenas arquivos solicitados (até 32 MB declarados por resposta).
+
+IMPORTANTE: a desativação de recursos GPU da floresta, limpeza completa de memória após sair da caverna e carregamento sob demanda da forja ainda NÃO estão incluídos. Exigem controle explícito de referências e validação gráfica.
+
+Os scripts originais que só embutiam os dados (092/114/119) foram substituídos pelos respectivos arquivos externos.
+
+8. Pulmonária da alquimia: modelo GLB externo de 8.5 MB carregado no primeiro uso.
+9. PWA: manifesto, ícones e sw.js presentes para uso via HTTPS.
+10. A primeira visita necessita internet/servidor; navegador poderá armazenar recursos sob demanda.

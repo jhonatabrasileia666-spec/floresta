@@ -1,0 +1,25 @@
+FLORESTA V260 — OFÍCIOS E SOBREVIVÊNCIA
+Base: V259 — Primeira Jornada
+
+CONSTRUÇÃO
+* Sistema de encaixe verde/vermelho preexistente preservado; não houve alterações nos encaixes aprovados.
+* A resistência ao dano depende do material (pedra, tronco, tábua, galhos). O Gigante danifica estruturas completas próximas quando usa impacto em área.
+* O estado de integridade é mantido no save anterior. As estruturas não colapsam automaticamente (integridade mínima 1%) para evitar quebrar estruturas e salvamentos antigos; reparar restaura a integridade com materiais pertinentes.
+
+FORJA
+* Batidas com intervalo ideal de 0,39 a 1,10s, temperatura entre 61 e 96%.
+* Execução boa pode terminar com 10 batidas; média 12; ruim 14. A peça ainda é virada após 6 batidas.
+* Nota de execução exibida na bancada. NÃO foi implementado bônus permanente de dano/durabilidade na arma: o efeito mecânico desta etapa é eficiência na fabricação.
+* Não altera FBX, montagem ou equipamento forjado.
+
+ALQUIMIA
+* Essência de vigor (folha abissal + flor azul): 120s de 25% de redução de dano, ou 40% contra fontes de fogo/ignis.
+* Tônico do luar (cogumelo luminoso + taças vermelhas): 120s de visão com neblina atenuada, sem eliminar atmosfera PSX.
+* Os frascos continuam sendo preparados fisicamente e bebidos usando a mão esquerda; consumo nativo mantido.
+* Efeitos armazenados com prazo real no perfil/mundo unificado. Poções antigas podem ser usadas normalmente.
+
+PUBLICAÇÃO
+Suba o ZIP INTEIRO incluindo modulos, assets, index.html, PC.html, Mobile.html, Jogo.html e sw.js ao GitHub Pages. Evite abrir diretamente por file://.
+
+VALIDAÇÃO
+Sintaxe, referências, integridade e lógica isolada automatizadas. Testar gameplay real PC/Mobile: forja na bigorna, proteção de poções, neblina durante buffs, estrutura atingida pelo Gigante e recarregamento do save.

@@ -1,0 +1,1 @@
+window.__CAVE_PLATFORM=new URLSearchParams(location.search).get('platform')||((matchMedia('(pointer:coarse)').matches)?'mobile':'pc');

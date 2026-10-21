@@ -1,0 +1,18 @@
+FLORESTA V211 — PICARETA E CRAFT VISUAL
+Base: ZIP V210 enviado nesta conversa. Extraia o ZIP completo e abra PC.html ou Mobile.html.
+
+CRIAR > Picareta de pedra.
+Materiais: 1 galho, 1 pedra, 1 cipó.
+Ferramentas obrigatórias: machado e martelo (não são consumidos).
+Seis etapas: abrir o cabo com machado; encaixar a pedra; inserir cunha; bater com martelo; amarrar cipó; conferir.
+Cancelar devolve os materiais. Ao concluir, a picareta é equipada.
+Barra rápida: tecla 9 / botão Picareta. Clique no PC ou botão Atacar no mobile.
+Mineração: mire no veio de ferro a até 2,6 m; cada golpe aplica um impacto.
+Oficina: botão ou Alt+O.
+
+MODELO ENVIADO
+O FBX Stone_Headed_Ceremoni possui cabeça arredondada de martelo e foi integrado ao martelo existente, com malha e UVs preservados, textura incorporada e escala ajustada. A picareta pontuda é um modelo próprio, separado.
+O ZIP Silver_Crystal_Cluste falhou no envio e não foi incorporado.
+
+VERIFICAÇÃO
+115 scripts JavaScript analisados. Jogo aberto no Chromium; fabricação, cancelamento, devolução dos materiais, conclusão, equipamento e início do ataque verificados no modo criativo. Etapas inspecionadas visualmente. A mesma lógica é usada por PC e Mobile; não foi validada em aparelho físico. Sem medição de FPS no hardware do usuário.

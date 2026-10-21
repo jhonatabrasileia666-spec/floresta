@@ -1,0 +1,23 @@
+FLORESTA V246 — GOLPES CENTRALIZADOS NO JOGADOR
+
+Aplicado sobre a V245 aprovada. Preservados: modelo/visual colorido da V244,
+animações completas, material/textura/UV, direção do personagem, 8 tipos de soco
+e combos variados da V245, forja/construção e sistemas do jogo.
+
+Correção pontual: os takes Mixamo faziam o quadril virar durante o ataque,
+alterando a direção do tronco e os golpes para a lateral mesmo com o inimigo
+voltado ao jogador. Agora o yaw do quadril durante os socos é centralizado
+em 82%, deixando 18% do giro natural. Cabeçada preserva 27% do giro.
+As rotações dos braços/ombros não são editadas, mantendo o gesto de impacto.
+A IA continua acompanhando a posição do jogador a cada quadro.
+
+PATCH SOBRE V245:
+- Extraia o arquivo na mesma pasta da V245, mesclando a pasta modulos
+  e substituindo 135_monstro_19_animacoes_v239.js.
+
+VERSÃO COMPLETA:
+- Extraia em pasta nova, abra PC.html ou Mobile.html.
+
+Verificações: transformação dos 19 clipes por importador FBX Three.js,
+testes de posição/orientação, sintaxe JS e integridade do ZIP.
+Teste visual em combate na máquina do jogador ainda recomendado.
