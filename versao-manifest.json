@@ -1,5 +1,5 @@
 {
-  "version": "V265",
+  "version": "V266",
   "date": "2026-10-21",
   "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
   "merged_from": [
@@ -10,16 +10,16 @@
     "Floresta_V224_Mobilia_Livre_Escadas_Sobre_Piso_PC_Mobile.html",
     "Floresta_V256E_Escudos_Ajustados_PC_Mobile_COMPLETO (1).zip"
   ],
-  "script_count": 147,
+  "script_count": 148,
   "script_modules": [
     {
       "file": "000_floresta-release.js",
       "script": "000_floresta-release",
-      "bytes": 934,
-      "external_bytes": 934,
+      "bytes": 1298,
+      "external_bytes": 1298,
       "kind": "classic",
       "load": "startup",
-      "sha256": "d5fcdf5f0c0f73c9893a3441f1d55583d8ba909815d338417038896909bf683b"
+      "sha256": "c3847f4b019c19f2269105f1f4ddcd51f3ab56fbe4ec09d42a19e59990a8bc2c"
     },
     {
       "file": "000_floresta-stream-v254.js",
@@ -978,11 +978,11 @@
     {
       "file": "107_hud171-adapter.js",
       "script": "107_hud171-adapter",
-      "bytes": 8896,
-      "external_bytes": 8896,
+      "bytes": 9055,
+      "external_bytes": 9055,
       "kind": "classic",
       "load": "startup",
-      "sha256": "d6ab87b40dc6f95f9b828c4ff8534036654703b98921b03729edbd247103bd76"
+      "sha256": "13245f923c8808dafa8f96aea4565cf88ced08649c803a6ee79fa3e2c79128ce"
     },
     {
       "file": "108_floresta-menu172-controller.js",
@@ -1331,9 +1331,18 @@
       "script": "floresta-v265-hotbar-escudo",
       "kind": "classic",
       "load": "startup",
-      "bytes": 15296,
-      "external_bytes": 15296,
-      "sha256": "a230c4ddbcd343a6522a007d4391cc6a169e4f3bd6eba9dd330201a5f261e197"
+      "bytes": 15485,
+      "external_bytes": 15485,
+      "sha256": "0f69794bfdcbeddbc405a27e5f410b574185f043617834fc4ca5656cd90239e4"
+    },
+    {
+      "file": "148_mobile_interfaces_v266.js",
+      "script": "floresta-mobile266",
+      "kind": "classic",
+      "load": "mobile-only",
+      "bytes": 11733,
+      "sha256": "b5f3257485c26ae21a8db07ca46a2427f4980e77d0fbdcab9bf301002c3f709d",
+      "external_bytes": 11733
     }
   ],
   "v255_changes": [
@@ -1360,7 +1369,7 @@
   ],
   "startup_script_count": 140,
   "ondemand_script_count": 0,
-  "edition": "Escudos alinhados no antebraço + barra rápida configurável",
+  "edition": "Interfaces completas para celular",
   "v258_changes": [
     "Monstro Lutador: fintas, contra-ataques, recuo e entradas laterais sem trocar FBX.",
     "Lobisomem: audição, última posição conhecida, perda de trilha e proteção contra salto/ataque através de paredes.",
@@ -1396,7 +1405,7 @@
     "cache": "Cache PWA V262 atualizado para arquivos OGG",
     "compatibility": "Preservados saves e mecânicas V261 sem alterar mapas ou equipamentos"
   },
-  "number": 265,
+  "number": 266,
   "v263_changes": [
     "index.html seleciona PC/Mobile automaticamente",
     "controle contextual e scroll protegido",
@@ -1415,5 +1424,13 @@
     "Barra rápida configurável (9 espaços) e scroll de menus preservado",
     "Integração cirúrgica: resto dos arquivos vem da V264 completa",
     "Cache SW renovado sem alteração do esquema de salvamento"
+  ],
+  "v266_changes": [
+    "HUD mobile compacto com ferro escurecido e verde musgo, pictogramas SVG e rolamento nativo visível",
+    "Inventário, barra configurável por toque, fabricação, construção, habilidades e criaturas adaptados ao viewport",
+    "Menu, perfis, configurações, criador, grimório, alquimia, secagem, fornalha, forja, montaria e oficina com alvos de toque e rolagem",
+    "Defesa por pressão com liberação no cancelamento; painéis isolam gestos do gameplay",
+    "Motor, salvamentos, gráficos PSX, modelos, animações e interface PC preservados",
+    "Seleção da barra captura o item antes de a grade nativa ser reconstruída; catálogo criativo de dragões abre em painel próprio"
   ]
 }

@@ -1,0 +1,343 @@
+/* All selectors are mobile-scoped. Duplicate class specificity supersedes legacy !important skins. */
+html.v266-mobile {
+ --m-ink:#101310;--m-panel:#151914f5;--m-edge:#5e6550;--m-text:#e9e3ce;--m-muted:#b8bea8;--m-ember:#db9d59;
+ --m-L:max(10px,env(safe-area-inset-left));--m-R:max(10px,env(safe-area-inset-right));
+ --m-T:max(8px,env(safe-area-inset-top));--m-B:max(8px,env(safe-area-inset-bottom));
+ --m-unit:clamp(48px,12vh,64px);color-scheme:dark;
+}
+html.v266-mobile.v266-mobile,html.v266-mobile.v266-mobile body{overscroll-behavior:none;touch-action:auto!important}
+html.v266-mobile.v266-mobile #c{touch-action:none!important}
+html.v266-mobile.v266-mobile button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+html.v266-mobile.v266-mobile .v266-panel,html.v266-mobile.v266-mobile .v266-panel *{box-sizing:border-box}
+html.v266-mobile.v266-mobile .v266-panel{color:var(--m-text);font:14px/1.45 system-ui,sans-serif;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#6b7159 #101310;touch-action:pan-y}
+html.v266-mobile.v266-mobile .v266-panel :is(button,select,input:not([type=range])){
+ min-height:44px!important;min-width:44px;border:1px solid var(--m-edge)!important;border-radius:6px!important;
+ background:linear-gradient(145deg,#30362a,#1a2019)!important;color:var(--m-text)!important;padding:10px 12px!important;
+ font:600 13px/1.3 system-ui,sans-serif!important;box-shadow:inset 0 1px #e6e0ba12!important;letter-spacing:0!important;
+}
+html.v266-mobile.v266-mobile .v266-panel :is(button:disabled,.locked){opacity:.45}
+html.v266-mobile.v266-mobile .v266-panel :is(button.active,button.selected,[aria-pressed=true],[aria-selected=true],button.primary,.inventory-primary,.craft-start,.v207-panel-primary,#v207PlaceButton,#f264Apply){border-color:var(--m-ember)!important;background:linear-gradient(145deg,#655034,#342a1d)!important;color:#fff1d7!important}
+html.v266-mobile.v266-mobile :is(button:focus-visible,input:focus-visible,select:focus-visible){outline:2px solid #f4c781!important;outline-offset:2px}
+html.v266-mobile.v266-mobile .v266-panel h2{font:600 clamp(19px,3vw,25px)/1.15 Georgia,serif!important;color:#eee6ce!important;margin:0!important}
+html.v266-mobile.v266-mobile .v266-panel h3{font:600 17px/1.25 Georgia,serif!important;color:#e3d5b4!important}
+html.v266-mobile.v266-mobile .v266-panel p{font-size:13px!important;line-height:1.5!important}
+html.v266-mobile.v266-mobile .v266-panel :is(input,select){font-size:16px!important;max-width:100%}
+html.v266-mobile.v266-mobile .v266-panel :is(.u173-tabs,.construction-tabs,.booknav,.alq-tabs){display:flex!important;gap:6px!important;overflow-x:auto!important;flex-wrap:nowrap!important;flex-shrink:0!important;overscroll-behavior-x:contain;touch-action:pan-x;padding:6px!important}
+html.v266-mobile.v266-mobile .v266-panel :is(.u173-tabs,.construction-tabs,.booknav,.alq-tabs)>button{flex:0 0 auto!important;white-space:nowrap}
+html.v266-mobile.v266-mobile .v266-panel [hidden]{display:none!important}
+/* Slim, low contrast framing; important information remains high contrast. */
+html.v266-mobile.v266-mobile #zombieHud{left:var(--m-L)!important;top:var(--m-T)!important;width:clamp(160px,23vw,250px)!important;padding:6px 10px!important;border:1px solid #6b7056!important;border-radius:4px 14px 4px 4px!important;background:#11150fe0!important;box-shadow:inset 3px 0 #7d342e,0 2px 8px #0007!important}
+html.v266-mobile.v266-mobile #zombieHud>div:nth-child(2){height:8px!important;border:0!important;box-shadow:none!important}
+html.v266-mobile.v266-mobile #playerHpBar{background:linear-gradient(90deg,#702b2c,#c34b44)!important;box-shadow:none!important}
+html.v266-mobile.v266-mobile #progressHud>div:nth-child(2){height:3px!important;border:0!important}
+html.v266-mobile.v266-mobile #playerXpBar{background:#9d9c70!important}
+html.v266-mobile.v266-mobile .h171-compass{top:var(--m-T)!important;width:clamp(150px,26vw,300px)!important;min-height:28px!important;border:0!important;border-radius:0!important;background:linear-gradient(90deg,transparent,#10140ebd,transparent)!important;box-shadow:none!important}
+html.v266-mobile.v266-mobile .h171-scale{font-size:12px!important}
+html.v266-mobile.v266-mobile #dayNightClock{top:calc(var(--m-T) + 30px)!important;padding:2px 6px!important;font:11px Georgia,serif!important;background:#10140e80!important}
+html.v266-mobile.v266-mobile #v206TopBar{right:var(--m-R)!important;top:var(--m-T)!important;gap:6px!important}
+html.v266-mobile.v266-mobile #v206TopBar button{width:44px!important;height:44px!important;min-height:44px!important;border:1px solid #71745c!important;border-radius:6px 12px 6px 6px!important;background:#11160ed6!important;box-shadow:inset 0 1px #d7d4ae1c!important}
+html.v266-mobile.v266-mobile #v206TopBar button svg{width:23px!important;height:23px!important;stroke:#ded9be!important}
+html.v266-mobile.v266-mobile #v206TopBar button span{display:none!important}
+html.v266-mobile.v266-mobile #stick{position:fixed!important;left:calc(var(--m-L) + 12px)!important;bottom:calc(var(--m-B) + 14px)!important;width:clamp(108px,28vh,145px)!important;height:clamp(108px,28vh,145px)!important;border:1px solid #a5a184aa!important;background:radial-gradient(circle,#272c2255 45%,#10150b99)!important;box-shadow:inset 0 0 0 5px #080c0844,inset 0 0 0 6px #8a8c6655!important;touch-action:none}
+html.v266-mobile.v266-mobile #knob{background:radial-gradient(circle at 35% 30%,#b6b092aa,#62664bb0)!important;border:1px solid #d3cba67a!important;box-shadow:0 2px 8px #0007!important}
+html.v266-mobile.v266-mobile #stick:before{color:#d5d2b0;font-size:10px}
+html.v266-mobile.v266-mobile #v266TouchRoot{position:fixed;inset:0;pointer-events:none;z-index:190}
+html.v266-mobile.v266-mobile :is(#mobileAttackBtn,#jumpBtn,#rollBtn,#v266Defend,#v206ActionBtn,#mobileRunBtn,#mobileCrouchBtn,#v207PowerCast,#v207SpiderOpen){
+ position:fixed!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:2px!important;
+ pointer-events:auto;min-height:44px!important;min-width:44px!important;margin:0!important;padding:5px!important;
+ width:var(--m-unit)!important;height:var(--m-unit)!important;background:radial-gradient(circle at 40% 25%,#30362acc,#10150ee0)!important;
+ border:1px solid #96977ab0!important;border-radius:45% 45% 40% 40%!important;box-shadow:inset 0 0 0 3px #080d0866,0 2px 8px #0006!important;
+ color:#e9e3ce!important;font:600 10px/1.1 system-ui,sans-serif!important;text-shadow:0 1px 3px #000!important;transform:none!important;z-index:185!important;touch-action:none!important;
+}
+html.v266-mobile.v266-mobile :is(#mobileAttackBtn,#jumpBtn,#rollBtn,#v266Defend,#v206ActionBtn,#mobileRunBtn,#mobileCrouchBtn,#v207PowerCast,#v207SpiderOpen):before,
+html.v266-mobile.v266-mobile :is(#mobileAttackBtn,#jumpBtn,#rollBtn,#mobileRunBtn,#mobileCrouchBtn):after{display:none!important;content:none!important}
+html.v266-mobile.v266-mobile :is(#mobileAttackBtn,#jumpBtn,#rollBtn,#v266Defend,#v206ActionBtn,#mobileRunBtn,#mobileCrouchBtn,#v207PowerCast,#v207SpiderOpen) svg{width:25px!important;height:25px!important;flex:none;filter:none}
+html.v266-mobile.v266-mobile #mobileAttackBtn{right:calc(var(--m-R) + var(--m-unit) + 6px)!important;bottom:calc(var(--m-B) + var(--m-unit) + 10px)!important;width:calc(var(--m-unit) + 20px)!important;height:calc(var(--m-unit) + 20px)!important;background:radial-gradient(circle at 40% 25%,#60342bcc,#23150fe0)!important;border-color:#be7d65!important}
+html.v266-mobile.v266-mobile #mobileAttackBtn svg{width:32px!important;height:32px!important}
+html.v266-mobile.v266-mobile #v266Defend{right:var(--m-R)!important;bottom:calc(var(--m-B) + var(--m-unit) + 22px)!important}
+html.v266-mobile.v266-mobile #v266Defend:disabled{opacity:.35}
+html.v266-mobile.v266-mobile #rollBtn{right:calc(var(--m-R) + var(--m-unit) + 30px)!important;bottom:var(--m-B)!important;border-color:#c7b78d!important}
+html.v266-mobile.v266-mobile #jumpBtn{right:var(--m-R)!important;bottom:var(--m-B)!important}
+html.v266-mobile.v266-mobile #v206ActionBtn{right:var(--m-R)!important;bottom:calc(var(--m-B) + var(--m-unit)*2 + 38px)!important}
+html.v266-mobile.v266-mobile #v207PowerCast{right:calc(var(--m-R) + var(--m-unit) + 20px)!important;bottom:calc(var(--m-B) + var(--m-unit)*2 + 42px)!important;width:48px!important;height:48px!important}
+html.v266-mobile.v266-mobile #v207PowerSelect{position:fixed!important;right:calc(var(--m-R) + var(--m-unit) + 70px)!important;bottom:calc(var(--m-B) + var(--m-unit)*2 + 42px)!important;width:44px!important;height:44px!important;min-width:44px;min-height:44px;background:#11170dd9!important;border:1px solid #6c7257!important;z-index:185!important}
+html.v266-mobile.v266-mobile #v207PowerName{display:none!important}
+html.v266-mobile.v266-mobile #v207SpiderOpen{top:calc(var(--m-T) + 54px)!important;right:var(--m-R)!important;width:44px!important;height:44px!important;border-radius:6px!important}
+html.v266-mobile.v266-mobile #v207SpiderOpen span{display:none}
+html.v266-mobile.v266-mobile #mobileRunBtn{left:calc(var(--m-L) + 154px)!important;right:auto!important;bottom:calc(var(--m-B) + 86px)!important;width:48px!important;height:48px!important}
+html.v266-mobile.v266-mobile #mobileCrouchBtn{left:calc(var(--m-L) + 154px)!important;right:auto!important;bottom:calc(var(--m-B) + 28px)!important;width:48px!important;height:48px!important}
+html.v266-mobile.v266-mobile :is(#rollBtn,#v266Defend,#mobileRunBtn).active{border-color:#e8ba72!important;background:#675030e0!important}
+html.v266-mobile.v266-mobile :is(#florestaInputHint,#mobileLookHint,#hint,#status,#hud171 .h171-hands,.u173-heading,#u173Hotbar kbd){display:none!important}
+/* Nine real slots remain available by a horizontal swipe, no equipment hidden or removed. */
+html.v266-mobile.v266-mobile #u173Hotbar{position:fixed!important;left:50%!important;bottom:var(--m-B)!important;transform:translateX(-50%)!important;width:clamp(230px,37vw,440px)!important;max-width:none!important;padding:4px!important;border:1px solid #666f51!important;border-radius:6px!important;background:#10150dc2!important;box-shadow:0 3px 12px #0006!important;z-index:175!important}
+html.v266-mobile.v266-mobile #potion219Dock{display:flex!important;align-items:stretch!important;gap:5px!important;width:100%!important;min-width:0!important}
+html.v266-mobile.v266-mobile #u173Hotbar .u173-slots{display:flex!important;flex:1 1 auto!important;gap:4px!important;overflow-x:auto!important;scroll-snap-type:x proximity;touch-action:pan-x!important;min-width:0!important;padding:1px!important;scrollbar-width:none}
+html.v266-mobile.v266-mobile #u173Hotbar .u173-slot{flex:0 0 44px!important;width:44px!important;height:48px!important;min-height:44px!important;padding:2px!important;border:1px solid #73745a!important;border-radius:4px!important;background:#20261bbf!important;box-shadow:none!important;scroll-snap-align:start}
+html.v266-mobile.v266-mobile #u173Hotbar .u173-slot.v256-selected{border-color:#edb66c!important;box-shadow:inset 0 0 0 1px #d59347!important;background:#4f3925!important}
+html.v266-mobile.v266-mobile #u173Hotbar .u173-slot img{height:36px!important}
+html.v266-mobile.v266-mobile #potion219Slot{width:84px!important;min-width:84px!important;display:grid!important;grid-template-columns:1fr 32px!important;position:relative!important}
+html.v266-mobile.v266-mobile #potion219Equip{height:48px!important;min-width:48px!important;width:100%!important;padding:2px!important;background:#24251bd9!important;border:1px solid #8a8061!important;border-radius:4px!important}
+html.v266-mobile.v266-mobile #potion219Equip img{height:33px!important;max-width:40px!important}
+html.v266-mobile.v266-mobile #potion219Equip span{display:none!important}
+html.v266-mobile.v266-mobile #potion219Select{min-height:44px!important;height:48px!important;width:32px!important;padding:0!important}
+html.v266-mobile.v266-mobile #potion219Use{grid-column:1/-1!important;min-height:44px!important;font:600 12px system-ui!important;background:#4e3129!important;border:1px solid #ab735c!important}
+html.v266-mobile.v266-mobile #potion219Picker{max-width:100%!important;max-height:60dvh!important;overflow-y:auto!important;bottom:100%!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+html.v266-mobile.v266-mobile #potion219Picker button{min-height:64px!important}
+/* Every modal uses the usable viewport, not a fixed desktop width. */
+html.v266-mobile.v266-mobile :is(#inventoryOverlay,#craftOverlay,#constructionOverlay,#skillTreeOverlay,#directorOverlay,#florestaHackOverlay){box-sizing:border-box!important;padding:var(--m-T) var(--m-R) var(--m-B) var(--m-L)!important;background:#080d09b8!important;backdrop-filter:none!important;touch-action:pan-y!important}
+html.v266-mobile.v266-mobile :is(.inventory-panel,.craft-panel,.construction-panel,#skillTreePanel,#directorPanel,#florestaHackPanel){
+ width:min(980px,100%)!important;height:100%!important;max-height:100%!important;min-height:0!important;margin:auto!important;
+ padding:0!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;
+ background:linear-gradient(135deg,#20271bf7,#10150ff7)!important;border:1px solid #77775b!important;border-radius:8px!important;box-shadow:inset 3px 0 #6d74503d,0 8px 40px #000b!important;
+}
+html.v266-mobile.v266-mobile :is(.inventory-header,.craft-header,.construction-head,.skill-head,.director-head,#florestaHackPanel .hdr){display:flex!important;flex-shrink:0!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;padding:8px 12px!important;border-bottom:1px solid #75785366!important;background:#11160caa!important}
+html.v266-mobile.v266-mobile :is(.inventory-kicker,.craft-kicker,.construction-kicker,.skill-kicker,.director-kicker,.recipe-note,.skill-root-node){display:none!important}
+html.v266-mobile.v266-mobile :is(.inventory-header-actions){gap:10px!important}
+html.v266-mobile.v266-mobile :is(.inventory-close,.craft-close,.construction-close,#skillTreeClose,#directorClose){width:44px!important;height:44px!important;padding:0!important;font-size:22px!important}
+html.v266-mobile.v266-mobile #inventoryOverlay .inventory-body{display:grid!important;grid-template-columns:minmax(0,1.6fr) minmax(210px,1fr)!important;flex:1 1 0!important;height:auto!important;min-height:0!important;padding:0!important;overflow:hidden!important}
+html.v266-mobile.v266-mobile #inventoryOverlay .inventory-left{padding:8px!important;min-height:0!important;overflow:hidden!important}
+html.v266-mobile.v266-mobile #inventoryGrid{grid-template-columns:repeat(5,minmax(0,1fr))!important;grid-auto-rows:68px!important;gap:6px!important;overflow:auto!important;touch-action:pan-y!important;-webkit-overflow-scrolling:touch}
+html.v266-mobile.v266-mobile #inventoryOverlay .inventory-slot{min-height:68px!important;max-height:none!important;border:1px solid #62684c!important;border-radius:5px!important;background:#10160dd4!important;padding:4px!important;touch-action:pan-y!important}
+html.v266-mobile.v266-mobile #inventoryOverlay .inventory-item-name{display:block!important;font:10px/1.1 system-ui!important;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html.v266-mobile.v266-mobile #inventoryOverlay .inventory-item-icon img{max-height:36px!important}
+html.v266-mobile.v266-mobile #inventoryOverlay .inventory-details{display:flex!important;flex-direction:column!important;gap:8px!important;padding:12px!important;overflow-y:auto!important;background:#0d130bd9!important;border-left:1px solid #62694b!important}
+html.v266-mobile.v266-mobile #inventoryPreview{flex:0 0 60px!important;min-height:60px!important;max-height:80px!important;height:60px!important}
+html.v266-mobile.v266-mobile #inventoryPreview :is(img,svg){max-height:60px!important;max-width:90px!important}
+html.v266-mobile.v266-mobile #inventoryItemName{font-size:19px!important}
+html.v266-mobile.v266-mobile #inventoryDescription{font:13px/1.5 system-ui!important}
+html.v266-mobile.v266-mobile .inventory-footer-row{font:11px system-ui!important;flex-shrink:0!important}
+html.v266-mobile.v266-mobile #inventoryEquip{position:sticky;bottom:0;flex-shrink:0;min-height:44px!important;margin-top:auto}
+html.v266-mobile.v266-mobile #v266BarToggle{align-self:flex-start;min-height:44px;margin:0 8px 4px;padding:7px 12px;font-size:12px}
+html.v266-mobile.v266-mobile #v256Editor{flex:0 0 auto;max-height:40dvh;overflow-y:auto;margin:0 8px 6px;padding:6px;background:#12180ed9;border-color:#666d50}
+html.v266-mobile.v266-mobile #v256Editor[hidden]{display:none!important}
+html.v266-mobile.v266-mobile #v256Editor .v256-slots{display:flex;overflow-x:auto;gap:4px;touch-action:pan-x}
+html.v266-mobile.v266-mobile #v256Editor .v256-editor-slot{flex:0 0 44px;height:48px!important;padding:2px!important}
+html.v266-mobile.v266-mobile #v256Editor .v256-actions{flex-wrap:wrap}
+html.v266-mobile.v266-mobile #v256Editor .v256-caption small{display:none}
+/* Craft and modular construction: big selection, visible materials, separate confirm. */
+html.v266-mobile.v266-mobile .craft-content{flex:1;min-height:0;overflow-y:auto!important;padding:10px!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;align-content:start}
+html.v266-mobile.v266-mobile .recipe-card{display:grid!important;grid-template-columns:52px minmax(0,1fr)!important;padding:10px!important;gap:8px!important;background:#10160ed9!important;border:1px solid #61684d!important;border-radius:6px!important}
+html.v266-mobile.v266-mobile .recipe-card .recipe-icon{width:48px!important;height:60px!important}
+html.v266-mobile.v266-mobile .recipe-card .recipe-copy{min-width:0}
+html.v266-mobile.v266-mobile .recipe-card .recipe-copy h3{margin:0 0 5px!important}
+html.v266-mobile.v266-mobile .recipe-card .recipe-copy p{font-size:12px!important}
+html.v266-mobile.v266-mobile .recipe-costs{display:flex!important;flex-wrap:wrap;gap:5px!important}
+html.v266-mobile.v266-mobile .recipe-cost{font-size:12px!important;padding:5px!important}
+html.v266-mobile.v266-mobile .craft-start{grid-column:1/-1!important;width:100%!important}
+html.v266-mobile.v266-mobile .craft-footer{padding:7px 12px!important;font-size:11px!important;flex-shrink:0}
+html.v266-mobile.v266-mobile #v207BuildBody{flex:1 1 0!important;min-height:0!important;grid-template-columns:1.2fr 1fr!important}
+html.v266-mobile.v266-mobile #constructionOverlay .construction-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;padding:8px!important}
+html.v266-mobile.v266-mobile #constructionOverlay .construction-card{min-height:104px!important;background:#171f12!important;border:1px solid #697150!important;padding:8px!important}
+html.v266-mobile.v266-mobile #constructionOverlay .construction-card strong{font:600 12px/1.3 system-ui!important}
+html.v266-mobile.v266-mobile #v207BuildDetails{background:#11170ee8!important;border-left:1px solid #676b50!important;padding:10px!important}
+html.v266-mobile.v266-mobile #v207BuildArt{background:radial-gradient(ellipse,#354228,#11170d)!important;min-height:50px!important}
+html.v266-mobile.v266-mobile #v207BuildCost{font:600 13px/1.4 system-ui!important}
+html.v266-mobile.v266-mobile #v207BuildDesc{font:12px/1.4 system-ui!important}
+html.v266-mobile.v266-mobile #v207PlaceButton{position:sticky;bottom:0;min-height:44px!important;flex-shrink:0}
+html.v266-mobile.v266-mobile #constructionLevels{display:flex!important;overflow-x:auto!important;flex:0 0 auto!important;gap:4px!important;touch-action:pan-x}
+/* Character, profiles, options, loading and pause all share touch sizing. */
+html.v266-mobile.v266-mobile #f172Menu{position:absolute!important;inset:var(--m-T) var(--m-R) var(--m-B) var(--m-L)!important;width:auto!important;max-width:none!important;transform:none!important;display:grid!important;grid-template-columns:1fr minmax(250px,38%)!important;grid-template-rows:1fr auto!important;gap:10px 24px!important;overflow-y:auto!important;align-items:center!important;padding:14px!important}
+html.v266-mobile.v266-mobile .f172-logo{width:100%!important;height:min(45vh,230px)!important;margin:0!important;background-size:contain!important}
+html.v266-mobile.v266-mobile #f172Actions{grid-column:2!important;grid-row:1/3!important;display:grid!important;grid-template-columns:1fr 1fr;gap:8px!important;width:100%!important}
+html.v266-mobile.v266-mobile #f172Actions button{min-height:56px!important;padding:10px!important;border:1px solid #7c7a59!important;border-radius:4px!important;background:#12190eda!important;color:#eee5c9!important;font:600 13px system-ui!important;display:flex;align-items:center;gap:8px}
+html.v266-mobile.v266-mobile #f172Actions button span{width:28px!important;height:28px!important;margin:0!important}
+html.v266-mobile.v266-mobile #f172Actions button img{width:28px!important;height:28px!important;object-fit:contain}
+html.v266-mobile.v266-mobile #f172Message{font:12px/1.4 system-ui!important;margin:0!important}
+html.v266-mobile.v266-mobile .f172-version{font-size:10px!important}
+html.v266-mobile.v266-mobile #f172Panel{position:absolute!important;inset:var(--m-T) var(--m-R) var(--m-B) var(--m-L)!important;width:auto!important;max-width:none!important;max-height:none!important;transform:none!important;border:1px solid #7a7b5c!important;border-radius:8px!important;background:var(--m-panel)!important;overflow-y:auto!important;padding:12px!important}
+html.v266-mobile.v266-mobile #f172Back{position:sticky!important;top:0!important;z-index:2;min-height:44px!important;margin-bottom:10px!important;background:#222a1df5!important}
+html.v266-mobile.v266-mobile #f172PanelTitle{display:inline-block;margin-left:14px!important;font-size:23px!important}
+html.v266-mobile.v266-mobile #f172PanelBody{min-width:0;max-width:100%}
+html.v266-mobile.v266-mobile #f172PanelBody :is(button,input,select){min-height:44px!important;font-size:14px!important}
+html.v266-mobile.v266-mobile #f172PanelBody :is(.f172-cards,.f172-grid){grid-template-columns:repeat(2,minmax(0,1fr))!important}
+html.v266-mobile.v266-mobile #f264Creator{max-width:860px!important}
+html.v266-mobile.v266-mobile #f264Styles{grid-template-columns:repeat(5,minmax(70px,1fr))!important}
+html.v266-mobile.v266-mobile #f264Colors{gap:8px!important;flex-wrap:wrap!important}
+html.v266-mobile.v266-mobile .f264-color{width:44px!important;height:44px!important}
+html.v266-mobile.v266-mobile #f264Apply{position:sticky;bottom:0;width:100%;min-height:48px!important}
+html.v266-mobile.v266-mobile #f264Size{min-height:44px!important}
+html.v266-mobile.v266-mobile #f172Loading{max-width:calc(100vw - 32px)!important}
+/* Progression, bestiary/director, optional hack and utility drawer. */
+html.v266-mobile.v266-mobile :is(#skillTreePanel,#directorPanel,#florestaHackPanel){display:block!important;overflow-y:auto!important;padding:10px!important}
+html.v266-mobile.v266-mobile :is(.skill-head,.director-head,#florestaHackPanel .hdr){position:sticky;top:-10px;z-index:3;background:#151b12fa!important}
+html.v266-mobile.v266-mobile .skill-tree-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+html.v266-mobile.v266-mobile .skill-nodes{display:flex!important;flex-wrap:wrap!important;gap:6px!important}
+html.v266-mobile.v266-mobile .skill-nodes button{min-width:44px!important;min-height:44px!important}
+html.v266-mobile.v266-mobile :is(.director-quick,.hackgrid){display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}
+html.v266-mobile.v266-mobile .director-row{display:flex!important;flex-wrap:wrap;gap:8px!important}
+html.v266-mobile.v266-mobile .director-row label{flex:1;min-width:120px}
+html.v266-mobile.v266-mobile #h171Drawer{inset:var(--m-T) var(--m-R) var(--m-B) auto!important;width:min(480px,calc(100vw - 24px))!important;overflow-y:auto!important;background:var(--m-panel)!important;border:1px solid #747958!important;padding:12px!important;z-index:2800!important}
+html.v266-mobile.v266-mobile #h171Drawer header{display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#151b12}
+html.v266-mobile.v266-mobile #h171Native{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+html.v266-mobile.v266-mobile #h171Shortcuts{display:none!important}
+/* Workstations leave the physical work and player arms visible. */
+html.v266-mobile.v266-mobile #forge222Panel .forge-top{top:var(--m-T)!important;width:calc(100vw - var(--m-L) - var(--m-R))!important;padding:5px 10px!important;min-height:54px!important;background:#11170eeb!important;border:1px solid #6f7352!important}
+html.v266-mobile.v266-mobile #forge222Panel .forge-side{top:calc(var(--m-T) + 64px)!important;left:var(--m-L)!important;width:clamp(230px,32vw,340px)!important;bottom:calc(var(--m-B) + 50px)!important;max-height:none!important;padding:10px!important;background:var(--m-panel)!important;border:1px solid #717451!important;overscroll-behavior:contain;touch-action:pan-y}
+html.v266-mobile.v266-mobile #forge222Panel .forge-work{right:var(--m-R)!important;bottom:var(--m-B)!important;width:clamp(190px,26vw,290px)!important;max-height:calc(100dvh - 86px)!important;overflow-y:auto!important;padding:8px!important;background:var(--m-panel)!important;border:1px solid #717451!important}
+html.v266-mobile.v266-mobile #forge222Panel .forge-row{flex-wrap:wrap}
+html.v266-mobile.v266-mobile #forge222Panel .forge-row button{flex:1 1 90px}
+html.v266-mobile.v266-mobile .forge-stat{background:#242c1c!important;border-color:#4e593e!important;font-size:12px!important}
+html.v266-mobile.v266-mobile .forge-footer{display:none!important}
+html.v266-mobile.v266-mobile #forge224Guide{padding:var(--m-T) var(--m-R) var(--m-B) var(--m-L)!important}
+html.v266-mobile.v266-mobile #forge224Guide article{width:min(700px,100%)!important;max-height:100%!important;background:var(--m-panel)!important;border:1px solid #7c7a56!important;padding:12px!important}
+html.v266-mobile.v266-mobile #alq189Panel,html.v266-mobile.v266-mobile #alq189Panel.work,html.v266-mobile.v266-mobile #alq189Panel.rack{left:var(--m-L)!important;right:auto!important;top:var(--m-T)!important;bottom:calc(var(--m-B) + 54px)!important;width:clamp(250px,37vw,380px)!important;max-height:none!important;padding:10px!important;border:1px solid #71785a!important;background:var(--m-panel)!important;overflow-y:auto!important}
+html.v266-mobile.v266-mobile #alq189Panel .head{position:sticky;top:-10px;background:#141b10fa;z-index:2;align-items:center;padding:5px 0}
+html.v266-mobile.v266-mobile #alq189Panel :is(.choices,.alchemy-inventory){grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important;max-height:none!important}
+html.v266-mobile.v266-mobile #alq189Panel :is(.alchemy-callout,.alchemy-step.active){background:#29351d88!important;border-color:#66764a!important}
+html.v266-mobile.v266-mobile #alq195Exit{right:var(--m-R)!important;top:var(--m-T)!important;min-height:44px!important}
+html.v266-mobile.v266-mobile #alq195Book{inset:var(--m-T) var(--m-R) var(--m-B) var(--m-L)!important;padding:10px!important;border:1px solid #929274!important;background:#1b2017fa!important;overflow-y:auto!important}
+html.v266-mobile.v266-mobile #alq195Book .pages{grid-template-columns:1fr 1fr!important;gap:10px!important}
+html.v266-mobile.v266-mobile #alq195Book .page{min-height:0!important;padding:10px!important;background:#28301de8!important}
+html.v266-mobile.v266-mobile #alq195Book .entry{padding:10px!important;gap:8px!important;background:#11170dd9!important}
+html.v266-mobile.v266-mobile .v266-work-toggle{pointer-events:auto;position:fixed;left:var(--m-L);bottom:var(--m-B);min-height:44px;z-index:3}
+html.v266-mobile.v266-mobile #forge222Panel.v266-work-collapsed .forge-side{display:none!important}
+html.v266-mobile.v266-mobile #alq189Panel.v266-work-collapsed{width:auto!important;max-width:210px!important;top:auto!important;bottom:var(--m-B)!important;padding:0!important;border:0!important;overflow:visible!important}
+html.v266-mobile.v266-mobile #alq189Panel.v266-work-collapsed>:not(.v266-work-toggle){display:none!important}
+html.v266-mobile.v266-mobile #alq189Panel .v266-work-toggle{position:fixed;bottom:var(--m-B)}
+html.v266-mobile.v266-mobile :is(#v207PowersPanel,#v207SpiderPanel){inset:var(--m-T) var(--m-R) var(--m-B) auto!important;transform:none!important;width:min(420px,calc(100vw - 24px))!important;max-height:none!important;overflow-y:auto!important;background:var(--m-panel)!important;border:1px solid #737a51!important;padding:12px!important}
+html.v266-mobile.v266-mobile :is(#constructionAction,#constructionCancel,#constructionSnapCycle,#v206RotateBtn,#alchemyBuildAction,#alchemyBuildCancel){min-height:44px!important;max-width:38vw;font:600 12px/1.25 system-ui!important;border:1px solid #8f9372!important;background:#1b2515ed!important;color:#ece6cd!important;padding:10px!important;border-radius:5px!important}
+html.v266-mobile.v266-mobile :is(#constructionHUD,#alchemyBuildHud){max-width:42vw!important;font:12px/1.4 system-ui!important;background:#142010d9!important}
+html.v266-mobile.v266-mobile #constructionCancel{bottom:calc(var(--m-B) + 54px)!important;right:var(--m-R)!important}
+html.v266-mobile.v266-mobile #v206RotateBtn{bottom:calc(var(--m-B) + 108px)!important;right:var(--m-R)!important}
+html.v266-mobile.v266-mobile #constructionAction{bottom:var(--m-B)!important;right:var(--m-R)!important}
+html.v266-mobile.v266-mobile #fe210-root .fe-bar{height:60px!important;gap:6px!important;touch-action:pan-x}
+html.v266-mobile.v266-mobile #fe210-root .fe-pane{top:68px!important;bottom:68px!important;width:30vw!important;min-width:180px!important;background:var(--m-panel)!important}
+html.v266-mobile.v266-mobile #fe210-root .fe-brand{display:none!important}
+html.v266-mobile.v266-mobile #fe210-root .fe-btn{min-height:44px!important}
+html.v266-mobile.v266-mobile #fe210-root .fe-scroll{touch-action:pan-y;overscroll-behavior:contain}
+/* HUD exclusion by actual screen; work controls are never removed from their controllers. */
+html.v266-mobile.v266-mobile:not([data-mobile-screen=play]) :is(#v266TouchRoot,#mobileControls,#v206TopBar,#v206ActionBtn,#v207PowerCast,#v207PowerSelect,#v207SpiderOpen,#u173Hotbar,#stick,#forge222Entry,#alq189Button,#alq194Collect){visibility:hidden!important;pointer-events:none!important}
+html.v266-mobile.v266-mobile:not([data-mobile-screen=play]) #v266TouchRoot *{pointer-events:none!important}
+html.v266-mobile.v266-mobile[data-mobile-screen=place] #stick{visibility:visible!important;pointer-events:auto!important}
+html.v266-mobile.v266-mobile[data-mobile-screen=front] :is(#zombieHud,#hud171,#dayNightClock){visibility:hidden!important}
+html.v266-mobile.v266-mobile[data-mobile-screen=play] :is(#rollBtn,#jumpBtn,#mobileAttackBtn,#mobileRunBtn,#mobileCrouchBtn){visibility:visible!important;opacity:1!important;pointer-events:auto!important}
+html.v266-mobile.v266-mobile #forge222Entry{right:calc(var(--m-R) + 160px)!important;bottom:calc(var(--m-B) + 162px)!important;max-width:150px!important;font:600 11px/1.25 system-ui!important;min-height:44px!important;padding:8px!important;border:1px solid #797556!important;background:#1e2417d9!important}
+html.v266-mobile.v266-mobile #alq189Button{right:calc(var(--m-R) + 160px)!important;top:auto!important;bottom:calc(var(--m-B) + 214px)!important;max-width:150px!important;min-height:44px!important}
+@media(max-width:740px){
+ html.v266-mobile.v266-mobile #inventoryGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+ html.v266-mobile.v266-mobile #constructionOverlay .construction-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ html.v266-mobile.v266-mobile #zombieHud{width:160px!important}
+ html.v266-mobile.v266-mobile .h171-compass{width:150px!important}
+ html.v266-mobile.v266-mobile #u173Hotbar{width:230px!important}
+ html.v266-mobile.v266-mobile #mobileRunBtn,html.v266-mobile.v266-mobile #mobileCrouchBtn{left:calc(var(--m-L) + 130px)!important}
+}
+@media(max-height:380px) and (orientation:landscape){
+ html.v266-mobile{--m-unit:48px}
+ html.v266-mobile.v266-mobile #f172Actions{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:5px!important}
+ html.v266-mobile.v266-mobile #f172Actions button{min-height:44px!important}
+ html.v266-mobile.v266-mobile .v266-panel h2{font-size:19px!important}
+ html.v266-mobile.v266-mobile :is(.inventory-header,.craft-header,.construction-head){padding:4px 10px!important}
+ html.v266-mobile.v266-mobile .u173-tabs{padding:2px 6px!important}
+}
+@media(orientation:portrait){
+ html.v266-mobile.v266-mobile .h171-compass{top:calc(var(--m-T) + 62px)!important}
+ html.v266-mobile.v266-mobile #dayNightClock{top:calc(var(--m-T) + 92px)!important}
+ html.v266-mobile.v266-mobile #u173Hotbar{width:calc(100vw - var(--m-L) - var(--m-R))!important;bottom:calc(var(--m-B) + 240px)!important}
+ html.v266-mobile.v266-mobile #inventoryOverlay .inventory-body{grid-template-columns:1fr!important;grid-template-rows:minmax(120px,1fr) minmax(100px,.8fr)!important}
+ html.v266-mobile.v266-mobile #inventoryOverlay .inventory-details{border-left:0!important;border-top:1px solid #5b6446!important;display:grid!important;grid-template-columns:72px minmax(0,1fr)!important;gap:6px 12px!important}
+ html.v266-mobile.v266-mobile #inventoryPreview{grid-row:1/4}
+ html.v266-mobile.v266-mobile #inventoryEquip,html.v266-mobile.v266-mobile #inventoryDescription{grid-column:1/-1}
+ html.v266-mobile.v266-mobile .craft-content{grid-template-columns:1fr!important}
+ html.v266-mobile.v266-mobile #v207BuildBody{grid-template-columns:1fr!important;grid-template-rows:minmax(120px,1fr) minmax(130px,.8fr)!important}
+ html.v266-mobile.v266-mobile #v207BuildArt{display:none!important}
+ html.v266-mobile.v266-mobile #v207BuildDetails{border-left:0!important;border-top:1px solid #667051!important}
+ html.v266-mobile.v266-mobile #f172Menu{grid-template-columns:1fr!important;grid-template-rows:auto 1fr auto!important}
+ html.v266-mobile.v266-mobile #f172Actions{grid-column:1!important;grid-row:2!important}
+ html.v266-mobile.v266-mobile .f172-logo{height:24vh!important}
+ html.v266-mobile.v266-mobile #f264Styles{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+ html.v266-mobile.v266-mobile :is(.skill-tree-grid,.director-quick,.hackgrid){grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ html.v266-mobile.v266-mobile #alq195Book .pages{grid-template-columns:1fr!important}
+ html.v266-mobile.v266-mobile #alq189Panel.work{top:auto!important;bottom:calc(var(--m-B) + 52px)!important;width:calc(100vw - var(--m-L) - var(--m-R))!important;max-height:48dvh!important}
+ html.v266-mobile.v266-mobile #forge222Panel .forge-side{width:calc(100vw - var(--m-L) - var(--m-R))!important;bottom:auto!important;max-height:32dvh!important}
+ html.v266-mobile.v266-mobile #forge222Panel .forge-work{width:calc(100vw - var(--m-L) - var(--m-R))!important;max-height:33dvh!important}
+ html.v266-mobile.v266-mobile #forge222Panel .forge-work button{width:100%!important}
+ html.v266-mobile.v266-mobile #forge222Panel .v266-work-toggle{bottom:calc(var(--m-B) + 34dvh)!important}
+ html.v266-mobile.v266-mobile #fe210-root .fe-pane{width:calc(50vw - 18px)!important;min-width:0!important}
+}
+
+/* Journal, structure storage/management, contextual crafting and loading feedback. */
+html.v266-mobile.v266-mobile #constructionManager{padding:var(--m-T) var(--m-R) var(--m-B) var(--m-L)!important;box-sizing:border-box}
+html.v266-mobile.v266-mobile #constructionManager .cm-panel{width:min(680px,100%)!important;max-height:100%!important;overflow-y:auto!important;padding:14px!important;border:1px solid #747955!important;background:var(--m-panel)!important}
+html.v266-mobile.v266-mobile #constructionManager .cm-actions{display:flex;flex-wrap:wrap;gap:8px}
+html.v266-mobile.v266-mobile #constructionManager .cm-actions button{flex:1 1 130px}
+html.v266-mobile.v266-mobile #f259Journey{top:calc(var(--m-T) + 67px)!important;left:var(--m-L)!important;width:clamp(185px,26vw,265px)!important;max-height:calc(100dvh - 244px)!important;overflow-y:auto!important;padding:8px!important;background:var(--m-panel)!important;border:1px solid #6a7350!important;font-size:12px!important}
+html.v266-mobile.v266-mobile #f259Journey h3{font-size:15px!important;margin:4px 0!important}
+html.v266-mobile.v266-mobile #f259Journey .hdr{gap:6px!important}
+html.v266-mobile.v266-mobile #f259Journey .kicker{font-size:8px!important;letter-spacing:1px!important}
+html.v266-mobile.v266-mobile #f259Return{top:calc(var(--m-T) + 67px)!important;left:var(--m-L)!important;min-height:44px!important;font:600 12px system-ui!important;background:#172110df!important}
+html.v266-mobile.v266-mobile #f259Story{bottom:calc(var(--m-B) + 115px)!important;max-width:45vw!important;font:14px/1.4 Georgia!important;padding:10px!important}
+html.v266-mobile.v266-mobile:not([data-mobile-screen=play]) :is(#f259Journey,#f259Return,#f259Story,#f259ClueHint,#constructionManageBtn){visibility:hidden!important;pointer-events:none!important}
+html.v266-mobile.v266-mobile :is(#shieldChipPlaceBtnV79,#craftStage button,#lumberCarryBtn,#plankCarryBtn){min-height:44px!important;font:600 12px system-ui!important;background:#25301de8!important;border:1px solid #82866a!important}
+html.v266-mobile.v266-mobile #craftStage{max-width:48vw!important;bottom:calc(var(--m-B) + 72px)!important;padding:10px!important;font-size:13px!important;background:#182011de!important}
+@media(orientation:portrait){html.v266-mobile.v266-mobile #f259Journey{max-height:25dvh!important;top:calc(var(--m-T) + 130px)!important;width:70vw!important}html.v266-mobile.v266-mobile #f259Return{top:calc(var(--m-T) + 125px)!important}html.v266-mobile.v266-mobile #f259Story{max-width:90vw!important;bottom:calc(var(--m-B) + 350px)!important}}
+/* Bound asynchronous legacy content to the available body height. */
+html.v266-mobile.v266-mobile #inventoryOverlay .inventory-panel,
+html.v266-mobile.v266-mobile #constructionOverlay .construction-panel,
+html.v266-mobile.v266-mobile #craftOverlay .craft-panel{width:min(980px,100%)!important;height:100%!important;max-height:100%!important;min-height:0!important;padding:0!important;border:1px solid #77775b!important;border-radius:8px!important;background:linear-gradient(135deg,#20271bf7,#10150ff7)!important;display:flex!important;flex-direction:column!important;overflow:hidden!important}
+html.v266-mobile.v266-mobile #inventoryOverlay .inventory-body{align-items:stretch!important;grid-template-rows:minmax(0,1fr)!important;flex:1 1 0!important;min-height:0!important;height:auto!important}
+html.v266-mobile.v266-mobile #inventoryOverlay .inventory-left,
+html.v266-mobile.v266-mobile #inventoryOverlay .inventory-details{height:100%!important;max-height:100%!important;min-height:0!important;align-self:stretch!important;overflow-y:auto!important}
+html.v266-mobile.v266-mobile #inventoryOverlay #inventoryGrid{min-height:0!important;max-height:100%!important;flex:1 1 0!important;grid-auto-rows:68px!important;overflow-y:auto!important}
+html.v266-mobile.v266-mobile #v266CraftScroll,html.v266-mobile.v266-mobile #v266ConstructionScroll{flex:1 1 0;min-height:0;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y}
+html.v266-mobile.v266-mobile #v266CraftScroll .craft-content{flex:none!important;height:auto!important;overflow:visible!important}
+html.v266-mobile.v266-mobile #v266CraftScroll .workshop-recipes{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;padding:10px!important;margin:0!important}
+html.v266-mobile.v266-mobile #v266CraftScroll .workshop-recipes button{width:100%!important;min-height:80px!important;margin:0!important;text-align:left!important}
+html.v266-mobile.v266-mobile #v266CraftScroll .workshop-recipes small{display:block!important;white-space:normal!important;font-size:12px!important;line-height:1.4!important;margin-top:6px}
+html.v266-mobile.v266-mobile #constructionOverlay .construction-tools{padding:8px!important;display:flex;align-items:center;flex-wrap:wrap;gap:8px!important;background:#11180dc4!important}
+html.v266-mobile.v266-mobile #constructionOverlay #constructionSearch{flex:1 1 180px;min-width:100px}
+html.v266-mobile.v266-mobile #v266ConstructionScroll .construction-grid{overflow:visible!important;max-height:none!important;height:auto!important}
+html.v266-mobile.v266-mobile #constructionOverlay .construction-card span:not(.v207-mini-art){display:block!important;font:11px/1.35 system-ui!important;color:#c2c8b3!important}
+html.v266-mobile.v266-mobile #constructionOverlay .construction-tabs{background:#12190de0!important;border-color:#66734b!important}
+html.v266-mobile.v266-mobile #constructionOverlay .construction-tab{min-height:44px!important;font:600 12px system-ui!important;background:#26301d!important;border:1px solid #69744f!important}
+html.v266-mobile.v266-mobile #constructionOverlay #constructionLevels{order:initial!important;min-height:52px!important;padding:4px 8px!important;background:#11170e!important}
+html.v266-mobile.v266-mobile #inventoryOverlay .inventory-header{padding:6px 10px!important;background:#11160dda!important;border-bottom:1px solid #747956!important}
+html.v266-mobile.v266-mobile #inventoryOverlay .inventory-header h2{color:#eee6ce!important;font:600 22px Georgia!important}
+html.v266-mobile.v266-mobile #inventoryOverlay .inventory-header h2:before{content:none!important}
+html.v266-mobile.v266-mobile #inventoryOverlay .inventory-slot{border-color:#62684c!important;background:#10160dd4!important;box-shadow:none!important}
+html.v266-mobile.v266-mobile #u173Hotbar{background:#10150dc2!important;border:1px solid #666f51!important;box-shadow:none!important}
+html.v266-mobile.v266-mobile #potion219Slot{padding:0!important;gap:2px!important;border:0!important;grid-template-rows:48px auto!important;background:none!important;border-radius:0!important}
+html.v266-mobile.v266-mobile #potion219Use{margin:0!important}
+@media(orientation:portrait){
+ html.v266-mobile.v266-mobile #inventoryOverlay .inventory-body{grid-template-rows:minmax(120px,1fr) minmax(100px,.8fr)!important}
+ html.v266-mobile.v266-mobile #v266CraftScroll .workshop-recipes{grid-template-columns:1fr!important}
+}
+/* Allow independent vertical sheets and horizontal tabs: ancestors must not constrain the axis. */
+html.v266-mobile.v266-mobile .v266-panel,
+html.v266-mobile.v266-mobile :is(#inventoryOverlay,#craftOverlay,#constructionOverlay,#skillTreeOverlay,#directorOverlay,#florestaHackOverlay,#u173Hotbar,#potion219Dock){touch-action:auto!important}
+html.v266-mobile.v266-mobile #v266CraftScroll .workshop-recipes .craft-start{grid-column:auto!important}
+html.v266-mobile.v266-mobile #v256Editor{max-height:120px!important}
+html.v266-mobile.v266-mobile #alqBook{display:flex;gap:8px;align-items:center}
+html.v266-mobile.v266-mobile #alqBook svg{width:24px;height:24px;flex:none}
+html.v266-mobile.v266-mobile :is(#pickupPrompt .pickup-key,#lumberPrompt>span:first-child){display:none!important}
+html.v266-mobile.v266-mobile:not([data-mobile-screen=play]) :is(#pickupPrompt,#lumberPrompt,#plankCarryPromptV139,#spearComboV236Hud,#swordComboV236Hud,#constructionHUD,#alchemyBuildHud){visibility:hidden!important;pointer-events:none!important}
+html.v266-mobile.v266-mobile[data-mobile-screen=place] :is(#constructionHUD,#alchemyBuildHud){visibility:visible!important}
+html.v266-mobile.v266-mobile #v207SpiderOpen{font-size:10px!important}
+html.v266-mobile.v266-mobile #rotatePhoneNotice{display:none!important}
+html.v266-mobile.v266-mobile #potion219Slot{width:96px!important;min-width:96px!important;grid-template-columns:1fr 44px!important}
+html.v266-mobile.v266-mobile #potion219Select{width:44px!important;min-width:44px!important}
+/* Mounted combat keeps the original V37 controller, with the same thumb positions. */
+html.v266-mobile.v266-mobile :is(#v206MountedAttack,#v206MountedJump){position:fixed!important;display:none!important;align-items:center!important;justify-content:center!important;flex-direction:column!important;gap:2px!important;border:1px solid #909676!important;background:#202a19dd!important;border-radius:40%!important;box-shadow:inset 0 0 0 3px #080d0866!important;color:#eae3cb!important;font:600 10px system-ui!important;padding:5px!important;z-index:191!important}
+html.v266-mobile.v266-mobile #v206MountedAttack{right:calc(var(--m-R) + var(--m-unit) + 6px)!important;bottom:calc(var(--m-B) + var(--m-unit) + 10px)!important;width:calc(var(--m-unit) + 20px)!important;height:calc(var(--m-unit) + 20px)!important}
+html.v266-mobile.v266-mobile #v206MountedJump{right:var(--m-R)!important;bottom:var(--m-B)!important;width:var(--m-unit)!important;height:var(--m-unit)!important}
+html.v266-mobile.v266-mobile :is(#v206MountedAttack,#v206MountedJump) svg{width:28px!important;height:28px!important}
+html.v266-mobile.v266-mobile body.v206-mounted :is(#v206MountedAttack,#v206MountedJump){display:flex!important}
+html.v266-mobile.v266-mobile body.v206-mounted :is(#mobileAttackBtn,#jumpBtn,#rollBtn,#v266Defend){visibility:hidden!important;pointer-events:none!important}
+html.v266-mobile.v266-mobile:not([data-mobile-screen=play]) :is(#v206MountedAttack,#v206MountedJump){visibility:hidden!important;pointer-events:none!important}
+html.v266-mobile.v266-mobile #mountainRideTouchV57{max-width:calc(100vw - var(--m-L) - var(--m-R))!important;gap:6px!important;flex-wrap:wrap!important}
+html.v266-mobile.v266-mobile #mountainRideTouchV57 button{min-width:44px!important;min-height:44px!important;font:600 12px/1.2 system-ui!important;padding:9px!important;border:1px solid #868b68!important;background:#1d2917e6!important;color:#eee6cd!important}
+html.v266-mobile.v266-mobile #cave186Prompt{max-width:45vw!important;font:13px/1.4 system-ui!important;background:#151f10e6!important;border-color:#6f7b51!important}
+html.v266-mobile.v266-mobile #cave186Loading{font:14px/1.4 system-ui!important;padding:12px!important}
+html.v266-mobile.v266-mobile #cave186Boss{max-width:65vw!important;font-size:12px!important}
+/* The creative dragon catalog is an explicit sheet, never a permanent overlay on combat. */
+html.v266-mobile.v266-mobile #dragonLabV51{display:none!important;inset:var(--m-T) var(--m-R) var(--m-B) auto!important;width:min(600px,calc(100vw - var(--m-L) - var(--m-R)))!important;max-height:none!important;overflow-y:auto!important;padding:12px!important;background:#151b12fc!important;border:1px solid #7c815e!important;box-sizing:border-box!important;z-index:2600!important}
+html.v266-mobile.v266-mobile[data-mobile-dragon=open] #dragonLabV51{display:block!important}
+html.v266-mobile.v266-mobile #v266DragonClose{position:sticky;top:0;z-index:3;width:100%;margin-bottom:10px;background:#2c3522fa!important}
+html.v266-mobile.v266-mobile #dragonLabV51 .dgGrid,html.v266-mobile.v266-mobile #dragonLabV51 .mrGrid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+html.v266-mobile.v266-mobile #v266DragonOpen{position:fixed;right:calc(var(--m-R) + 52px);top:calc(var(--m-T) + 54px);width:44px;height:44px;pointer-events:auto;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px;padding:3px;border:1px solid #747b58;border-radius:6px;background:#182311dc;color:#e7e3c9;font:9px system-ui;z-index:191}
+html.v266-mobile.v266-mobile #v266DragonOpen svg{width:23px;height:23px}
+html.v266-mobile.v266-mobile #v266DragonOpen[hidden]{display:none!important}
+html.v266-mobile.v266-mobile:not([data-mobile-screen=play]) #v266DragonOpen{visibility:hidden!important;pointer-events:none!important}
+html.v266-mobile.v266-mobile #h171Drawer{z-index:10000!important}
+html.v266-mobile.v266-mobile #v206SettingGroup{display:grid;gap:8px}
+html.v266-mobile.v266-mobile #v206SettingGroup input[type=range]{width:100%;min-height:44px;touch-action:pan-x}
+html.v266-mobile.v266-mobile #shieldBlockBtnV79{display:none!important}

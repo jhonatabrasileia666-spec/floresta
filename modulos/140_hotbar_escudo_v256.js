@@ -130,7 +130,9 @@
  // The inventory is rebuilt every time items change, so annotate new buttons.
  function annotate(){for(const [i,b] of Array.from(grid.children).entries()){const item=window.gameInventory?.items?.[i];if(item?.id){b.draggable=true;b.dataset.v256Item=item.id;}else b.draggable=false;}}
  const mo=new MutationObserver(annotate);mo.observe(grid,{childList:true});annotate();
- grid.addEventListener('click',e=>{const id=invId(e.target);if(!id)return;inventoryChoice=id;sync();});
+ // The native item listener rebuilds the grid. Mobile must capture the choice
+ // before the clicked node is detached; desktop keeps its existing timing.
+ grid.addEventListener('click',e=>{const id=invId(e.target);if(!id)return;inventoryChoice=id;sync();},window.__CAVE_PLATFORM==='mobile');
  grid.addEventListener('dragstart',e=>{const id=invId(e.target);if(!id)return;inventoryChoice=id;e.dataTransfer.setData('text/x-floresta-item',id);e.dataTransfer.effectAllowed='copyMove';sync();});
  editorSlots.addEventListener('click',e=>{const b=e.target.closest('[data-slot]');if(!b)return;const i=Number(b.dataset.slot);editActive=i;
   if(inventoryChoice)setSlot(i,inventoryChoice);else sync();
