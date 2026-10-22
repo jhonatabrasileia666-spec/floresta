@@ -47,7 +47,7 @@ function initRenderer(){
   renderer.setPixelRatio(Math.min(1.25,Number(window.devicePixelRatio)||1));
   renderer.setClearColor(0x151917,0);
   scene=new T.Scene();
-  camera=new T.PerspectiveCamera(37,1,.02,300);
+  camera=new T.PerspectiveCamera(37,1,.02,1000);
   const hemi=new T.HemisphereLight(0xdce9cf,0x55493b,1.8);scene.add(hemi);
   const key=new T.DirectionalLight(0xffe0b4,2.0);key.position.set(2,5,8);scene.add(key);
   const rim=new T.DirectionalLight(0x728f9e,1.6);rim.position.set(-6,3,-5);scene.add(rim);
@@ -123,7 +123,7 @@ function frame(t){
  const box=stage?.getBoundingClientRect();
  if(!box||box.width<10||box.height<10)return;
  const width=Math.max(60,Math.min(720,Math.round(box.width))),height=Math.max(80,Math.min(650,Math.round(box.height)));
- if(canvas.width!==Math.ceil(width*renderer.getPixelRatio())||canvas.height!==Math.ceil(height*renderer.getPixelRatio())){
+ if(canvas.width!==Math.floor(width*renderer.getPixelRatio())||canvas.height!==Math.floor(height*renderer.getPixelRatio())){
   renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();
  }
  pivot.rotation.y=angle;pivot.rotation.x=pitch;
