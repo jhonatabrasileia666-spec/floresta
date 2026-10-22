@@ -2,7 +2,7 @@
 (()=>{'use strict';
  if(window.__CAVE_PLATFORM!=='mobile'||window.FlorestaInventory269)return;
  const d=document,$=id=>d.getElementById(id),root=d.documentElement;
- root.classList.add('v269-mobile','v270-mobile');const css=d.createElement('link');css.rel='stylesheet';css.href='fonte/mobile-inventory-v269.css?v=271';d.head.append(css);
+ root.classList.add('v269-mobile','v270-mobile');const css=d.createElement('link');css.rel='stylesheet';css.href='fonte/mobile-inventory-v269.css?v=275';d.head.append(css);
  const icon=p=>`<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
  const icons={all:icon('<rect x="4" y="4" width="9" height="9"/><rect x="19" y="4" width="9" height="9"/><rect x="4" y="19" width="9" height="9"/><rect x="19" y="19" width="9" height="9"/>'),weapons:icon('<path d="m4 28 8-8m-4-4 8 8M12 16 25 3l4 4-13 13M4 3l25 25M3 8l5-5m16 21 4-4"/>'),resources:icon('<path d="m4 13 20-9 5 5-20 9zM4 19l20-9 5 5-20 9zM4 25l20-9 5 5-20 9z"/>'),potions:icon('<path d="M12 3h8v5h-8zM13 8v5L6 24q-3 6 10 6t10-6L19 13V8"/>'),armor:icon('<path d="m10 3 6 4 6-4 8 8-6 6-3-4 2 16H9l2-16-3 4-6-6 8-8Z"/>'),head:icon('<path d="M6 28V17C6 0 26 0 26 17v11L16 22 6 28Z"/><path d="M11 14c0-7 10-7 10 0v7H11v-7Z"/>'),shield:icon('<path d="m5 6 11-3 11 3v11c0 7-11 13-11 13S5 24 5 17V6Z"/>'),hand:icon('<path d="m6 28 17-24M16 7l9-4 5 7-6 7-11-4"/>')};
  let mounted=false,filter='all',drag=null,ghost=null,preview=null,lastLook='',lastPreview='',lastOpen=false,selection=null;
