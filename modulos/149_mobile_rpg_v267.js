@@ -1,6 +1,7 @@
 /* FLORESTA V267: RPG HUD for touch. Presentation only; native controllers own state. */
 (()=>{'use strict';
- if(window.__CAVE_PLATFORM!=='mobile'||window.FlorestaMobile267)return;
+ const v276Platform=new URLSearchParams(location.search).get('platform');
+ if((v276Platform==='pc'||(v276Platform!=='mobile'&&window.__CAVE_PLATFORM!=='mobile'))||window.FlorestaMobile267)return;
  const d=document,$=id=>d.getElementById(id),root=d.documentElement;
  root.classList.add('v267-mobile');
  const css=d.createElement('link');css.rel='stylesheet';css.href='fonte/mobile-rpg-v267.css?v=275';d.head.append(css);
