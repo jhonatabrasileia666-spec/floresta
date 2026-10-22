@@ -131,3 +131,21 @@ html.v269-mobile #v269SprintSettings small{font:9px/1.1 system-ui,sans-serif;col
  html.v269-mobile #v207SpiderPanel .v269-spider-layout{grid-template-columns:1fr;overflow:auto}
  html.v269-mobile .v269-spider-preview{min-height:120px}
 }
+
+
+/* V272 — Janela 3D de criaturas, gestos diretos sobre o modelo real. */
+html.v269-mobile #v269CreatureArt{position:relative!important;display:flex!important;align-items:stretch!important;justify-content:stretch!important;min-width:0!important;min-height:0!important;overflow:hidden!important;background:radial-gradient(ellipse at 50% 50%,#313a30 0%,#161c19 70%,#0d110f 100%)!important}
+html.v269-mobile #v272Viewer{position:relative;width:100%;height:100%;min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden;contain:layout paint}
+html.v269-mobile #v272RenderStage{position:relative;flex:1 1 0;min-width:0;min-height:65px;overflow:hidden;touch-action:none;overscroll-behavior:contain}
+html.v269-mobile #v272ModelCanvas{display:block;width:100%;height:100%;max-width:100%;max-height:100%;touch-action:none!important;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;cursor:grab}
+html.v269-mobile #v272ModelCanvas:active{cursor:grabbing}
+html.v269-mobile #v272ViewerStatus{position:absolute;top:42%;left:5%;width:90%;margin:0;padding:9px 7px;text-align:center;background:#0d1310dc;color:#d5d2c8;font:clamp(10px,1.3vw,14px)/1.35 system-ui,sans-serif;border:1px solid #596151;pointer-events:none}
+html.v269-mobile #v272ViewerStatus[hidden]{display:none!important}
+html.v269-mobile #v272ViewerToolbar{flex:0 0 40px;display:flex;align-items:center;justify-content:flex-end;gap:4px;min-height:40px;border-top:1px solid #4c554b;background:#151b17e8;padding:3px;box-sizing:border-box;color:#adb5a7}
+html.v269-mobile #v272ViewerToolbar>span{flex:1;min-width:0;display:block;text-align:center;font:600 clamp(8px,1vw,11px)/1.15 system-ui,sans-serif;letter-spacing:.045em}
+html.v269-mobile #v272ViewerToolbar>button{flex:0 0 35px;min-height:34px;height:34px;min-width:34px;padding:0;background:#333c2e!important;color:#ede8d9;border:1px solid #8f9f77!important;border-radius:2px;font:700 21px/1 Georgia,serif;touch-action:manipulation}
+@media (max-height:390px) and (orientation:landscape){
+ html.v269-mobile #v272ViewerToolbar{flex-basis:31px;min-height:31px}
+ html.v269-mobile #v272ViewerToolbar>button{flex-basis:30px;height:28px;min-height:28px;min-width:30px;font-size:18px}
+ html.v269-mobile #v272ViewerToolbar>span{font-size:8px}
+}
