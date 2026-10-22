@@ -72,10 +72,26 @@
   for(const o of sc.children){if(o===root||o===game.camera||o===game.torchRoot||o===game.trueFirstPerson?.visibleRoot||o===game.trueFirstPerson?.shadowRoot)continue;const pos=o.position;const near=pos&&pos.x>900&&pos.x<1150;const name=o.name||'';if(near||/Held|Hand|Avatar|Character|Player|IgnisLegacy|V116|Weapon|Workshop|BodyShadow/i.test(name))continue;if(o.visible){hidden.push(o);o.visible=false;}}
   sc.fog=coldFog;sc.background=bg;game.renderer.toneMappingExposure=1.30;try{return originalRender(sc,cam)}finally{sc.fog=previous.fog;sc.background=previous.background;game.renderer.toneMappingExposure=previous.exposure;for(const o of hidden)o.visible=true;for(const [o,intensity]of torchLights)o.intensity=intensity;rendering=false;}
  };
- const savedTargets=window.gameZombie.combatTargets.bind(window.gameZombie),savedDamage=window.gameZombie.damageRadius.bind(window.gameZombie);
- window.gameZombie.combatTargets=()=>state.active?targets():savedTargets();window.gameZombie.damageRadius=(x,z,r,d,label,set)=>state.active?damageRadius(x,z,r,d,label,set):savedDamage(x,z,r,d,label,set);
+ // V274: Safari can initialize the cave before the zombie combat API.
+ // Attach when BOTH native functions exist, preserving the native callbacks.
+ // Never synthesize an empty gameZombie object: gameplay must initialize it.
+ let combatBridgeZombie=null;
+ function attachCaveCombat(){
+  const api=window.gameZombie;
+  if(!api||typeof api.combatTargets!=='function'||typeof api.damageRadius!=='function')return false;
+  if(combatBridgeZombie===api)return true;
+  if(api.__florestaCaveV186CombatBridge){combatBridgeZombie=api;return true;}
+  const savedTargets=api.combatTargets.bind(api),savedDamage=api.damageRadius.bind(api);
+  api.combatTargets=(...args)=>state.active?targets():savedTargets(...args);
+  api.damageRadius=(x,z,r,d,label,set)=>state.active?damageRadius(x,z,r,d,label,set):savedDamage(x,z,r,d,label,set);
+  api.__florestaCaveV186CombatBridge=true;
+  combatBridgeZombie=api;
+  return true;
+ }
+ attachCaveCombat();
+ addEventListener('floresta:ready',attachCaveCombat);
  let last=performance.now(),uiClock=0,stepDistance=0,oldX=game.player.x,oldZ=game.player.z;
- function tick(now,schedule=true,step=null){if(schedule)requestAnimationFrame(tick);const dt=step??Math.min(.05,Math.max(0,(now-last)/1000));last=now;if(state.busy)return;if(schedule&&window.gameFront172?.paused)return;if(!state.active){interactionUI();return;}state.time+=dt;world.update(state.time,game.camera);uiClock-=dt;
+ function tick(now,schedule=true,step=null){if(combatBridgeZombie!==window.gameZombie)attachCaveCombat();if(schedule)requestAnimationFrame(tick);const dt=step??Math.min(.05,Math.max(0,(now-last)/1000));last=now;if(state.busy)return;if(schedule&&window.gameFront172?.paused)return;if(!state.active){interactionUI();return;}state.time+=dt;world.update(state.time,game.camera);uiClock-=dt;
   const p=game.player,q=world.section(-p.z);const mp=window.gameCreativeSpiderMount?.mounted;if(game.physics186.height<q.y-13){game.teleport186(q.c,p.z,p.yaw);state.lastSafe={x:q.c,z:p.z};hurtPlayer(25,'Queda no abismo');notify('Você conseguiu se agarrar à passagem de pedra.');}if(state.lastSafe&&world.blocked(p.x,p.z,mp?1.3:.34)){p.x=state.lastSafe.x;p.z=state.lastSafe.z;}else if(world.inBounds(p.x,p.z))state.lastSafe={x:p.x,z:p.z};
   // Only a bounded set of nearby brains runs; sleeping enemies retain their exact state.
   const nearby=state.creatures.filter(e=>Math.abs(e.pivot.position.z-p.z)<85).sort((a,b)=>a.pivot.position.distanceToSquared(game.camera.position)-b.pivot.position.distanceToSquared(game.camera.position));for(let i=0;i<nearby.length;i++){nearby[i].pivot.visible=i<(mobile?7:12);if(i<(mobile?7:12))ai(nearby[i],dt);}for(const e of state.creatures)if(Math.abs(e.pivot.position.z-p.z)>=85)e.pivot.visible=false;
@@ -86,7 +102,7 @@
   if(state.time>audio.next){audio.next=state.time+3+Math.random()*5;audio.event('drop');}
   for(const egg of world.eggs){if(!egg.hatched&&Math.hypot(egg.x-p.x,egg.z-p.z)<5&&state.creatures.length<23){egg.hatched=true;spawn('original',-egg.z,egg.x-world.section(-egg.z).c).then(e=>{e.alert=true;e.pivot.scale.setScalar(.43);e.rad=.55;});}}
   if(uiClock<=0){uiClock=.15;interactionUI();uiRegion(p.x>world.secret.x+7?6:world.regions.findIndex(r=>-p.z>=r.a&&-p.z<r.b));const fighting=queen&&!queen.dead&&Math.hypot(queen.pivot.position.x-p.x,queen.pivot.position.z-p.z)<75;boss.style.display=fighting?'block':'none';if(queen)boss.querySelector('i').style.width=(queen.hp/queen.maxHp*100)+'%';}
-  if(window.gameZombie.playerHp<=0){leave();notify('Você foi derrotado nas profundezas.');}
+  if(window.gameZombie?.playerHp<=0){leave();notify('Você foi derrotado nas profundezas.');}
  }
  requestAnimationFrame(tick);
  function addMenu(){if(document.getElementById('cave186Explore'))return;const parent=document.getElementById('h171Native');if(!parent)return;const btn=document.createElement('button');btn.id='cave186Explore';btn.textContent='Caverna da Rainha • visitar';btn.onclick=async()=>{window.gameHud171?.close();if(!window.gameFront172.started)window.gameFront172.play('survival');await enter();};parent.append(btn);}
