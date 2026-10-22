@@ -1,6 +1,7 @@
 /* FLORESTA — mobile presentation and touch access. Native controllers own all game state. */
 (()=>{'use strict';
- if(window.__CAVE_PLATFORM!=='mobile'||window.FlorestaMobile266)return;
+ const v276Platform=new URLSearchParams(location.search).get('platform');
+ if((v276Platform==='pc'||(v276Platform!=='mobile'&&window.__CAVE_PLATFORM!=='mobile'))||window.FlorestaMobile266)return;
  const d=document,root=d.documentElement,$=id=>d.getElementById(id);
  function onActivate(button,fn){let touchAt=-Infinity;button.addEventListener('pointerup',e=>{if(e.pointerType!=='touch')return;e.preventDefault();touchAt=Date.now();fn()});button.addEventListener('click',()=>{if(Date.now()-touchAt>500)fn()});}
  root.classList.add('v266-mobile');
