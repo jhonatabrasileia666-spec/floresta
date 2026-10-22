@@ -55,11 +55,21 @@
     }
   }
 
-  // iOS only allows Add to Home Screen from Safari/HTTPS.
-  if(isiOS && !standalone && location.protocol==="https:"){
-    setTimeout(()=>{
-      if(install)install.style.display="block";
-    },1500);
+  // V274 iOS: do not cover loading or an error screen with the install notice.
+  // Offer Home Screen installation only after the playable main menu is ready.
+  if(isiOS && !standalone && location.protocol==="https:" && install){
+    let dismissed=false,attempts=0,clock=null;
+    const onMenu=()=>{
+      if(dismissed){clearInterval(clock);return;}
+      const front=window.gameFront172;
+      if(!front?.ready || front.shell?.hidden || front.shell?.dataset.view!=='menu')return;
+      clearInterval(clock);
+      install.style.display="block";
+    };
+    clock=setInterval(()=>{if(++attempts>120){clearInterval(clock);return;}onMenu();},1000);
+    window.addEventListener('floresta:ready',()=>setTimeout(onMenu,1800),{once:true});
+    window.addEventListener('pagehide',()=>clearInterval(clock),{once:true});
+    document.getElementById('v51HideInstall')?.addEventListener('click',()=>{dismissed=true;clearInterval(clock);});
   }
 
   document.getElementById("v51HideInstall")?.addEventListener("click",()=>{
