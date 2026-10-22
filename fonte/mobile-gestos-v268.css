@@ -1,0 +1,28 @@
+/* FLORESTA V268: controles RPG responsivos, apenas mobile */
+html.v268-mobile #stick{overflow:visible!important}
+html.v268-mobile #stick #knob{opacity:0!important;pointer-events:none!important}
+html.v268-mobile #v268Thumb{position:absolute;left:50%;top:50%;width:46px;height:46px;box-sizing:border-box;border-radius:50%;border:2px solid #cbb78b;background:radial-gradient(circle at 34% 24%,#aaa58c,#494c35 72%,#20261d);box-shadow:0 2px 9px #000c,inset 0 0 0 4px #d6c18a30;transform:translate(calc(-50% + var(--v268-dx,0px)),calc(-50% + var(--v268-dy,0px)));pointer-events:none;z-index:4;transition:box-shadow .12s}
+html.v268-mobile #v268SprintGuide{position:absolute;bottom:100%;left:25%;width:50%;height:39px;border:1px solid #c0a16c99;border-bottom:none;border-radius:18px 18px 0 0;background:linear-gradient(0deg,#5b43264d,transparent);color:#cbb88f;text-align:center;font:700 9px/21px Georgia,serif;pointer-events:none;opacity:.65}
+html.v268-mobile.v268-run-ready #v268SprintGuide,html.v268-mobile.v268-auto-run #v268SprintGuide{background:linear-gradient(0deg,#be875e88,transparent);color:#ffe6ae;opacity:1;box-shadow:0 -3px 14px #b38d4a55}
+html.v268-mobile.v268-run-ready #v268Thumb,html.v268-mobile.v268-auto-run #v268Thumb{border-color:#ffdc9b;box-shadow:0 0 12px #d6a15eaa,inset 0 0 0 4px #d6c18a55}
+html.v268-mobile.v268-mobile.v268-mobile #potion219Slot{flex:0 0 78px!important;width:78px!important;min-width:78px!important;display:flex!important;flex-direction:row!important;gap:3px!important}
+html.v268-mobile.v268-mobile.v268-mobile #potion219Slot #potion219Equip{display:flex!important;position:relative!important;flex:0 0 45px!important;width:45px!important;min-width:45px!important;height:46px!important;align-items:center!important;justify-content:center!important;padding:3px!important;overflow:hidden!important}
+html.v268-mobile.v268-mobile.v268-mobile #potion219Equip img{display:block!important;width:36px!important;height:38px!important;object-fit:contain!important}
+html.v268-mobile.v268-mobile.v268-mobile #potion219Equip span,html.v268-mobile.v268-mobile.v268-mobile #potion219Equip kbd{display:none!important}
+html.v268-mobile.v268-mobile.v268-mobile #potion219Slot #potion219Select{display:flex!important;position:relative!important;inset:auto!important;flex:0 0 30px!important;width:30px!important;min-width:30px!important;height:46px!important;border:1px solid #928062!important;background:#282b1edc!important;color:#eed7a8!important;font:25px/1 Georgia,serif!important;align-items:center!important;justify-content:center!important}
+html.v268-mobile.v268-mobile.v268-mobile #potion219Select img,html.v268-mobile.v268-mobile.v268-mobile #potion219Select svg,html.v268-mobile.v268-mobile.v268-mobile #potion219Select small{display:none!important}
+html.v268-mobile.v268-mobile.v268-mobile #potion219Slot.v268-potion-equipped #potion219Equip{border-color:#d6a566!important;box-shadow:inset 0 -3px #a36c31,0 0 8px #d6a56655!important}
+html.v268-mobile.v268-mobile.v268-mobile #v267PotionSheet #potion219Use{display:none!important}
+html.v268-mobile.v268-mobile.v268-mobile #v267PotionSheet #potion219Picker{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:5px!important}
+html.v268-mobile #v267PotionSheet #potion219Picker[hidden],html.v268-mobile #v267PotionSheet[hidden]{display:none!important}
+html.v268-mobile #u173Hotbar .u173-slot.v268-equipped{box-shadow:inset 0 -3px #dfa25a,0 0 7px #caa05a99!important;border-color:#dfb271!important}
+html.v268-mobile #v268EditPanel{position:fixed;top:max(6px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:min(440px,90vw);box-sizing:border-box;border:1px solid #b59a6c;background:#121a13f5;box-shadow:0 5px 25px #000b;color:#eadcc0;z-index:90000;padding:8px 12px;text-align:center;font:11px/1.35 system-ui;touch-action:manipulation}
+html.v268-mobile #v268EditPanel strong{display:block;font:700 14px Georgia,serif;letter-spacing:.08em;margin-bottom:3px}
+html.v268-mobile #v268EditPanel #v268EditHelp{display:block}
+html.v268-mobile #v268EditPanel .v268-edit-actions{display:flex;justify-content:center;gap:5px;margin-top:7px}
+html.v268-mobile #v268EditPanel button{min-width:40px;min-height:38px;flex:1;border:1px solid #948262;background:#293324;color:#eee2c8;border-radius:4px;font:600 11px system-ui}
+html.v268-mobile #v268EditPanel[hidden]{display:none!important}
+html.v268-mobile.v268-editing #stick,html.v268-mobile.v268-editing :is(#mobileAttackBtn,#jumpBtn,#rollBtn,#v266Defend,#mobileRunBtn,#mobileCrouchBtn,#v206ActionBtn,#v207PowerCast,#u173Hotbar,#v206TopBar){outline:2px dashed #caba83!important;outline-offset:2px!important;touch-action:none!important;z-index:8000!important}
+html.v268-mobile.v268-editing .v268-edit-selected{outline:3px solid #ffca79!important;outline-offset:3px!important}
+html.v268-mobile.v268-editing #v268EditPanel{z-index:90000!important}
+html.v268-mobile #v267Utilities [data-v268-entry],html.v268-mobile #v206SettingGroup [data-v268-entry]{min-height:44px;width:100%;border:1px solid #947b51;background:#252f22;color:#eaddbc;margin-top:7px}
