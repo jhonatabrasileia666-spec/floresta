@@ -1,6 +1,7 @@
 /* FLORESTA V269: native inventory arranged as the approved mobile RPG reference. */
 (()=>{'use strict';
- if(window.__CAVE_PLATFORM!=='mobile'||window.FlorestaInventory269)return;
+ const v276Platform=new URLSearchParams(location.search).get('platform');
+ if((v276Platform==='pc'||(v276Platform!=='mobile'&&window.__CAVE_PLATFORM!=='mobile'))||window.FlorestaInventory269)return;
  const d=document,$=id=>d.getElementById(id),root=d.documentElement;
  root.classList.add('v269-mobile','v270-mobile');const css=d.createElement('link');css.rel='stylesheet';css.href='fonte/mobile-inventory-v269.css?v=275';d.head.append(css);
  const icon=p=>`<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
