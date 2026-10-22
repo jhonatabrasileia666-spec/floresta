@@ -87,7 +87,7 @@
   if(['axe','hammer','rock','branch','wood_chip','spear','pickaxe'].includes(id))return window.gameRightHand?.unequip?.()!==false;
   if(id==='wood_shield')return window.gameShield?.unequip?.()!==false;
   if(id==='torch')return !!window.gameQuickHands?.equip?.('torch');
-  if(id==='armor')return !!window.gamePrimitive?.unequipArmor?.();
+  if(id==='armor')return !!window.gamePrimitive?.equipArmor?.(); // controlador nativo alterna armadura
   return false;
  }
  function choose(index){
