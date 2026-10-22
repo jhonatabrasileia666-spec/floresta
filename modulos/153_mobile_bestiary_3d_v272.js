@@ -37,7 +37,7 @@ function makeViewer(){
  return true;
 }
 function initRenderer(){
- if(renderer)return true;
+ if(renderer&&viewer?.isConnected&&$('v269CreatureArt')?.contains(viewer))return true;
  if(!makeViewer())return false;
  try{
   canvas=d.createElement('canvas');canvas.id='v272ModelCanvas';canvas.setAttribute('aria-label','Arraste para girar a criatura em 3D');
