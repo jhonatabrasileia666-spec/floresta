@@ -103,6 +103,7 @@ function load(id){
  try{copy=sourceModel(id);}catch(error){console.warn('[Bestiário 3D] Modelo',id,error);message('Falha ao preparar o modelo da criatura.');return false;}
  if(!copy){message('Modelo 3D original ainda carregando.');return false;}
  model=copy;model.visible=true;
+ model.position.set(0,0,0);model.rotation.set(0,0,0); // frontal neutra para todos os modelos
  model.traverse(o=>{if(o.isMesh||o.isSkinnedMesh)o.frustumCulled=false});
  model.updateMatrixWorld(true);
  const bbox=new T.Box3().setFromObject(model);
