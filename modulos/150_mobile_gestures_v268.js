@@ -3,7 +3,7 @@
 if(window.__CAVE_PLATFORM!=='mobile'||window.FlorestaMobile268)return;
 const d=document,root=d.documentElement,$=id=>d.getElementById(id);
 root.classList.add('v268-mobile');
-const css=d.createElement('link');css.rel='stylesheet';css.href='fonte/mobile-gestos-v268.css?v=268.2';d.head.append(css);
+const css=d.createElement('link');css.rel='stylesheet';css.href='fonte/mobile-gestos-v268.css?v=275';d.head.append(css);
 const KEY='floresta-mobile-hud-layout-v268',SPRINT_KEY='floresta-mobile-auto-run-distance-v269';
 let sprintDistance=.80;try{const n=Number(localStorage.getItem(SPRINT_KEY));if(n>=.50&&n<=1.20)sprintDistance=n;}catch{}
 const targetIds=['stick','mobileAttackBtn','jumpBtn','rollBtn','v266Defend','mobileRunBtn','mobileCrouchBtn','v206ActionBtn','v207PowerCast','u173Hotbar','v206TopBar'];
