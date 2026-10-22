@@ -1,6 +1,7 @@
 /* FLORESTA V269 - Bestiario e companheira: desenho novo, regras nativas. */
 (()=>{'use strict';
-if(window.__CAVE_PLATFORM!=='mobile'||window.FlorestaMobile269Creatures)return;
+const v276Platform=new URLSearchParams(location.search).get('platform');
+ if((v276Platform==='pc'||(v276Platform!=='mobile'&&window.__CAVE_PLATFORM!=='mobile'))||window.FlorestaMobile269Creatures)return;
 const d=document,$=id=>d.getElementById(id),root=d.documentElement;
 root.classList.add('v269-mobile');
 const creatureArt={
