@@ -1,6 +1,7 @@
 /* FLORESTA V273 — Diario de criaturas: descoberta real por proximidade, save por mundo. */
 (()=>{'use strict';
-if(window.__CAVE_PLATFORM!=='mobile'||window.gameBestiaryDiscoveryV273)return;
+const v276Platform=new URLSearchParams(location.search).get('platform');
+ if((v276Platform==='pc'||(v276Platform!=='mobile'&&window.__CAVE_PLATFORM!=='mobile'))||window.gameBestiaryDiscoveryV273)return;
 const KEY='floresta-bestiary-found-v273',WORLD='floresta-world-id-v255';
 const allowed=new Set(['skeleton','wolf','necromancer','centaur-skeleton','centaur-fire','spider']);
 let ids=new Set(),worldId=null,lastTick=0;
