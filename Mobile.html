@@ -16,6 +16,32 @@
    ]);
   }
  }catch{}}
+ // Migrate old iPhone PWA JavaScript caches; keep saves and large 3D assets.
+ // Jogo.html has legacy query versions in script tags, so a fresh SW alone
+ // may not immediately refresh previously cached sources on older Safari.
+ if(navigator.onLine!==false && 'caches' in window && !sessionStorage.getItem('floresta-mobile-v275-code-refresh')){
+  try{
+   const probe=await fetch('modulos/000_floresta-release.js?check=v275',{cache:'no-store'});
+   if(probe.ok && (await probe.text()).includes('"version":"V275"')){
+    const versions=(await caches.keys()).filter(k=>k.startsWith('floresta-v'));
+    for(const name of versions){
+     const cache=await caches.open(name);
+     const old=(await cache.keys()).filter(req=>{
+      const path=new URL(req.url).pathname;
+      return path.includes('/modulos/') && path.endsWith('.js');
+     });
+     await Promise.all(old.map(req=>cache.delete(req)));
+    }
+    await Promise.allSettled([
+     fetch('modulos/000_floresta-release.js?v=264',{cache:'reload'}),
+     fetch('modulos/002_legacy_001.js',{cache:'reload'}),
+     fetch('modulos/004_floresta-menu172-bootstrap.js?v=264',{cache:'reload'}),
+     fetch('modulos/096_legacy_095.js?v=255',{cache:'reload'})
+    ]);
+    sessionStorage.setItem('floresta-mobile-v275-code-refresh','1');
+   }
+  }catch(e){console.warn('FLORESTA: atualização de scripts iOS',e)}
+ }
  location.replace('Jogo.html?platform=mobile&ui=275');
 })();
 </script></body></html>
