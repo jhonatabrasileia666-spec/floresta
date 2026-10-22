@@ -1,5 +1,5 @@
 {
-  "version": "V272",
+  "version": "V273",
   "date": "2026-10-22",
   "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
   "merged_from": [
@@ -10,7 +10,7 @@
     "Floresta_V224_Mobilia_Livre_Escadas_Sobre_Piso_PC_Mobile.html",
     "Floresta_V256E_Escudos_Ajustados_PC_Mobile_COMPLETO (1).zip"
   ],
-  "script_count": 154,
+  "script_count": 155,
   "script_modules": [
     {
       "file": "000_floresta-release.js",
@@ -1385,6 +1385,12 @@
       "script": "floresta-mobile-bestiary-3d-v272",
       "kind": "classic",
       "load": "mobile-only"
+    },
+    {
+      "file": "154_bestiary_discovery_v273.js",
+      "script": "floresta-bestiary-discovery-v273",
+      "kind": "classic",
+      "load": "mobile-only"
     }
   ],
   "v255_changes": [
@@ -1447,7 +1453,7 @@
     "cache": "Cache PWA V262 atualizado para arquivos OGG",
     "compatibility": "Preservados saves e mecânicas V261 sem alterar mapas ou equipamentos"
   },
-  "number": 272,
+  "number": 273,
   "v263_changes": [
     "index.html seleciona PC/Mobile automaticamente",
     "controle contextual e scroll protegido",
@@ -1523,5 +1529,13 @@
     "Modelos de mortos-vivos gerados em cena separada com a mesma geometria/material da IA; lobisomem e aranha usam clones, preservando monstros existentes.",
     "Renderizador WebGL de baixa resolução fica ativo apenas com o bestiário aberto, economizando recursos no celular.",
     "Salvamentos e combate inalterados; PC conserva interfaces originais."
+  ],
+  "v273_changes": [
+    "Mobile: menu principal oculto durante carregamento (corrige duas logos e opções sobre barra); loading, menu, painel e saída têm visibilidade exclusiva.",
+    "Mobile: proporções de logo e grade de botões adaptadas à tela horizontal e ao recorte seguro do dispositivo.",
+    "Mobile: Bestiário mostra apenas criaturas encontradas na floresta; outras entradas permanecem Desconhecido, sem revelar o nome ou o 3D.",
+    "Mobile: registro automático por proximidade de esqueleto, lobisomem, necromante, centauros e aranha; previews não provocam encontros.",
+    "Save V2: bestiário integra snapshot exportável e restaurável, limpo ao iniciar um novo mundo; perfil antigo continua válido.",
+    "PC, motor e combate preservados; correção do menu aplica estados de visibilidade a todas as plataformas."
   ]
 }
