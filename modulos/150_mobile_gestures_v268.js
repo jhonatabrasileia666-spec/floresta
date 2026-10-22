@@ -1,6 +1,7 @@
 /* FLORESTA V268 — gestos RPG mobile. Sem substituir motor, saves ou controles PC. */
 (()=>{'use strict';
-if(window.__CAVE_PLATFORM!=='mobile'||window.FlorestaMobile268)return;
+const v276Platform=new URLSearchParams(location.search).get('platform');
+ if((v276Platform==='pc'||(v276Platform!=='mobile'&&window.__CAVE_PLATFORM!=='mobile'))||window.FlorestaMobile268)return;
 const d=document,root=d.documentElement,$=id=>d.getElementById(id);
 root.classList.add('v268-mobile');
 const css=d.createElement('link');css.rel='stylesheet';css.href='fonte/mobile-gestos-v268.css?v=275';d.head.append(css);
