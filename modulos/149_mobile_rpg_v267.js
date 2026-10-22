@@ -3,7 +3,7 @@
  if(window.__CAVE_PLATFORM!=='mobile'||window.FlorestaMobile267)return;
  const d=document,$=id=>d.getElementById(id),root=d.documentElement;
  root.classList.add('v267-mobile');
- const css=d.createElement('link');css.rel='stylesheet';css.href='fonte/mobile-rpg-v267.css?v=267';d.head.append(css);
+ const css=d.createElement('link');css.rel='stylesheet';css.href='fonte/mobile-rpg-v267.css?v=275';d.head.append(css);
  const svg=p=>`<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
  const art={fireball:svg('<path d="M18 3c4 10-8 9-3 16-5-1-4-6-4-6-9 9-4 16 5 16 10 0 15-10 2-26Z"/><path d="M18 20c-7 5-2 10 2 6"/>'),pillars:svg('<path d="M16 3v26M5 12l11-6 11 6M5 21l11-7 11 7M8 28l8-6 8 6"/>'),stream:svg('<path d="M3 9h17l8 7-8 7H3m3-9h12m-12 4h12"/>'),book:svg('<path d="M16 7C11 3 6 4 3 5v23c5-2 9-1 13 2 4-3 8-4 13-2V5c-4-2-9-2-13 2Zm0 0v23"/>'),more:svg('<path d="m16 3 12 13-12 13L4 16 16 3Z"/><circle cx="16" cy="16" r="3"/>')};
  const hud=d.createElement('section');hud.id='v267Vitals';hud.setAttribute('aria-label','Atributos do personagem');
