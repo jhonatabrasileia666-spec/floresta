@@ -70,11 +70,31 @@
   // Storage/ingredients are allowed in Minecraft-like slots, but are not weapons.
   status(label(id)+' selecionado na barra (item de inventário).');return true;
  }
+
+ function equippedItem(id){
+  if(!id)return false;
+  const forged=window.gameForgedEquipmentV230;
+  if(id.startsWith('forged_'))return !!forged?.isEquipped?.(id);
+  if(['axe','hammer','rock','branch','wood_chip','spear','pickaxe'].includes(id))return window.gameRightHand?.current===id&&!forged?.right;
+  if(id==='wood_shield')return !!window.gameShield?.equipped&&!forged?.left;
+  if(id==='torch')return !!window.gameReview?.isEquipped?.();
+  if(id==='armor')return !!window.gamePrimitive?.armorEquipped;
+  return false;
+ }
+ function removeEquipped(id){
+  const forged=window.gameForgedEquipmentV230;
+  if(id.startsWith('forged_'))return !!forged?.unequip?.(id);
+  if(['axe','hammer','rock','branch','wood_chip','spear','pickaxe'].includes(id))return window.gameRightHand?.unequip?.()!==false;
+  if(id==='wood_shield')return window.gameShield?.unequip?.()!==false;
+  if(id==='torch')return !!window.gameQuickHands?.equip?.('torch');
+  if(id==='armor')return !!window.gamePrimitive?.unequipArmor?.();
+  return false;
+ }
  function choose(index){
   if(inMenu()||index<0||index>=9)return false;
   selected=index;const id=slots[index];
   if(!id){status('Espaço vazio. Abra a mochila para escolher um item.');sync();return false;}
-  const result=equipItem(id);sync();return result;
+  const result=(window.__CAVE_PLATFORM==='mobile'&&equippedItem(id))?removeEquipped(id):equipItem(id);sync();return result;
  }
  function setSlot(index,id){
   if(index<0||index>=9)return false;
@@ -161,7 +181,8 @@
   slots.forEach((id,i)=>{
    const qty=owned(id),name=label(id),b=list[i],ed=eds[i];if(!b||!ed)return;
    b.dataset.item=id||'';b.disabled=false;b.classList.toggle('v256-empty',!id||!qty);b.classList.toggle('v256-selected',selected===i);
-   b.setAttribute('aria-pressed',String(selected===i));b.setAttribute('aria-label',i+1+' '+name+(qty?` (${qty})`:''));b.title=(i+1)+' · '+name;
+   if(window.__CAVE_PLATFORM==='mobile')b.classList.toggle('v268-equipped',equippedItem(id));
+   b.setAttribute('aria-pressed',String(window.__CAVE_PLATFORM==='mobile'?equippedItem(id):selected===i));b.setAttribute('aria-label',i+1+' '+name+(qty?` (${qty})`:''));b.title=(i+1)+' · '+name;
    const img=b.querySelector('img'),src=art(id);if(src){if(img.getAttribute('src')!==src)img.setAttribute('src',src);img.style.display='';}else{img.removeAttribute('src');img.style.display='none';}
    b.querySelector('span').textContent=id?name:'';b.querySelector('small').textContent=id?(qty?String(qty):'—'):'';
    ed.setAttribute('aria-selected',String(editActive===i));ed.title=(i+1)+' · '+name;ed.setAttribute('aria-label','Espaço '+(i+1)+': '+name);
