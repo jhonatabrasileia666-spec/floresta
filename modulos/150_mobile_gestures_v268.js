@@ -4,7 +4,8 @@ if(window.__CAVE_PLATFORM!=='mobile'||window.FlorestaMobile268)return;
 const d=document,root=d.documentElement,$=id=>d.getElementById(id);
 root.classList.add('v268-mobile');
 const css=d.createElement('link');css.rel='stylesheet';css.href='fonte/mobile-gestos-v268.css?v=268.2';d.head.append(css);
-const KEY='floresta-mobile-hud-layout-v268';
+const KEY='floresta-mobile-hud-layout-v268',SPRINT_KEY='floresta-mobile-auto-run-distance-v269';
+let sprintDistance=.80;try{const n=Number(localStorage.getItem(SPRINT_KEY));if(n>=.50&&n<=1.20)sprintDistance=n;}catch{}
 const targetIds=['stick','mobileAttackBtn','jumpBtn','rollBtn','v266Defend','mobileRunBtn','mobileCrouchBtn','v206ActionBtn','v207PowerCast','u173Hotbar','v206TopBar'];
 const remembered=new Map();let layout={};try{const data=JSON.parse(localStorage.getItem(KEY)||'{}');if(data&&typeof data==='object')layout=data;}catch{}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(layout));}catch(e){console.warn('[V268] Preferências locais indisponíveis',e)}}
@@ -29,6 +30,12 @@ let editing=false,chosen=null,drag=null;
 const panel=d.createElement('section');panel.id='v268EditPanel';panel.hidden=true;
 panel.innerHTML='<strong>PERSONALIZAR HUD</strong><span id="v268EditHelp">Arraste um botão ou a barra de itens para mudar sua posição.</span><div class="v268-edit-actions"><button type="button" data-v268="less" aria-label="Diminuir botão">−</button><button type="button" data-v268="more" aria-label="Aumentar botão">+</button><button type="button" data-v268="reset">Restaurar</button><button type="button" data-v268="save">Salvar e sair</button></div>';
 d.body.append(panel);
+const sprintSettings=d.createElement('div');sprintSettings.id='v269SprintSettings';
+sprintSettings.innerHTML='<label for="v269SprintDistance">Distância para corrida automática <b id="v269SprintValue">80%</b></label><input type="range" id="v269SprintDistance" min="50" max="120" step="5" value="80"><small>Quanto maior, mais longe você arrasta o analógico para ativar a corrida.</small>';
+panel.insertBefore(sprintSettings,panel.querySelector('.v268-edit-actions'));
+const sprintInput=$('v269SprintDistance'),sprintValue=$('v269SprintValue');
+sprintInput.value=String(Math.round(sprintDistance*100));sprintValue.textContent=Math.round(sprintDistance*100)+'%';
+sprintInput.addEventListener('input',()=>{sprintDistance=Math.max(.5,Math.min(1.2,Number(sprintInput.value)/100));sprintValue.textContent=Math.round(sprintDistance*100)+'%';try{localStorage.setItem(SPRINT_KEY,String(sprintDistance))}catch{}});
 function choose(el){if(chosen)chosen.classList.remove('v268-edit-selected');chosen=el;el?.classList.add('v268-edit-selected');const help=$('v268EditHelp');if(help)help.textContent=el?'Selecionado: '+(el.getAttribute('aria-label')||el.id)+'. Arraste ou ajuste o tamanho.':'Arraste um botão para reposicionar.';}
 function editingSet(on){if(editing===on)return;
 editing=on;root.classList.toggle('v268-editing',on);panel.hidden=!on;
@@ -40,7 +47,7 @@ panel.addEventListener('click',e=>{
 const b=e.target.closest('[data-v268]');if(!b)return;e.preventDefault();e.stopPropagation();
 const mode=b.dataset.v268;
 if(mode==='save'){editingSet(false);return}
-if(mode==='reset'){layout={};try{localStorage.removeItem(KEY)}catch{}restorePositions();choose(null);return}
+if(mode==='reset'){layout={};sprintDistance=.80;sprintInput.value='80';sprintValue.textContent='80%';try{localStorage.removeItem(KEY);localStorage.removeItem(SPRINT_KEY)}catch{}restorePositions();choose(null);return}
 if(!chosen)return;
 const r=chosen.getBoundingClientRect(),current=layout[chosen.id]?.s||1;
 const scale=clamp(current+(mode==='more'?.1:-.1),.7,1.55);
@@ -94,7 +101,7 @@ if(p.equipped===p.selected){p.use?.();}else p.equip?.(p.selected);
 p.sync?.();potionSync();
 },true);
 // Usar a poção não abre confirmação: primeiro toque equipa, segundo bebe.
-const STICK_RADIUS=.42;let activePointer=null,armed=false,auto=false,thumb=null,guide=null,stickBound=null,stopAt=0;
+let activePointer=null,armed=false,auto=false,thumb=null,guide=null,stickBound=null,stopAt=0;
 function runKey(on){const g=window.gameReview;if(!g||(!on&&!runKey.state))return;
 const keys=g.keys;if(keys?.add&&keys?.delete){for(const k of ['Shift','shift','ShiftLeft'])on?keys.add(k):keys.delete(k);}
 if(on!==runKey.state){runKey.state=on;window.dispatchEvent(new KeyboardEvent(on?'keydown':'keyup',{code:'ShiftLeft',key:'Shift',bubbles:true}));}
@@ -116,7 +123,7 @@ function moveStick(e){if(e.pointerId!==activePointer||!stickBound||editing)retur
 const rect=stickBound.getBoundingClientRect(),cx=rect.left+rect.width/2,cy=rect.top+rect.height/2;
 const dx=e.clientX-cx,dy=e.clientY-cy;
 placeThumb(dx,dy);
-if(dy < -rect.height*STICK_RADIUS && Math.abs(dx)<rect.width*.32){armed=true;root.classList.add('v268-run-ready');runKey(true);}
+if(dy < -rect.height*sprintDistance && Math.abs(dx)<rect.width*.37){armed=true;root.classList.add('v268-run-ready');runKey(true);}
 else if(!armed)runKey(false);
 }
 function stickDown(e){if(!stickBound||editing||!play()||!stickBound.contains(e.target)||activePointer!==null)return;
@@ -139,5 +146,5 @@ if(auto){if(!play()||editing||window.gameZombie?.playerHp<=0){stopRun();resetSti
 }
 requestAnimationFrame(tick)}
 requestAnimationFrame(tick);
-window.FlorestaMobile268={version:'V268',enterEdit:()=>editingSet(true),stopRun,get autoRun(){return auto},get editing(){return editing}};
+window.FlorestaMobile268={version:'V268',enterEdit:()=>editingSet(true),stopRun,get autoRun(){return auto},get editing(){return editing},get sprintDistance(){return sprintDistance},setSprintDistance(value){const n=Number(value);if(!Number.isFinite(n))return false;sprintDistance=clamp(n,.5,1.2);sprintInput.value=String(Math.round(sprintDistance*100));sprintValue.textContent=Math.round(sprintDistance*100)+'%';try{localStorage.setItem(SPRINT_KEY,String(sprintDistance))}catch{}return true}};
 })();
