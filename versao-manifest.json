@@ -1,5 +1,5 @@
 {
-  "version": "V268",
+  "version": "V269",
   "date": "2026-10-22",
   "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
   "merged_from": [
@@ -10,16 +10,16 @@
     "Floresta_V224_Mobilia_Livre_Escadas_Sobre_Piso_PC_Mobile.html",
     "Floresta_V256E_Escudos_Ajustados_PC_Mobile_COMPLETO (1).zip"
   ],
-  "script_count": 149,
+  "script_count": 150,
   "script_modules": [
     {
       "file": "000_floresta-release.js",
       "script": "000_floresta-release",
-      "bytes": 1405,
-      "external_bytes": 1405,
+      "bytes": 1682,
+      "external_bytes": 1682,
       "kind": "classic",
       "load": "startup",
-      "sha256": "d0bd3f115a43460122f6ba58b88a24e1c805cecbc029c30d9a2ba52c7d11db76"
+      "sha256": "6530ab48cec03b53256e6d87c5c98821b8b6159ff8cafe363e7afca3ff877341"
     },
     {
       "file": "000_floresta-stream-v254.js",
@@ -303,11 +303,11 @@
     {
       "file": "031_coleta-inline-v18.js",
       "script": "031_coleta-inline-v18",
-      "bytes": 17371,
-      "external_bytes": 17371,
+      "bytes": 18527,
+      "external_bytes": 18527,
       "kind": "classic",
       "load": "startup",
-      "sha256": "c4b313c366a8ec8070e2f7169b0cb3fd1d7bf33904563cbd5891a4c77602001e"
+      "sha256": "da06faf5f9e8ec23ee6efb2ea28d39dda117f3ec301207cedd020ba562e92a83"
     },
     {
       "file": "032_mouse-pointer-lock-v24.js",
@@ -996,11 +996,11 @@
     {
       "file": "109_ui173-controller.js",
       "script": "109_ui173-controller",
-      "bytes": 5829,
-      "external_bytes": 5829,
+      "bytes": 5973,
+      "external_bytes": 5973,
       "kind": "classic",
       "load": "startup",
-      "sha256": "7207af4769c8b78b97cf08c5121001b0af71d035fd6e2d4596f90da38f37c1e9"
+      "sha256": "e856962203379f070d0afdecb5db068077d7448dcb944321b83242968a51bf87"
     },
     {
       "file": "110_v175-third-person-inspection-pc.js",
@@ -1352,6 +1352,15 @@
       "bytes": 13536,
       "external_bytes": 13536,
       "sha256": "b31e4e21b81388ef1c3ce901855d46935b9adfa0ba7fa30833ebbf61058911a7"
+    },
+    {
+      "file": "151_mobile_inventory_v269.js",
+      "script": "151_mobile_inventory_v269",
+      "kind": "classic",
+      "load": "mobile-only",
+      "bytes": 17429,
+      "external_bytes": 17429,
+      "sha256": "74507f4eea455445e21454b952345a2b9f91d15839a422ce4a81bde9b4bc06ab"
     }
   ],
   "v255_changes": [
@@ -1414,7 +1423,7 @@
     "cache": "Cache PWA V262 atualizado para arquivos OGG",
     "compatibility": "Preservados saves e mecânicas V261 sem alterar mapas ou equipamentos"
   },
-  "number": 267,
+  "number": 269,
   "v263_changes": [
     "index.html seleciona PC/Mobile automaticamente",
     "controle contextual e scroll protegido",
@@ -1454,5 +1463,15 @@
     "Mobile: tocar em slot equipado guarda arma/escudo/tocha; outros slots mantêm controlador e inventário originais.",
     "Mobile: seta ao lado do frasco mostra poções disponíveis; primeiro toque no frasco equipa e segundo consome, sem botão Usar.",
     "Mobile: personalização de posições e tamanhos dos botões, salvamento local e opção de restaurar; PC, mundo e saves preservados."
+  ],
+  "v269_changes": [
+    "Inventário mobile baseado na referência: equipamento/personagem à esquerda, filtros e mochila no centro, detalhes à direita e nove atalhos embaixo.",
+    "Prévia feita com o modelo, cabelo e equipamentos reais do jogador; snapshot independente sem alterar câmera, rig ou materiais do jogo.",
+    "Filtros Todos, Armas, Recursos e Poções preservam a ordem dos slots nativos.",
+    "Atribuição de atalhos por toque ou segurar e arrastar, preservando a configuração V256.",
+    "Soltar uma unidade com coleta nativa recuperável, inclusive armas equipadas; coleta revalida a distância atual em vez de usar alvo antigo.",
+    "Barra rápida reconhece nomes de itens fora do catálogo original sem gerar erros.",
+    "Vida, XP, peso e durabilidade de armadura correspondem ao estado real; divisão de pilhas desabilitada enquanto o inventário nativo agrupa por tipo.",
+    "Preserva controles personalizáveis, corrida e uso direto de poções da V268 e interface PC."
   ]
 }

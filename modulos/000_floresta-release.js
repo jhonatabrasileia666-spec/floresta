@@ -1,11 +1,11 @@
 /* FLORESTA: identificacao publica da compilacao. Gerado a partir de versao-manifest.json. */
 (()=>{'use strict';
-const build=Object.freeze({"name":"FLORESTA","version":"V268","number":268,"date":"2026-10-22","edition":"Gestos e HUD personalizavel mobile","base":"V265","saveSchema":2,"platforms":["PC","Mobile"],"manifest":"versao-manifest.json"});
+const build=Object.freeze({"name":"FLORESTA","version":"V269","number":269,"date":"2026-10-22","edition":"Inventário RPG mobile","base":"V265","saveSchema":2,"platforms":["PC","Mobile"],"manifest":"versao-manifest.json"});
 Object.defineProperty(window,'FlorestaBuild',{value:build,enumerable:true,configurable:false,writable:false});
 const mobile=new URLSearchParams(location.search).get('platform')==='mobile'||!new URLSearchParams(location.search).has('platform')&&matchMedia('(pointer:coarse)').matches;
 if(mobile)document.documentElement.classList.add('v266-mobile');
 const apply=()=>{
- if(mobile&&!document.getElementById('florestaMobile266Loader')){const el=document.createElement('script');el.id='florestaMobile266Loader';el.src='modulos/148_mobile_interfaces_v266.js?v=268';el.onload=()=>{const r=document.createElement('script');r.src='modulos/149_mobile_rpg_v267.js?v=268';r.onload=()=>{const n=document.createElement('script');n.src='modulos/150_mobile_gestures_v268.js?v=268.2';document.body.append(n)};document.body.append(r)};document.body.append(el);}
+ if(mobile&&!document.getElementById('florestaMobile266Loader')){const el=document.createElement('script');el.id='florestaMobile266Loader';el.src='modulos/148_mobile_interfaces_v266.js?v=268';el.onload=()=>{const r=document.createElement('script');r.src='modulos/149_mobile_rpg_v267.js?v=268';r.onload=()=>{const n=document.createElement('script');n.src='modulos/150_mobile_gestures_v268.js?v=268.2';n.onload=()=>{const inv=document.createElement('script');inv.src='modulos/151_mobile_inventory_v269.js?v=269';document.body.append(inv)};document.body.append(n)};document.body.append(r)};document.body.append(el);}
 
  document.documentElement.dataset.florestaVersion=build.version;
  document.title='FLORESTA '+build.version+' — '+(mobile?'Mobile':'PC');

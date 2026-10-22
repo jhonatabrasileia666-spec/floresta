@@ -1,0 +1,119 @@
+/* Reference inventory: blackened iron, bone lettering and restrained brass. Mobile only. */
+html.v269-mobile{--iv-ink:#101312f7;--iv-panel:#151914f7;--iv-edge:#807158;--iv-text:#e8dfcc;--iv-gold:#d8b268}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay{padding:var(--m-T) var(--m-R) var(--m-B) var(--m-L)!important;background:#070b0b90!important;backdrop-filter:none!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-panel{width:100%!important;max-width:1200px!important;height:100%!important;max-height:100%!important;position:relative!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;gap:5px!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;padding:0!important;color:var(--iv-text)!important;font-family:Georgia,serif!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-header{position:relative!important;flex:0 0 48px!important;height:48px!important;min-height:48px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important;padding:2px 6px 2px 12px!important;border:1px solid var(--iv-edge)!important;border-radius:2px!important;background:linear-gradient(110deg,#262821e8,#0d1010f7 42%,#181b17f7)!important;box-shadow:inset 0 0 0 2px #0a0d0b,inset 0 0 0 3px #8a79592b!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-header h2{font:600 clamp(17px,2.7vw,27px)/1 Georgia,serif!important;letter-spacing:1.5px!important;text-transform:uppercase!important;color:#e8dfcd!important;margin:0!important;white-space:nowrap!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-header h2:before{display:inline-block!important;content:'◇'!important;font-size:26px!important;color:#b8a274!important;margin-right:9px!important;vertical-align:-2px!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-header-actions{display:flex!important;align-items:center!important;gap:8px!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #inventoryWeight{font:12px Georgia,serif!important;color:#d5cdbb!important;white-space:nowrap!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #inventoryCapacity{display:none!important}
+html.v269-mobile #v269WeightTrack{display:block;width:100px;height:9px;overflow:hidden;background:#0a0d0e;border:1px solid #8b9288;box-shadow:inset 0 0 0 1px #090a08}
+html.v269-mobile #v269WeightTrack i{display:block;height:100%;background:linear-gradient(#b0c174,#728f42 50%,#40562c)}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #inventoryClose{width:44px!important;height:44px!important;min-height:44px!important;min-width:44px!important;padding:0!important;background:linear-gradient(135deg,#363128,#161812)!important;border:1px solid #a48a62!important;border-radius:1px!important;color:#e8ddc7!important;font:30px Georgia,serif!important}
+/* Global screens stay accessible without duplicating the main title. */
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .u173-tabs{flex:0 0 44px!important;min-height:44px!important;max-height:44px!important;margin:0!important;padding:0 5px!important;gap:3px!important;border:1px solid #7d7055!important;background:#111713f2!important;align-items:stretch!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .u173-tabs button{min-height:44px!important;height:44px!important;padding:6px 12px!important;border:0!important;border-radius:0!important;background:none!important;font:12px Georgia,serif!important;box-shadow:none!important;color:#d8cebb!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .u173-tabs button.active{color:#e4bb74!important;border-bottom:2px solid #c9994a!important;background:#68542c33!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-body{display:grid!important;grid-template-columns:minmax(146px,.92fr) minmax(240px,1.65fr) minmax(190px,1fr)!important;grid-template-rows:minmax(0,1fr)!important;gap:5px!important;flex:1 1 0!important;min-height:0!important;height:auto!important;overflow:hidden!important;padding:0!important}
+html.v269-mobile #v269Equipment,html.v269-mobile #inventoryOverlay .inventory-left,html.v269-mobile #inventoryOverlay .inventory-details{box-sizing:border-box;border:1px solid var(--iv-edge);background:linear-gradient(135deg,#20251eeb,#0f1412fa 55%);box-shadow:inset 0 0 0 2px #080d0b,inset 0 0 0 3px #6e69452b;min-width:0}
+html.v269-mobile #v269Equipment{display:flex;flex-direction:column;overflow:hidden;padding:5px;min-height:0}
+html.v269-mobile #v269Equipment h3{flex:0 0 23px;font:600 13px Georgia,serif!important;letter-spacing:1.4px;margin:2px 3px 4px!important;padding-bottom:5px;border-bottom:1px solid #82745a77;color:#ded3bc}
+html.v269-mobile #v269Avatar{flex:1 1 0;position:relative;min-height:90px;background:radial-gradient(ellipse at 50% 70%,#72775a2e,transparent 67%)}
+html.v269-mobile #v269AvatarStage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#b8b5a3;font:11px Georgia,serif;text-align:center;overflow:hidden}
+html.v269-mobile #v269AvatarStage canvas{display:block;width:100%;height:100%;image-rendering:pixelated;pointer-events:none}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .v269-gear{position:absolute!important;width:44px!important;height:48px!important;min-height:44px!important;padding:4px!important;border:1px solid #83785d!important;border-radius:1px!important;background:#0b110e99!important;box-shadow:inset 0 0 0 2px #33362655!important;z-index:1;color:#8a846e!important}
+html.v269-mobile #v269Gear-head{top:3px;left:2px}html.v269-mobile #v269Gear-armor{top:3px;right:2px}html.v269-mobile #v269Gear-right{bottom:3px;left:2px}html.v269-mobile #v269Gear-left{bottom:3px;right:2px}
+html.v269-mobile #inventoryOverlay .v269-gear img{width:100%;height:100%;object-fit:contain}
+html.v269-mobile #inventoryOverlay .v269-gear svg{width:26px;height:26px}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .v269-gear.equipped{border-color:#d8b268!important;color:#cbb889!important;background:#57452344!important}
+html.v269-mobile #v269EquipmentStats{flex:none;border-top:1px solid #81725766;margin-top:3px;padding:5px 2px 2px;display:grid;gap:5px}
+html.v269-mobile #v269EquipmentStats>div{display:grid;grid-template-columns:27px 1fr 49px;gap:5px;align-items:center;font:10px Georgia,serif;color:#dcd1ba}
+html.v269-mobile #v269EquipmentStats i{height:7px;border:1px solid #858878;background:#090e0c;overflow:hidden}
+html.v269-mobile #v269EquipmentStats b{display:block;height:100%;background:linear-gradient(#ce6554,#952c26)}
+html.v269-mobile #v269EquipmentStats>div:nth-child(2) b{background:linear-gradient(#a0b66b,#55733b)}
+html.v269-mobile #v269EquipmentStats small{font:9px Georgia,serif;white-space:nowrap}
+/* Native buttons keep their order and events: filtering never rewrites item indexes. */
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-left{display:flex!important;flex-direction:column!important;min-height:0!important;height:100%!important;padding:5px!important;overflow:hidden!important;gap:5px!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay :is(.inventory-section-label,.inventory-footer-row,#v266BarToggle){display:none!important}
+html.v269-mobile #v269Filters{display:flex;gap:4px;flex:none;height:50px;min-width:0;touch-action:pan-x;overflow-x:auto;scrollbar-width:none}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #v269Filters button{flex:1 0 55px!important;min-width:44px!important;min-height:48px!important;height:48px!important;display:flex!important;align-items:center!important;justify-content:center!important;flex-direction:column!important;gap:3px!important;background:linear-gradient(135deg,#30332788,#101713e8)!important;border:1px solid #7d7b67!important;border-radius:1px!important;padding:3px!important;font:10px Georgia,serif!important;color:#ccc8b8!important;box-shadow:none!important}
+html.v269-mobile #v269Filters svg{height:20px;width:20px}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #v269Filters button.active{border-color:#dbb16b!important;background:linear-gradient(135deg,#7d683f88,#25291d)!important;color:#f1cf90!important;box-shadow:inset 0 -2px #ac874e!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #inventoryGrid{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;grid-auto-rows:clamp(56px,16vh,82px)!important;align-content:start!important;gap:4px!important;flex:1 1 0!important;min-height:0!important;max-height:none!important;height:auto!important;padding:1px!important;overflow-y:auto!important;overflow-x:hidden!important;touch-action:pan-y!important;scrollbar-width:thin;scrollbar-color:#8d825d #10150e}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-slot{position:relative!important;min-height:0!important;height:100%!important;max-height:none!important;min-width:0!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:4px!important;border:1px solid #7c7e6a!important;border-radius:1px!important;background:linear-gradient(135deg,#28302988,#0b120fea)!important;box-shadow:inset 0 0 0 2px #050a0755!important;overflow:hidden!important;touch-action:pan-y!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-slot.selected{border-color:#efc474!important;background:radial-gradient(ellipse,#74603a66,#111912)!important;box-shadow:inset 0 0 0 1px #c59b5055,0 0 5px #b08c4255!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-slot.empty{opacity:.65;background:linear-gradient(45deg,transparent 49.5%,#737d6033 50%,transparent 50.5%),linear-gradient(-45deg,transparent 49.5%,#737d6033 50%,transparent 50.5%),#0b110e!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-slot[hidden],html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-slot.v269-filtered{display:none!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-item-name{display:none!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-item-icon{display:flex!important;width:100%!important;height:100%!important;align-items:center!important;justify-content:center!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-item-icon :is(img,svg){width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;filter:drop-shadow(0 2px 2px #0008);pointer-events:none}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-item-qty{position:absolute!important;bottom:2px!important;right:4px!important;left:auto!important;top:auto!important;font:13px Georgia,serif!important;color:#eee4d0!important;background:none!important;text-shadow:0 1px 3px #000}
+/* Item information is true to the live inventory, never fixed example stats. */
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-details{display:flex!important;flex-direction:column!important;gap:5px!important;min-height:0!important;height:100%!important;max-height:100%!important;padding:7px!important;overflow-y:auto!important;overflow-x:hidden!important;background:linear-gradient(140deg,#20251ded,#0f1412fa)!important;border:1px solid var(--iv-edge)!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #inventoryPreview{position:relative!important;flex:0 0 64px!important;width:100%!important;height:64px!important;min-height:64px!important;max-height:64px!important;padding:0!important;background:radial-gradient(ellipse,#68704b22,transparent 65%)!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #inventoryPreview :is(img,svg){width:100%!important;height:64px!important;max-width:100%!important;max-height:64px!important;object-fit:contain!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #inventoryItemName{font:600 clamp(15px,2.1vw,22px)/1.15 Georgia,serif!important;color:#eee2cb!important;margin:0!important;flex:none}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-detail-meta{font:11px/1.2 Georgia,serif!important;display:flex!important;justify-content:space-between!important;color:#c2bfae!important;flex:none}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-stat-row{font:11px Georgia,serif!important;display:flex!important;justify-content:space-between!important;padding:5px 0!important;border-top:1px solid #8b7b5a77!important;border-bottom:1px solid #8b7b5a77!important;flex:none}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #inventoryDescription{font:11px/1.4 Georgia,serif!important;color:#c9c4b2!important;margin:0!important}
+html.v269-mobile #v269Description{font:11px Georgia,serif;color:#c9c4b2;flex:none}
+html.v269-mobile #v269Description summary{min-height:44px;line-height:44px;border-bottom:1px solid #72694e77;cursor:pointer}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay :is(#inventoryEquip,#v269Drop,#v269Split){position:static!important;flex:0 0 auto!important;min-height:44px!important;height:auto!important;margin:0!important;padding:8px!important;width:100%!important;border:1px solid #a18e60!important;border-radius:1px!important;background:linear-gradient(110deg,#525633,#2c3521)!important;font:600 14px/1.2 Georgia,serif!important;letter-spacing:.4px!important;color:#eee4cc!important;box-shadow:inset 0 0 0 2px #0f120e4d!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #v269Drop{background:linear-gradient(110deg,#564329,#34281a)!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #v269Split{background:#171c17!important;border-color:#616457!important;color:#8d9183!important}
+html.v269-mobile #v269Durability{display:grid;grid-template-columns:1fr auto;gap:4px;font:11px Georgia,serif;color:#d9d0b9;padding:5px 0}
+html.v269-mobile #v269Durability>span{grid-column:1/-1}html.v269-mobile #v269Durability i{height:8px;border:1px solid #8e977c;background:#0b100c}html.v269-mobile #v269Durability b{display:block;height:100%;background:linear-gradient(#c4ce8a,#74944b)}html.v269-mobile #v269Durability[hidden]{display:none!important}
+html.v269-mobile #v269Status{color:#d7b877;font:11px/1.4 Georgia,serif;flex:none}
+/* Original nine assignment slots are always available, tap or hold-and-drag. */
+html.v269-mobile #v269Quick{position:relative;flex:0 0 78px;min-height:78px;box-sizing:border-box;border:1px solid var(--iv-edge);background:linear-gradient(120deg,#252a1cec,#0c120ff5);box-shadow:inset 0 0 0 2px #0b0d09;padding:3px 6px;min-width:0}
+html.v269-mobile #v269Quick>header{display:flex;gap:10px;align-items:center;justify-content:space-between;height:18px;color:#ddd1b7}
+html.v269-mobile #v269Quick strong{font:600 11px Georgia,serif;letter-spacing:1.5px}
+html.v269-mobile #v269Quick>header span{font:10px Georgia,serif;color:#aeb39d}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #v256Editor{position:relative!important;display:block!important;height:51px!important;min-height:0!important;max-height:51px!important;overflow:hidden!important;border:0!important;background:none!important;margin:0!important;padding:0 52px 0 0!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #v256Editor[hidden]{display:block!important}
+html.v269-mobile #v269Quick .v256-caption,html.v269-mobile #v269Quick .v256-selected-label,html.v269-mobile #v269Quick [data-action=add]{display:none!important}
+html.v269-mobile #v269Quick .v256-slots{height:50px;display:flex;overflow-x:auto;gap:5px;touch-action:pan-x;scrollbar-width:none}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #v256Editor .v256-editor-slot{position:relative!important;flex:0 0 48px!important;width:48px!important;min-width:48px!important;height:48px!important;min-height:44px!important;padding:3px!important;background:#121b15bd!important;border:1px solid #847c5f!important;border-radius:1px!important;box-shadow:none!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #v256Editor .v256-editor-slot[aria-selected=true]{border-color:#e4b562!important;box-shadow:inset 0 -2px #dbad54!important;background:#4b402333!important}
+html.v269-mobile #v269Quick .v256-editor-slot img{width:38px;height:38px;object-fit:contain}
+html.v269-mobile #v269Quick .v256-editor-slot kbd{position:absolute;top:2px;left:3px;font:9px Georgia,serif;color:#e3d5b6}
+html.v269-mobile #v269Quick .v256-actions{position:absolute;right:0;top:0;width:46px;height:48px;margin:0;display:flex;align-items:stretch;justify-content:center}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #v256Editor [data-action=clear]{min-height:44px!important;min-width:44px!important;font:10px/1.2 Georgia,serif!important;padding:3px!important;background:#2b2b1e!important;border:1px solid #8b7958!important;border-radius:1px!important}
+html.v269-mobile #v269DragGhost{position:fixed;z-index:95000;width:54px;height:54px;display:flex;align-items:center;justify-content:center;transform:translate(-50%,-70%);border:1px solid #e2ba70;background:#1c291bdc;box-shadow:0 2px 14px #000a;pointer-events:none;color:#eee0bb;font:11px Georgia,serif}
+html.v269-mobile #v269DragGhost img{width:46px;height:46px;object-fit:contain;pointer-events:none}
+@media(max-width:740px) and (orientation:landscape){html.v269-mobile #v269WeightTrack{width:65px}html.v269-mobile #v269EquipmentStats>div{grid-template-columns:24px 1fr 43px;gap:3px}html.v269-mobile #v269Quick>header span{font-size:9px}}
+@media(orientation:portrait){
+ html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-header{flex:0 0 50px!important;padding-left:7px!important}
+ html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-header h2{font-size:16px!important;letter-spacing:1px!important}
+ html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-header h2:before{display:none!important}
+ html.v269-mobile #v269WeightTrack{display:none}
+ html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #inventoryWeight{font-size:10px!important}
+ html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-body{grid-template-columns:1fr 1.3fr!important;grid-template-rows:minmax(180px,.9fr) minmax(190px,1fr)!important}
+ html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-left{grid-column:1/-1!important;grid-row:2!important}
+ html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-details{grid-column:2!important;grid-row:1!important;display:flex!important;border:1px solid var(--iv-edge)!important}
+ html.v269-mobile #v269Equipment{grid-column:1;grid-row:1}
+ html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay #inventoryGrid{grid-auto-rows:64px!important}
+ html.v269-mobile #v269Quick>header span{display:none}
+ html.v269-mobile #v269Equipment h3{font-size:11px!important}
+}
+
+/* Equipment and item details span the bottom quick-access row, as in the reference. */
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-body{grid-template-rows:minmax(0,1fr) 78px!important}
+html.v269-mobile #v269Equipment{grid-column:1;grid-row:1/3}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-left{grid-column:2!important;grid-row:1!important}
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-details{grid-column:3!important;grid-row:1/3!important}
+html.v269-mobile #v269Quick{grid-column:2;grid-row:2;min-width:0;overflow:hidden}
+html.v269-mobile #v269Quick>header span{display:none}
+@media(orientation:portrait){
+ html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-body{grid-template-rows:minmax(180px,.9fr) minmax(190px,1fr) 78px!important}
+ html.v269-mobile #v269Equipment{grid-column:1;grid-row:1}
+ html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-left{grid-column:1/-1!important;grid-row:2!important}
+ html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-details{grid-column:2!important;grid-row:1!important}
+ html.v269-mobile #v269Quick{grid-column:1/-1;grid-row:3}
+}
+
+html.v269-mobile.v269-mobile.v269-mobile.v269-mobile #inventoryOverlay .inventory-header h2:before{display:none!important}
+html.v269-mobile #v269BagIcon{display:inline-flex;width:26px;height:30px;vertical-align:middle;margin-right:10px;color:#bfa574}
+html.v269-mobile #v269BagIcon :is(img,svg){width:100%;height:100%;object-fit:contain}
+@media(orientation:portrait){html.v269-mobile #v269BagIcon{display:none}}

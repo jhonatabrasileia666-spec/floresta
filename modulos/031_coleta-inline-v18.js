@@ -624,7 +624,8 @@ try {
 
   function collect(){
     if(window.gameInventory?.isOpen)return false;
-    const root=candidate||findCandidate();
+    const root=findCandidate();
+    if(lastCandidate&&lastCandidate!==root)setHighlight(lastCandidate,false);
     if(!validRoot(root))return false;
 
     const item={...root.userData.collectible};
@@ -640,6 +641,7 @@ try {
       if(!o.isMesh)return;
       const i=meshes.indexOf(o);if(i>=0)meshes.splice(i,1);
       o.geometry?.dispose?.();
+      if(root.userData.inventoryDrop269){o.material?.map?.dispose?.();o.material?.dispose?.();}
     });
     const ci=collectibles.indexOf(root);if(ci>=0)collectibles.splice(ci,1);
     collectRoot.remove(root);
@@ -679,6 +681,16 @@ try {
     spawnVine,
     spawnWoodChip,
     spawnWoodShield,
+    // Generic dropped inventory stack: same candidate, highlight and collection lifecycle.
+    spawnInventoryDrop(item,x,z,sprite=''){
+      if(!item?.id||!item?.name||!Number.isFinite(x)||!Number.isFinite(z))return null;
+      const root=new THREE.Group();root.userData.collectible={...item,quantity:Math.max(1,Math.floor(Number(item.quantity)||1))};root.userData.inventoryDrop269=true;
+      const mesh=new THREE.Mesh(new THREE.BoxGeometry(.22,.13,.18),new THREE.MeshStandardMaterial({color:0x786c49,roughness:1}));
+      mesh.position.y=.07;root.add(mesh);
+      if(sprite){const texture=new THREE.TextureLoader().load(sprite);texture.minFilter=THREE.NearestFilter;texture.magFilter=THREE.NearestFilter;
+       const face=new THREE.Mesh(new THREE.PlaneGeometry(.38,.38),new THREE.MeshBasicMaterial({map:texture,transparent:true,alphaTest:.15,side:THREE.DoubleSide,depthWrite:false}));face.rotation.x=-Math.PI/2;face.position.y=.15;root.add(face);}
+      return place(root,x,z,.03);
+    },
     spawnItem(item,x,z){
       if(item?.id==="vine"){
         return spawnVine(
