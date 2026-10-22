@@ -1,7 +1,8 @@
 /* FLORESTA V272: inspecao 3D dos modelos VERDADEIROS (mobile).
    Modelos independentes do mundo: nada de spawn, dano, IA ou saves extras. */
 (()=>{'use strict';
-if(window.__CAVE_PLATFORM!=='mobile'||window.FlorestaBestiary3D)return;
+const v276Platform=new URLSearchParams(location.search).get('platform');
+ if((v276Platform==='pc'||(v276Platform!=='mobile'&&window.__CAVE_PLATFORM!=='mobile'))||window.FlorestaBestiary3D)return;
 const d=document,$=id=>d.getElementById(id),T=window.__THREE_MODULE;
 if(!T?.WebGLRenderer||!T?.Scene){console.warn('[Bestiário 3D] Three.js ainda não disponível');return;}
 let current='skeleton',status='aguardando',viewer=null,canvas=null,renderer=null,stage=null;
