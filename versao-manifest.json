@@ -1,5 +1,5 @@
 {
-  "version": "V275",
+  "version": "V276",
   "date": "2026-10-22",
   "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
   "merged_from": [
@@ -1453,7 +1453,7 @@
     "cache": "Cache PWA V262 atualizado para arquivos OGG",
     "compatibility": "Preservados saves e mecânicas V261 sem alterar mapas ou equipamentos"
   },
-  "number": 275,
+  "number": 276,
   "v263_changes": [
     "index.html seleciona PC/Mobile automaticamente",
     "controle contextual e scroll protegido",
@@ -1551,5 +1551,11 @@
     "Plataforma determinada também pelo bootstrap 002 em carregamentos diretos; mobile mantém HUD e controladores nativos, PC continua explícito.",
     "Service Worker: JavaScript network-first e cache bypass HTTP quando online, mídia 3D cache-first; CSS mobile com query de cache atualizada para 275.",
     "HTML Jogo.html conserva tamanho e conteúdo do mundo. Scripts legados carregados com a URL original são revalidados pelo novo service worker."
+  ],
+  "v276_changes": [
+    "Mobile: plataforma=mobile prevalece sobre detecção antiga do iPhone; módulos não desativam mais por __CAVE_PLATFORM de Jogo.html em Safari.",
+    "Mobile: todos os módulos do HUD RPG, inventário, fabricação, bestiário 3D e joystick aceitam URL mobile explícita; platform=pc continua sem alterações.",
+    "Mobile: versão V276 aplica cache-busting a módulos e reinicia verificação de caches legados sem limpar save nem assets 3D.",
+    "PC: preservados motor, mecânicas e interface PC; a seleção explícita de platform=pc tem precedência."
   ]
 }
