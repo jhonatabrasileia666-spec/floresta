@@ -1,5 +1,5 @@
 {
-  "version": "V269",
+  "version": "V270",
   "date": "2026-10-22",
   "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
   "merged_from": [
@@ -10,7 +10,7 @@
     "Floresta_V224_Mobilia_Livre_Escadas_Sobre_Piso_PC_Mobile.html",
     "Floresta_V256E_Escudos_Ajustados_PC_Mobile_COMPLETO (1).zip"
   ],
-  "script_count": 150,
+  "script_count": 153,
   "script_modules": [
     {
       "file": "000_floresta-release.js",
@@ -1361,6 +1361,24 @@
       "bytes": 17429,
       "external_bytes": 17429,
       "sha256": "74507f4eea455445e21454b952345a2b9f91d15839a422ce4a81bde9b4bc06ab"
+    },
+    {
+      "file": "150_mobile_gestures_v268.js",
+      "script": "floresta-mobile-gestos-v268",
+      "kind": "classic",
+      "load": "mobile-only"
+    },
+    {
+      "file": "151_mobile_craft_skills_v269.js",
+      "script": "floresta-mobile-craft-skills-v269",
+      "kind": "classic",
+      "load": "mobile-only"
+    },
+    {
+      "file": "152_mobile_bestiary_spider_v269.js",
+      "script": "floresta-mobile-bestiary-spider-v269",
+      "kind": "classic",
+      "load": "mobile-only"
     }
   ],
   "v255_changes": [
@@ -1423,7 +1441,7 @@
     "cache": "Cache PWA V262 atualizado para arquivos OGG",
     "compatibility": "Preservados saves e mecânicas V261 sem alterar mapas ou equipamentos"
   },
-  "number": 269,
+  "number": 270,
   "v263_changes": [
     "index.html seleciona PC/Mobile automaticamente",
     "controle contextual e scroll protegido",
@@ -1473,5 +1491,14 @@
     "Barra rápida reconhece nomes de itens fora do catálogo original sem gerar erros.",
     "Vida, XP, peso e durabilidade de armadura correspondem ao estado real; divisão de pilhas desabilitada enquanto o inventário nativo agrupa por tipo.",
     "Preserva controles personalizáveis, corrida e uso direto de poções da V268 e interface PC."
+  ],
+  "v270_changes": [
+    "Preservado inventário RPG mobile da V269, sem substituir os componentes e salvamentos existentes.",
+    "Fabricação: receitas nativas em lista com preview ilustrado, custos e botão de executar fabricação original.",
+    "Habilidades: lista e detalhe com XP/nível/pontos reais, melhoras usando os comandos originais.",
+    "Bestiário: tela separada para criaturas conhecidas e companheira, ferramentas de invocação apenas no criativo.",
+    "Aranha: montaria, chamada e movimentação de carga usando controladores originais; vida, troncos e tábuas dinâmicos.",
+    "Corrida automática mobile: gatilho em 80% de altura do analógico por padrão e ajuste 50%–120% em Personalizar botões.",
+    "PC sem alterações funcionais, apenas identificação de versão."
   ]
 }
