@@ -1,6 +1,7 @@
 /* FLORESTA V269 - Fabricacao e Habilidades com layout dark RPG. */
 (()=>{'use strict';
-if(window.__CAVE_PLATFORM!=='mobile'||window.FlorestaMobile269Craft)return;
+const v276Platform=new URLSearchParams(location.search).get('platform');
+ if((v276Platform==='pc'||(v276Platform!=='mobile'&&window.__CAVE_PLATFORM!=='mobile'))||window.FlorestaMobile269Craft)return;
 const d=document,$=id=>d.getElementById(id),root=d.documentElement;
 root.classList.add('v269-mobile');
 const css=d.createElement('link');css.rel='stylesheet';css.href='fonte/mobile-menus-v269.css?v=275';d.head.append(css);
