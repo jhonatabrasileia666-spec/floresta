@@ -1,5 +1,5 @@
 {
-  "version": "V274",
+  "version": "V275",
   "date": "2026-10-22",
   "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
   "merged_from": [
@@ -1453,7 +1453,7 @@
     "cache": "Cache PWA V262 atualizado para arquivos OGG",
     "compatibility": "Preservados saves e mecânicas V261 sem alterar mapas ou equipamentos"
   },
-  "number": 274,
+  "number": 275,
   "v263_changes": [
     "index.html seleciona PC/Mobile automaticamente",
     "controle contextual e scroll protegido",
@@ -1544,5 +1544,12 @@
     "Tentativa de vincular durante a inicialização, no evento floresta:ready e no ciclo do jogo; mantém todos os efeitos de combate e a recompensa da aranha.",
     "Atualizado cache de PWA para invalidar o script com erro nos dispositivos iOS; preservadas todas as partidas e o Bestiário V273.",
     "PC e mobile mantêm a mesma mecânica e controles; apenas compatibilidade e identificador da versão atualizados."
+  ],
+  "v275_changes": [
+    "Roteamento Safari iPhone: detectar touch/coarse sem limite de largura, incluindo paisagem >900px e User Agent Macintosh (site para computador).",
+    "Entrada Mobile.html força Jogo.html?platform=mobile e agora verifica/corrige apenas os scripts do PWA antigo sem limpar saves ou assets pesados.",
+    "Plataforma determinada também pelo bootstrap 002 em carregamentos diretos; mobile mantém HUD e controladores nativos, PC continua explícito.",
+    "Service Worker: JavaScript network-first e cache bypass HTTP quando online, mídia 3D cache-first; CSS mobile com query de cache atualizada para 275.",
+    "HTML Jogo.html conserva tamanho e conteúdo do mundo. Scripts legados carregados com a URL original são revalidados pelo novo service worker."
   ]
 }
