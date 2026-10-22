@@ -1,6 +1,6 @@
 /* FLORESTA V268: controles RPG responsivos, apenas mobile */
 html.v268-mobile #stick{overflow:visible!important}
-html.v268-mobile #stick #knob{opacity:0!important;pointer-events:none!important}
+html.v268-mobile #knob{opacity:0!important;pointer-events:none!important}
 html.v268-mobile #v268Thumb{position:absolute;left:50%;top:50%;width:46px;height:46px;box-sizing:border-box;border-radius:50%;border:2px solid #cbb78b;background:radial-gradient(circle at 34% 24%,#aaa58c,#494c35 72%,#20261d);box-shadow:0 2px 9px #000c,inset 0 0 0 4px #d6c18a30;transform:translate(calc(-50% + var(--v268-dx,0px)),calc(-50% + var(--v268-dy,0px)));pointer-events:none;z-index:4;transition:box-shadow .12s}
 html.v268-mobile #v268SprintGuide{position:absolute;bottom:100%;left:25%;width:50%;height:39px;border:1px solid #c0a16c99;border-bottom:none;border-radius:18px 18px 0 0;background:linear-gradient(0deg,#5b43264d,transparent);color:#cbb88f;text-align:center;font:700 9px/21px Georgia,serif;pointer-events:none;opacity:.65}
 html.v268-mobile.v268-run-ready #v268SprintGuide,html.v268-mobile.v268-auto-run #v268SprintGuide{background:linear-gradient(0deg,#be875e88,transparent);color:#ffe6ae;opacity:1;box-shadow:0 -3px 14px #b38d4a55}
