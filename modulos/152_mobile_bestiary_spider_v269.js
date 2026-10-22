@@ -17,7 +17,8 @@ const known=[
 {id:'unknown',title:'Desconhecido',sub:'Registro não identificado',behavior:'Uma presença ainda não catalogada na floresta.',where:'Explore o mundo para encontrar novas ameaças.'}
 ];
 const esc=s=>String(s||'').replace(/[&<>"]/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[x]));
-let bestiary=null,spiderSvg='',page='bestiary',selected='skeleton',spiderDone=false;
+let bestiary=null,spiderSvg='',page='bestiary',selected='unknown',spiderDone=false;
+const hasFound=id=>!!window.gameBestiaryDiscoveryV273?.has?.(id);
 function setupBst(){
  const p=$('directorPanel');if(!p)return;
  if(!bestiary){
@@ -25,9 +26,9 @@ function setupBst(){
   bestiary.innerHTML='<nav class="v269-bst-tabs"><button type="button" data-bst-page="bestiary">Bestiário</button><button type="button" data-bst-page="companions">Companheiros</button></nav><div class="v269-bst-body"><nav id="v269CreatureList" aria-label="Lista de criaturas"></nav><div id="v269CreatureArt" class="v269-bst-art"></div><section class="v269-bst-info"><h2 id="v269CreatureTitle"></h2><p id="v269CreatureSubtitle"></p><h3>Comportamento</h3><p id="v269CreatureBehavior"></p><p id="v269CreatureWhere"></p><button id="v269OpenSpider" type="button" hidden>ABRIR ARANHA</button></section></div>';
   bestiary.addEventListener('click',e=>{
    const tab=e.target.closest('[data-bst-page]');
-   if(tab){page=tab.dataset.bstPage;selected=page==='companions'?'spider':'skeleton';renderBestiary();return;}
+   if(tab){page=tab.dataset.bstPage;selected=page==='companions'?(hasFound('spider')?'spider':'unknown'):(known.find(x=>x.id!=='unknown'&&hasFound(x.id))?.id||'unknown');renderBestiary();return;}
    const b=e.target.closest('[data-bst-creature]');
-   if(b){selected=b.dataset.bstCreature;renderBestiary();return;}
+   if(b){const id=b.dataset.bstCreature;if(id!=='unknown'&&!hasFound(id))return;selected=id;renderBestiary();return;}
    if(e.target.closest('#v269OpenSpider')){$('directorClose')?.click();$('v207SpiderOpen')?.click();}
   });
   p.append(bestiary);
@@ -46,17 +47,19 @@ function setupBst(){
 function renderBestiary(){
  if(!bestiary?.isConnected)return;
  bestiary.querySelectorAll('[data-bst-page]').forEach(b=>b.classList.toggle('selected',b.dataset.bstPage===page));
- const entries=page==='companions'?[{id:'spider',title:'Aranha'}]:known;
+ const unknown={id:'unknown',title:'Desconhecido'};
+ const entries=page==='companions'?(hasFound('spider')?[{id:'spider',title:'Aranha'}]:[unknown]):[...known.filter(x=>x.id!=='unknown'&&hasFound(x.id)),unknown];
+ if(selected!=='unknown'&&!entries.some(x=>x.id===selected))selected=entries[0]?.id||'unknown';
  $('v269CreatureList').innerHTML=entries.map(c=>'<button type="button" data-bst-creature="'+c.id+'" class="'+(selected===c.id?'selected':'')+'"><span class="v269-bst-thumb">'+(c.id==='spider'?spiderSvg:creatureArt[c.id]||creatureArt.unknown)+'</span><span>'+esc(c.title)+'</span></button>').join('');
- const found=known.find(x=>x.id===selected)||known[0];
- const entity=page==='companions'?{title:'Aranha',sub:'Companheira e transporte',behavior:'Permite montar e transportar materiais. As ações usam os controles reais da montaria.',where:'Abra o painel para chamar, montar ou carregar a aranha.'}:found;
+ const found=known.find(x=>x.id===selected)||known.find(x=>x.id==='unknown');
+ const entity=page==='companions'&&selected==='spider'?{title:'Aranha',sub:'Companheira e transporte',behavior:'Permite montar e transportar materiais. As ações usam os controles reais da montaria.',where:'Abra o painel para chamar, montar ou carregar a aranha.'}:selected==='unknown'?{title:'Desconhecido',sub:'Registro ainda não descoberto',behavior:'Encontre a criatura no mundo para revelar suas características e seu modelo 3D.',where:'Explore a floresta. Novas descobertas ficam salvas nesta partida.'}:found;
  $('v269CreatureTitle').textContent=entity.title.toUpperCase();
  $('v269CreatureSubtitle').textContent=entity.sub;
  $('v269CreatureBehavior').textContent=entity.behavior;
  $('v269CreatureWhere').textContent=entity.where;
- $('v269CreatureArt').innerHTML=page==='companions'?spiderSvg:creatureArt[selected]||creatureArt.unknown;
- window.FlorestaBestiary3D?.select?.(page==='companions'?'spider':selected);
- $('v269OpenSpider').hidden=page!=='companions';
+ $('v269CreatureArt').innerHTML=selected==='spider'?spiderSvg:creatureArt[selected]||creatureArt.unknown;
+ window.FlorestaBestiary3D?.select?.(selected==='unknown'?'unknown':selected);
+ $('v269OpenSpider').hidden=page!=='companions'||!hasFound('spider');
 }
 function setupSpider(){
  const p=$('v207SpiderPanel');if(!p||spiderDone)return;
@@ -87,5 +90,6 @@ function sync(){
 }
 sync();const clock=setInterval(sync,420);
 window.addEventListener('pagehide',()=>clearInterval(clock),{once:true});
-window.FlorestaMobile269Creatures={version:'V272',sync,get selected(){return page==='companions'?'spider':selected},get page(){return page}};
+window.addEventListener('floresta:bestiary-updated',()=>{if(bestiary?.isConnected)renderBestiary()});
+window.FlorestaMobile269Creatures={version:'V273',sync,get selected(){return selected==='unknown'?'unknown':selected},get page(){return page}};
 })();
