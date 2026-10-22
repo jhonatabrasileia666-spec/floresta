@@ -1,5 +1,5 @@
 {
-  "version": "V271",
+  "version": "V272",
   "date": "2026-10-22",
   "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
   "merged_from": [
@@ -10,7 +10,7 @@
     "Floresta_V224_Mobilia_Livre_Escadas_Sobre_Piso_PC_Mobile.html",
     "Floresta_V256E_Escudos_Ajustados_PC_Mobile_COMPLETO (1).zip"
   ],
-  "script_count": 153,
+  "script_count": 154,
   "script_modules": [
     {
       "file": "000_floresta-release.js",
@@ -1379,6 +1379,12 @@
       "script": "floresta-mobile-bestiary-spider-v269",
       "kind": "classic",
       "load": "mobile-only"
+    },
+    {
+      "file": "153_mobile_bestiary_3d_v272.js",
+      "script": "floresta-mobile-bestiary-3d-v272",
+      "kind": "classic",
+      "load": "mobile-only"
     }
   ],
   "v255_changes": [
@@ -1441,7 +1447,7 @@
     "cache": "Cache PWA V262 atualizado para arquivos OGG",
     "compatibility": "Preservados saves e mecânicas V261 sem alterar mapas ou equipamentos"
   },
-  "number": 271,
+  "number": 272,
   "v263_changes": [
     "index.html seleciona PC/Mobile automaticamente",
     "controle contextual e scroll protegido",
@@ -1509,5 +1515,13 @@
     "Ações indisponíveis e divisão de pilhas sem suporte removidas da área visível.",
     "Arraste por toque impede rolagem nativa somente depois de segurar o item; deslize comum continua rolando.",
     "Preserva corrida automática ajustável, HUD personalizável, poções diretas, mecânicas, PC e saves."
+  ],
+  "v272_changes": [
+    "Bestiário mobile: modelos 3D reais da floresta para esqueleto guerreiro, lobisomem, necromante, centauro esqueleto e centauro de fogo.",
+    "Companheiros: pré-visualização da aranha com malha e rig originais, sem gerar outra montaria na partida.",
+    "Controles de inspeção: arrastar para girar, gesto de pinça ou botões +/- para zoom e botão de restaurar enquadramento.",
+    "Modelos de mortos-vivos gerados em cena separada com a mesma geometria/material da IA; lobisomem e aranha usam clones, preservando monstros existentes.",
+    "Renderizador WebGL de baixa resolução fica ativo apenas com o bestiário aberto, economizando recursos no celular.",
+    "Salvamentos e combate inalterados; PC conserva interfaces originais."
   ]
 }
