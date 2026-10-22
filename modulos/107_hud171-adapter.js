@@ -33,7 +33,7 @@
    // Catch extra/future utility controls without moving touch or contextual actions.
    for(const b of [...document.querySelectorAll('body > button,#hud > button')]){
     if(adopted.has(b)||b.closest('#hud171,#h171Drawer')||/mobile|jump|pickup|roll|crouch|run|log|lumber|constructionAction|constructionCancel|plank|board|place|confirm|cancel/i.test(b.id))continue;
-    if(window.__CAVE_PLATFORM==='mobile'&&/^(v206|v207|v266|forge222Entry|alq189Button|alq194Collect)/.test(b.id))continue;
+    if(window.__CAVE_PLATFORM==='mobile'&&/^(v206|v207|v266|v267|forge222Entry|alq189Button|alq194Collect)/.test(b.id))continue;
     const rect=b.getBoundingClientRect();if(rect.width&&rect.top<innerHeight*.62)adopt(b,$('h171Native'));
    }
    const g=window.gameReview,yaw=g?.player?.yaw||0,deg=((yaw*180/Math.PI)%360+360)%360;const dirs=['N','NO','O','SO','S','SE','L','NE'];$('h171Heading').textContent=dirs[Math.round(deg/45)%8];

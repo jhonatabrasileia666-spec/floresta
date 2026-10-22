@@ -1,5 +1,5 @@
 {
-  "version": "V266",
+  "version": "V267",
   "date": "2026-10-21",
   "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
   "merged_from": [
@@ -10,16 +10,16 @@
     "Floresta_V224_Mobilia_Livre_Escadas_Sobre_Piso_PC_Mobile.html",
     "Floresta_V256E_Escudos_Ajustados_PC_Mobile_COMPLETO (1).zip"
   ],
-  "script_count": 148,
+  "script_count": 149,
   "script_modules": [
     {
       "file": "000_floresta-release.js",
       "script": "000_floresta-release",
-      "bytes": 1300,
-      "external_bytes": 1300,
+      "bytes": 1405,
+      "external_bytes": 1405,
       "kind": "classic",
       "load": "startup",
-      "sha256": "4a8f4503f595af9b1c90e76566bb3fa7dd7a7fd37437e8d5f9ec124f87d9278a"
+      "sha256": "d0bd3f115a43460122f6ba58b88a24e1c805cecbc029c30d9a2ba52c7d11db76"
     },
     {
       "file": "000_floresta-stream-v254.js",
@@ -978,11 +978,11 @@
     {
       "file": "107_hud171-adapter.js",
       "script": "107_hud171-adapter",
-      "bytes": 9055,
-      "external_bytes": 9055,
+      "bytes": 9060,
+      "external_bytes": 9060,
       "kind": "classic",
       "load": "startup",
-      "sha256": "13245f923c8808dafa8f96aea4565cf88ced08649c803a6ee79fa3e2c79128ce"
+      "sha256": "3bd87383f49aec49cdba929ce1a59b247281aaf412f8d1579fbc23982780ae47"
     },
     {
       "file": "108_floresta-menu172-controller.js",
@@ -1343,6 +1343,15 @@
       "bytes": 11735,
       "sha256": "f03c5d526dcfaa31e3c5045a5a38309d9eebbbd291598ba0c56052ea9b5410a9",
       "external_bytes": 11735
+    },
+    {
+      "file": "149_mobile_rpg_v267.js",
+      "script": "149_mobile_rpg_v267",
+      "kind": "classic",
+      "load": "mobile-only",
+      "bytes": 13536,
+      "external_bytes": 13536,
+      "sha256": "b31e4e21b81388ef1c3ce901855d46935b9adfa0ba7fa30833ebbf61058911a7"
     }
   ],
   "v255_changes": [
@@ -1405,7 +1414,7 @@
     "cache": "Cache PWA V262 atualizado para arquivos OGG",
     "compatibility": "Preservados saves e mecânicas V261 sem alterar mapas ou equipamentos"
   },
-  "number": 266,
+  "number": 267,
   "v263_changes": [
     "index.html seleciona PC/Mobile automaticamente",
     "controle contextual e scroll protegido",
@@ -1432,5 +1441,12 @@
     "Defesa por pressão com liberação no cancelamento; painéis isolam gestos do gameplay",
     "Motor, salvamentos, gráficos PSX, modelos, animações e interface PC preservados",
     "Seleção da barra captura o item antes de a grade nativa ser reconstruída; catálogo criativo de dragões abre em painel próprio"
+  ],
+  "v267_changes": [
+    "HUD RPG mobile aprovado: medalhão de nível/XP, barras de vida, experiência e durabilidade real da armadura equipada.",
+    "Artes de Ignis respeitam desbloqueio nativo; atalhos de equipamento roláveis e poção com painel próprio.",
+    "Combate por toque em arco: atacar, rolar, pular e defender com escudo; utilidades recolhidas.",
+    "Catálogo de construção com corpo independente, ferramentas secundárias recolhidas e confirmação nativa.",
+    "Interface PC, mecânicas, saves, modelos e gráficos preservados."
   ]
 }

@@ -1,0 +1,162 @@
+/* Approved V267 RPG composition. All overrides remain mobile-only. */
+html.v267-mobile{--rpg-bone:#d9cbb0;--rpg-edge:#96866a;--rpg-ink:#10100fd9;--m-unit:50px}
+html.v267-mobile.v267-mobile.v267-mobile :is(#v267Vitals,#u173Hotbar,#v206TopBar,#stick,#knob,#v267Utilities,#v267Quest),html.v267-mobile #v267Vitals *,html.v267-mobile #u173Hotbar *{box-sizing:border-box}
+html.v267-mobile.v267-mobile.v267-mobile :is(#zombieHud,#progressHud,#forge222Entry,#v207SpiderOpen,#v266DragonOpen,#v207PowerSelect,#pickupPrompt,#lumberPrompt,#plankCarryPromptV139,#ignisPowerHudV111){display:none!important}
+/* A readable RPG crest, real health/XP, optional armour durability. */
+html.v267-mobile #v267Vitals{position:fixed;top:var(--m-T);left:var(--m-L);display:flex;gap:7px;align-items:flex-start;z-index:195;pointer-events:none;color:var(--rpg-bone);filter:drop-shadow(0 2px 2px #000)}
+html.v267-mobile #v267Level{position:relative;flex:none;pointer-events:auto;width:54px;height:54px;border:1px solid #c3a975;border-radius:50%;padding:0;background:radial-gradient(circle,#28251ce8 48%,#0d0e0be8 51%);box-shadow:inset 0 0 0 3px #17160f,inset 0 0 0 4px #766951,0 0 0 2px #151410;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#eee3cc;touch-action:manipulation}
+html.v267-mobile #v267Level:before{content:'';position:absolute;inset:-4px;border-radius:50%;background:conic-gradient(#c89c50 var(--xp-angle),#4a4436 var(--xp-angle));mask:radial-gradient(transparent 65%,#000 68%,#000 70%,transparent 73%);pointer-events:none}
+html.v267-mobile #v267Level:after{content:'◆';position:absolute;bottom:-10px;color:#9f8760;font-size:12px}
+html.v267-mobile #v267LevelNumber{font:24px/1 Georgia,serif}html.v267-mobile #v267Level small{font:7px/1.6 Georgia,serif;letter-spacing:1px}
+html.v267-mobile #v267Level.has-points{box-shadow:inset 0 0 0 3px #17160f,inset 0 0 0 4px #766951,0 0 7px #d89e4e88}
+html.v267-mobile .v267-bars{width:178px;padding-top:1px;display:grid;gap:5px}
+html.v267-mobile .v267-stat{position:relative;display:grid;grid-template-columns:22px 1fr 48px;gap:4px;align-items:center;height:13px;font:8px Georgia,serif}
+html.v267-mobile .v267-stat>span{font:7px Georgia,serif;letter-spacing:.5px}
+html.v267-mobile .v267-stat i{height:9px;background:#100f0dd9;border:1px solid #75634b;transform:skew(-13deg);box-shadow:0 0 0 1px #090b09;overflow:hidden}
+html.v267-mobile .v267-stat b{display:block;height:100%;background:linear-gradient(#b96c5c,#9d302c 45%,#541f1d);box-shadow:inset 0 1px #efc0a05c}
+html.v267-mobile .v267-stat.xp b{background:linear-gradient(#859c66,#4b693d 45%,#283d28)}
+html.v267-mobile .v267-stat.armor b{background:linear-gradient(#88a2ab,#426777 45%,#263f4e)}
+html.v267-mobile .v267-stat small{font:9px Georgia,serif;white-space:nowrap;color:#eee1c6}
+html.v267-mobile .v267-stat[hidden]{display:none}
+/* Compass and navigation use etched metal, not bulky panels. */
+html.v267-mobile.v267-mobile.v267-mobile .h171-compass{width:170px!important;min-height:20px!important;top:var(--m-T)!important;background:linear-gradient(90deg,transparent,#10100f66,transparent)!important;color:var(--rpg-bone)!important}
+html.v267-mobile.v267-mobile.v267-mobile #dayNightClock{top:calc(var(--m-T) + 25px)!important;font:10px Georgia,serif!important;background:#10100f80!important;color:#e7d7b8!important;border:0!important}
+html.v267-mobile.v267-mobile.v267-mobile #v206TopBar{gap:5px!important}
+html.v267-mobile.v267-mobile.v267-mobile #v206TopBar button{width:44px!important;height:44px!important;border:1px solid #85735a!important;border-radius:3px!important;background:linear-gradient(135deg,#2b271c88,#0e100fd9)!important;box-shadow:inset 0 0 0 2px #12120f,inset 0 0 0 3px #7b6e4d33!important;color:var(--rpg-bone)!important;padding:8px!important}
+html.v267-mobile.v267-mobile.v267-mobile #v206TopBar button svg{stroke:var(--rpg-bone)!important;width:24px!important;height:24px!important}
+/* One strip: original nine item slots scroll; arts and potion remain distinct. */
+html.v267-mobile.v267-mobile.v267-mobile #u173Hotbar{width:318px!important;height:62px!important;min-height:0!important;max-height:62px!important;padding:13px 0 0!important;bottom:var(--m-B)!important;border:0!important;border-radius:0!important;background:linear-gradient(0deg,#0d0e0c70,transparent)!important;box-shadow:none!important;overflow:visible!important}
+html.v267-mobile.v267-mobile.v267-mobile #potion219Dock{height:48px!important;min-height:0!important;align-items:center!important;gap:7px!important;padding:0!important;margin:0!important}
+html.v267-mobile.v267-mobile.v267-mobile #u173Hotbar .u173-slots{position:relative!important;flex:1 1 0!important;width:0!important;height:48px!important;max-height:48px!important;min-height:0!important;align-items:center!important;gap:4px!important;padding:0!important;mask-image:linear-gradient(90deg,#000 93%,transparent)}
+html.v267-mobile.v267-mobile.v267-mobile #u173Hotbar:before{content:'EQUIPAMENTO';position:absolute;top:0;left:2px;color:#d8c5a5;font:8px/11px Georgia,serif;letter-spacing:1px;text-shadow:0 1px 3px #000}
+html.v267-mobile.v267-mobile.v267-mobile #u173Hotbar .u173-slot{position:relative!important;flex:0 0 46px!important;width:46px!important;min-width:46px!important;height:46px!important;min-height:46px!important;padding:3px!important;border:1px solid #8b795c99!important;border-radius:2px!important;background:linear-gradient(135deg,#25271d88,#0a0d0bd9)!important;box-shadow:inset 0 0 0 2px #13140d88!important}
+html.v267-mobile.v267-mobile.v267-mobile #u173Hotbar .u173-slot img{width:36px!important;height:36px!important;max-height:36px!important;object-fit:contain!important;filter:drop-shadow(0 2px 2px #000)}
+html.v267-mobile.v267-mobile.v267-mobile #u173Hotbar .u173-slot span{display:none!important}
+html.v267-mobile.v267-mobile.v267-mobile #u173Hotbar .u173-slot small{position:absolute!important;bottom:2px!important;right:3px!important;font:10px Georgia,serif!important;color:#e7d9ba!important}
+html.v267-mobile.v267-mobile.v267-mobile #u173Hotbar .u173-slot.v256-selected{border-color:#d4a45d!important;background:#4a3421a8!important;box-shadow:inset 0 -2px #f2bd70,0 0 5px #c08b4244!important}
+html.v267-mobile #v267Arts{position:relative;display:flex;gap:4px;flex:none;height:46px}
+html.v267-mobile #v267Arts:before{content:'ARTES';position:absolute;top:-14px;left:0;color:#d8c5a5;font:8px/11px Georgia,serif;letter-spacing:1px;text-shadow:0 1px 3px #000}
+html.v267-mobile #v267Arts button{width:44px;height:46px;min-width:44px;min-height:44px;padding:7px;border:1px solid #82725299;border-radius:2px;background:linear-gradient(135deg,#2c221b8c,#0e100dcf);color:#e6b27c;touch-action:manipulation}
+html.v267-mobile #v267Arts button svg{width:28px;height:28px}
+html.v267-mobile #v267Arts button:disabled{opacity:.45;color:#a29b8b}
+html.v267-mobile #v267Arts button.unlocked{border-color:#c79a5a;box-shadow:inset 0 0 8px #ce6c1828}
+html.v267-mobile.v267-mobile.v267-mobile #potion219Slot{display:flex!important;width:44px!important;min-width:44px!important;height:46px!important;min-height:0!important;align-items:center!important;padding:0!important;gap:0!important;position:relative!important}
+html.v267-mobile.v267-mobile.v267-mobile #potion219Equip{width:44px!important;min-width:44px!important;height:46px!important;min-height:44px!important;padding:3px!important;border:1px solid #8b795c99!important;border-radius:2px!important;background:#131810b0!important}
+html.v267-mobile.v267-mobile.v267-mobile #potion219Equip small{position:absolute;right:3px;bottom:2px;font:11px Georgia,serif}
+html.v267-mobile.v267-mobile.v267-mobile #potion219Select{position:absolute!important;inset:0!important;width:44px!important;min-width:44px!important;height:46px!important;padding:0!important;border:1px solid #8b795c99!important;background:#15181066!important;border-radius:2px!important;font-size:0!important;color:#bca27e!important}
+html.v267-mobile.v267-mobile.v267-mobile #potion219Select svg{width:24px;height:24px}
+html.v267-mobile.v267-has-potion #potion219Select{background:transparent!important;color:transparent!important}
+html.v267-mobile.v267-mobile.v267-mobile #potion219Picker{position:absolute!important;bottom:calc(100% + 8px)!important;left:auto!important;right:0!important;width:280px!important;max-width:80vw!important;max-height:65dvh!important;padding:8px!important;background:#151710f5!important;border:1px solid #9b8360!important;box-shadow:0 4px 20px #0009!important;z-index:250!important;touch-action:pan-y!important}
+html.v267-mobile.v267-mobile.v267-mobile #potion219Picker[hidden]{display:none!important}
+html.v267-mobile.v267-mobile.v267-mobile #potion219Picker #potion219Use{grid-column:1/-1!important;width:100%!important;min-height:44px!important}
+/* Thumb arc mirrors the approved concept. All targets remain >=44 CSS px. */
+html.v267-mobile.v267-mobile.v267-mobile :is(#mobileAttackBtn,#jumpBtn,#rollBtn,#v266Defend,#v206ActionBtn,#mobileRunBtn,#mobileCrouchBtn,#v207PowerCast,#v206MountedAttack,#v206MountedJump){border:1px solid #aa9876c9!important;border-radius:50%!important;background:radial-gradient(circle at 35% 20%,#37352660,#0c100dd9)!important;box-shadow:inset 0 0 0 3px #11120eaa,inset 0 0 0 4px #85775b66,0 2px 4px #0007!important;color:#e6d7ba!important;font:10px/1 Georgia,serif!important;gap:2px!important;text-shadow:0 1px 2px #000!important;padding:5px!important;width:50px!important;height:50px!important}
+html.v267-mobile.v267-mobile.v267-mobile :is(#mobileAttackBtn,#v206MountedAttack){right:calc(var(--m-R) + 35px)!important;bottom:calc(var(--m-B) + 60px)!important;width:68px!important;height:68px!important;border-color:#b7a27c!important}
+html.v267-mobile.v267-mobile.v267-mobile :is(#mobileAttackBtn,#v206MountedAttack) svg{width:33px!important;height:33px!important}
+html.v267-mobile.v267-mobile.v267-mobile #rollBtn{right:calc(var(--m-R) + 86px)!important;bottom:var(--m-B)!important;width:54px!important;height:54px!important}
+html.v267-mobile.v267-mobile.v267-mobile :is(#jumpBtn,#v206MountedJump){right:var(--m-R)!important;bottom:var(--m-B)!important;width:50px!important;height:50px!important}
+html.v267-mobile.v267-mobile.v267-mobile #v266Defend{right:var(--m-R)!important;bottom:calc(var(--m-B) + 143px)!important;width:44px!important;height:44px!important}
+html.v267-mobile.v267-mobile.v267-mobile #v266Defend[hidden]{display:none!important}
+html.v267-mobile.v267-mobile.v267-mobile #v207PowerCast{right:calc(var(--m-R) + 72px)!important;bottom:calc(var(--m-B) + 143px)!important;width:46px!important;height:46px!important;border-color:#c79a5a!important;color:#edb87b!important}
+html.v267-mobile.v267-mobile.v267-mobile #v207PowerCast.v267-locked{opacity:.4;border-color:#897e68!important}
+html.v267-mobile.v267-mobile.v267-mobile #v206ActionBtn{right:calc(var(--m-R) + 154px)!important;bottom:calc(var(--m-B) + 82px)!important;width:48px!important;height:48px!important}
+html.v267-mobile.v267-mobile.v267-mobile #stick{left:var(--m-L)!important;bottom:var(--m-B)!important;width:112px!important;height:112px!important;border:1px solid #baa68588!important;background:radial-gradient(circle,#2b302022,#0a100c6e)!important;box-shadow:inset 0 0 0 4px #11130d66,inset 0 0 0 5px #7f725150!important}
+html.v267-mobile.v267-mobile.v267-mobile #knob{width:48px!important;height:48px!important;background:radial-gradient(circle at 30% 25%,#b3aa8ba8,#66674fc9)!important;border:1px solid #c3b59080!important;box-shadow:0 1px 5px #0008!important}
+html.v267-mobile.v267-mobile.v267-mobile #mobileRunBtn{left:calc(var(--m-L) + 35px)!important;bottom:calc(var(--m-B) + 122px)!important;width:44px!important;height:44px!important}
+html.v267-mobile.v267-mobile.v267-mobile #mobileCrouchBtn{left:calc(var(--m-L) + 121px)!important;bottom:var(--m-B)!important;width:44px!important;height:44px!important}
+html.v267-mobile.v267-mobile.v267-mobile :is(#rollBtn,#v266Defend,#mobileRunBtn).active{background:#65502ac9!important;border-color:#e6b776!important}
+/* Secondary utilities and the native story stay one deliberate tap away. */
+html.v267-mobile #v267Utilities{position:fixed;right:var(--m-R);top:calc(var(--m-T) + 52px);width:244px;max-height:calc(100dvh - 76px);overflow:auto;padding:10px;border:1px solid #9f8962;background:#14170ff7;box-shadow:0 8px 30px #0009;z-index:2600;color:var(--rpg-bone);touch-action:pan-y}
+html.v267-mobile #v267Utilities header{display:flex;align-items:center;justify-content:space-between;font:12px Georgia,serif;letter-spacing:1px}
+html.v267-mobile #v267Utilities button{min-height:44px;border:1px solid #78694f;background:#24251b;color:#e8dabb;font:13px Georgia,serif;padding:8px}
+html.v267-mobile #v267Utilities>button{width:100%;margin-top:6px;text-align:left}
+html.v267-mobile #v267Utilities header button{width:44px;font-size:23px}
+html.v267-mobile #v267Utilities[hidden],html.v267-mobile #v267Utilities button[hidden]{display:none!important}
+html.v267-mobile #v267Quest{position:fixed;right:var(--m-R);top:calc(var(--m-T) + 52px);max-width:205px;min-height:44px;border:0;border-bottom:1px solid #94815d99;background:linear-gradient(90deg,transparent,#11150ccc);color:#dbcaab;font:12px Georgia,serif;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;padding:8px 12px;z-index:191}
+html.v267-mobile #v267Quest[hidden]{display:none!important}
+html.v267-mobile.v267-mobile.v267-mobile #f259Journey{display:none!important;left:auto!important;right:var(--m-R)!important;top:calc(var(--m-T) + 102px)!important;width:260px!important;max-height:calc(100dvh - 120px)!important;overflow-y:auto!important}
+html.v267-mobile.v267-mobile.v267-mobile.v267-quest-open #f259Journey:not([hidden]){display:block!important}
+html.v267-mobile.v267-mobile.v267-mobile :is(#f259Return,#f259ClueHint){display:none!important}
+html.v267-mobile.v267-mobile.v267-mobile:not([data-mobile-screen=play]) :is(#v267Vitals,#v267Quest){visibility:hidden!important;pointer-events:none!important}
+html.v267-mobile.v267-mobile.v267-mobile:not([data-mobile-screen=play]) #v267Vitals *{pointer-events:none!important}
+/* Catalogue body gets the space: two small nav rows, no permanent project toolbar. */
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay .construction-head{padding:0 8px!important;height:44px!important;min-height:44px!important;flex:0 0 44px!important;background:#12150ff5!important}
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay .construction-head h2{font:20px Georgia,serif!important}
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay :is(.u173-tabs,.construction-tabs){gap:4px!important;padding:0 6px!important;min-height:46px!important;height:46px!important;border:0!important;border-bottom:1px solid #75644766!important;background:#191d13!important}
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay :is(.u173-tabs,.construction-tabs)>button{min-height:44px!important;height:44px!important;min-width:64px!important;padding:6px 12px!important;font:12px Georgia,serif!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay :is(.u173-tabs,.construction-tabs)>button.active{color:#e9bc76!important;border-bottom:2px solid #c89549!important;background:#5d48282e!important}
+html.v267-mobile.v267-mobile.v267-mobile #v266ConstructionScroll{display:flex!important;flex-direction:column!important;overflow:hidden!important}
+html.v267-mobile #v267Projects{flex:none;padding:0 8px;border-bottom:1px solid #75644766;background:#11160f;color:#c6b99c;max-height:45%;overflow-y:auto;font:12px Georgia,serif}
+html.v267-mobile #v267Projects summary{min-height:30px;line-height:30px;cursor:pointer}
+html.v267-mobile #v267Projects .construction-tools input[type=checkbox]{min-width:22px!important;min-height:22px!important;width:22px!important;height:22px!important;padding:0!important}
+html.v267-mobile.v267-mobile.v267-mobile #v207BuildBody{display:grid!important;flex:1 1 0!important;min-height:0!important;height:auto!important;grid-template-columns:minmax(0,1.8fr) minmax(190px,1fr)!important;overflow:hidden!important;gap:0!important}
+html.v267-mobile.v267-mobile.v267-mobile #v207BuildBody .construction-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-auto-rows:100px!important;align-content:start!important;padding:6px!important;gap:6px!important;min-height:0!important;height:100%!important;overflow-y:auto!important;touch-action:pan-y!important}
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay .construction-card{min-height:100px!important;height:100px!important;border-color:#897956!important;border-radius:3px!important;background:linear-gradient(135deg,#30322266,#10150ee0)!important;padding:4px!important;box-shadow:none!important}
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay .construction-card .v207-mini-art{height:52px!important;min-height:52px!important}
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay .construction-card .v207-mini-art svg{height:48px!important;width:70px!important}
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay .construction-card span:not(.v207-mini-art){display:none!important}
+html.v267-mobile.v267-mobile.v267-mobile #v207BuildDetails{min-height:0!important;overflow-y:auto!important;padding:8px!important;background:#14180ff0!important;border-color:#76674c!important}
+html.v267-mobile.v267-mobile.v267-mobile #v207BuildTitle{font:17px Georgia,serif!important;margin:0 0 6px!important}
+html.v267-mobile.v267-mobile.v267-mobile #v207BuildArt{height:52px!important;min-height:52px!important;max-height:52px!important;background:none!important}
+html.v267-mobile.v267-mobile.v267-mobile #v207BuildArt svg{height:48px!important}
+html.v267-mobile.v267-mobile.v267-mobile #v207BuildDesc{font:11px/1.35 Georgia,serif!important}
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay #constructionLevels{height:48px!important;min-height:48px!important;padding:2px 8px!important;justify-content:flex-end!important;border-top:1px solid #77664b!important}
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay #constructionLevels button{min-height:44px!important;padding:6px 12px!important;font:12px Georgia,serif!important}
+@media(max-width:740px) and (orientation:landscape){
+ html.v267-mobile.v267-mobile.v267-mobile #u173Hotbar{width:278px!important;left:49%!important}
+ html.v267-mobile #v267Arts{gap:2px}html.v267-mobile #v267Arts button{width:44px}
+ html.v267-mobile .v267-bars{width:148px}html.v267-mobile .v267-stat{grid-template-columns:20px 1fr 46px}
+ html.v267-mobile.v267-mobile.v267-mobile .h171-compass{width:100px!important}
+ html.v267-mobile.v267-mobile.v267-mobile #mobileCrouchBtn{left:calc(var(--m-L) + 110px)!important;bottom:calc(var(--m-B) + 60px)!important}
+ html.v267-mobile.v267-mobile.v267-mobile #v206ActionBtn{right:calc(var(--m-R) + 124px)!important;bottom:calc(var(--m-B) + 82px)!important}
+ html.v267-mobile.v267-mobile.v267-mobile #v207BuildBody .construction-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(orientation:portrait){
+ html.v267-mobile #v267Vitals{top:var(--m-T)}html.v267-mobile .v267-bars{width:155px}
+ html.v267-mobile.v267-mobile.v267-mobile #v206TopBar{top:calc(var(--m-T) + 70px)!important}
+ html.v267-mobile.v267-mobile.v267-mobile .h171-compass{top:calc(var(--m-T) + 120px)!important;width:150px!important}
+ html.v267-mobile.v267-mobile.v267-mobile #dayNightClock{top:calc(var(--m-T) + 145px)!important}
+ html.v267-mobile #v267Quest{top:calc(var(--m-T) + 170px)}html.v267-mobile #v267Utilities{top:calc(var(--m-T) + 122px)}
+ html.v267-mobile.v267-mobile.v267-mobile #u173Hotbar{width:318px!important;left:50%!important;bottom:calc(var(--m-B) + 212px)!important}
+ html.v267-mobile.v267-mobile.v267-mobile #v207BuildBody{grid-template-columns:1fr!important;grid-template-rows:minmax(100px,1fr) minmax(120px,.7fr)!important}
+ html.v267-mobile.v267-mobile.v267-mobile #v207BuildBody .construction-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ html.v267-mobile.v267-mobile.v267-mobile #v207BuildArt{display:none!important}
+}
+
+html.v267-mobile #v267PotionSheet{position:absolute;bottom:calc(100% + 8px);right:0;width:280px;max-width:80vw;max-height:65dvh;overflow-y:auto;padding:8px;background:#151710fa;border:1px solid #9b8360;box-shadow:0 4px 20px #0009;z-index:250;touch-action:pan-y}
+html.v267-mobile #v267PotionSheet[hidden]{display:none!important}
+html.v267-mobile.v267-mobile.v267-mobile #v267PotionSheet #potion219Picker{position:static!important;width:100%!important;max-width:none!important;max-height:none!important;padding:0!important;border:0!important;box-shadow:none!important;overflow:visible!important;background:none!important}
+html.v267-mobile.v267-mobile.v267-mobile #v267PotionSheet #potion219Equip{position:relative!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;width:100%!important;height:48px!important;min-height:44px!important;margin:6px 0!important;color:#e4d3af!important}
+html.v267-mobile.v267-mobile.v267-mobile #v267PotionSheet #potion219Equip span{display:inline!important;font:12px Georgia,serif!important}
+html.v267-mobile.v267-mobile.v267-mobile #v267PotionSheet #potion219Use{width:100%!important;min-height:44px!important;margin:0!important;padding:9px!important;color:#ebd2a4!important}
+html.v267-mobile.v267-mobile.v267-mobile #potion219Select img{width:34px!important;height:34px!important;object-fit:contain!important}
+html.v267-mobile.v267-mobile.v267-mobile #potion219Select small{position:absolute;right:3px;bottom:2px;color:#eadbbc;font:11px Georgia,serif}
+
+html.v267-mobile.v267-mobile.v267-mobile #u173Hotbar .u173-slots{border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important}
+html.v267-mobile.v267-mobile.v267-mobile #potion219Slot:before{content:'POÇÕES'!important;position:absolute!important;top:-13px!important;left:0!important;font:8px/11px Georgia,serif!important;color:#d8c5a5!important;letter-spacing:.4px!important;white-space:nowrap!important}
+
+html.v267-mobile.v267-mobile.v267-mobile #v267PotionSheet #potion219Equip span{display:none!important}
+html.v267-mobile.v267-mobile.v267-mobile #v267PotionSheet #potion219Equip:before{content:'Equipar / guardar';font:12px Georgia,serif;color:#e4d3af}
+html.v267-mobile.v267-mobile.v267-mobile #v267PotionSheet #potion219Equip small{position:static!important}
+html.v267-mobile #v267Vitals .v267-stat{font-size:9px}
+
+html.v267-mobile.v267-mobile.v267-mobile #potion219Slot{flex:0 0 44px!important}
+html.v267-mobile #v207BuildArt img{width:100%;height:52px;object-fit:contain}
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay .construction-card .construction-thumb{height:60px!important;max-height:60px!important;width:100%!important;object-fit:contain!important}
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay .construction-card.v207-selected{border-color:#dbad64!important;background:#4b3b2188!important}
+
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay .construction-card{display:flex!important;flex-direction:column!important;justify-content:flex-start!important;align-items:center!important;gap:2px!important}
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay .construction-card .construction-thumb{display:block!important;position:static!important;flex:0 0 58px!important;width:100%!important;height:58px!important;min-height:0!important;max-height:58px!important;max-width:100%!important;margin:0!important;object-fit:contain!important}
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay .construction-card .v207-mini-art{display:none!important}
+html.v267-mobile.v267-mobile.v267-mobile #v207BuildArt img{display:block!important;position:static!important;width:100%!important;height:52px!important;max-height:52px!important;max-width:100%!important;object-fit:contain!important;margin:0!important}
+html.v267-mobile.v267-mobile.v267-mobile #v267PotionSheet #potion219Picker>button{display:grid!important;grid-template-columns:24px minmax(0,1fr) auto!important;gap:4px!important;padding:5px!important;min-height:54px!important;font:11px/1.3 Georgia,serif!important;overflow-wrap:normal!important}
+html.v267-mobile.v267-mobile.v267-mobile #v267PotionSheet #potion219Picker img{width:24px!important;height:30px!important}
+html.v267-mobile.v267-mobile.v267-mobile #v267PotionSheet #potion219Picker small{margin:0!important;font-size:10px!important}
+
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay .construction-panel{position:relative!important}
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay .construction-head{display:none!important}
+html.v267-mobile.v267-mobile.v267-mobile #constructionOverlay .u173-tabs>.construction-close{position:sticky!important;right:0!important;margin-left:auto!important;flex:0 0 44px!important;min-width:44px!important;width:44px!important;background:#1b1c13!important;border-left:1px solid #897756!important;font:24px Georgia,serif!important}
+html.v267-mobile #v267Projects{position:absolute;left:4px;bottom:0;z-index:6;width:156px;max-height:65%;padding:0 6px;border:1px solid #7d6b4b;background:#15180ffb}
+html.v267-mobile #v267Projects summary{min-height:44px;line-height:44px}
+html.v267-mobile #v267Projects[open]{width:min(520px,90%)}
+@media(orientation:portrait){html.v267-mobile #v267Projects{position:static;width:auto;max-height:40%;}html.v267-mobile #v267Projects[open]{width:auto}}
