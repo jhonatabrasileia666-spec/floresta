@@ -1,5 +1,5 @@
 {
-  "version": "V270",
+  "version": "V271",
   "date": "2026-10-22",
   "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
   "merged_from": [
@@ -15,11 +15,11 @@
     {
       "file": "000_floresta-release.js",
       "script": "000_floresta-release",
-      "bytes": 1682,
-      "external_bytes": 1682,
+      "bytes": 1967,
+      "external_bytes": 1967,
       "kind": "classic",
       "load": "startup",
-      "sha256": "6530ab48cec03b53256e6d87c5c98821b8b6159ff8cafe363e7afca3ff877341"
+      "sha256": "76bf69731bd31232cb3491acd30f26a001e6a40bf5b523a625c865f6910fc3e8"
     },
     {
       "file": "000_floresta-stream-v254.js",
@@ -1358,9 +1358,9 @@
       "script": "151_mobile_inventory_v269",
       "kind": "classic",
       "load": "mobile-only",
-      "bytes": 17429,
-      "external_bytes": 17429,
-      "sha256": "74507f4eea455445e21454b952345a2b9f91d15839a422ce4a81bde9b4bc06ab"
+      "bytes": 21316,
+      "external_bytes": 21316,
+      "sha256": "9755fea874d0059b40c861386ea8fbfd2e29c47b1eb73b2249155ee7aa6b7206"
     },
     {
       "file": "150_mobile_gestures_v268.js",
@@ -1441,7 +1441,7 @@
     "cache": "Cache PWA V262 atualizado para arquivos OGG",
     "compatibility": "Preservados saves e mecânicas V261 sem alterar mapas ou equipamentos"
   },
-  "number": 270,
+  "number": 271,
   "v263_changes": [
     "index.html seleciona PC/Mobile automaticamente",
     "controle contextual e scroll protegido",
@@ -1500,5 +1500,14 @@
     "Aranha: montaria, chamada e movimentação de carga usando controladores originais; vida, troncos e tábuas dinâmicos.",
     "Corrida automática mobile: gatilho em 80% de altura do analógico por padrão e ajuste 50%–120% em Personalizar botões.",
     "PC sem alterações funcionais, apenas identificação de versão."
+  ],
+  "v271_changes": [
+    "Inventário mobile com um cabeçalho de 44px; navegação completa em menu explícito.",
+    "Equipamento/personagem em painel recolhível e prévia renderizada apenas ao abrir, liberando a coluna fixa.",
+    "Mochila ampliada: grade adaptável, filtros em uma linha e atalhos permanentes; capacidade continua sendo a do inventário real.",
+    "Detalhes laterais em paisagem e painel inferior por toque em retrato, com retorno claro à mochila.",
+    "Ações indisponíveis e divisão de pilhas sem suporte removidas da área visível.",
+    "Arraste por toque impede rolagem nativa somente depois de segurar o item; deslize comum continua rolando.",
+    "Preserva corrida automática ajustável, HUD personalizável, poções diretas, mecânicas, PC e saves."
   ]
 }
