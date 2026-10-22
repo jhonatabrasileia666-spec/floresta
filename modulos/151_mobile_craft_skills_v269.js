@@ -3,7 +3,7 @@
 if(window.__CAVE_PLATFORM!=='mobile'||window.FlorestaMobile269Craft)return;
 const d=document,$=id=>d.getElementById(id),root=d.documentElement;
 root.classList.add('v269-mobile');
-const css=d.createElement('link');css.rel='stylesheet';css.href='fonte/mobile-menus-v269.css?v=269.1';d.head.append(css);
+const css=d.createElement('link');css.rel='stylesheet';css.href='fonte/mobile-menus-v269.css?v=275';d.head.append(css);
 let craftContent=null,craftLayout=null,chosenRecipe=null,recipeKey='';
 const items=()=>window.florestaV183Art?.items||{};
 const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
