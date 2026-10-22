@@ -341,3 +341,4 @@ html.v266-mobile.v266-mobile #h171Drawer{z-index:10000!important}
 html.v266-mobile.v266-mobile #v206SettingGroup{display:grid;gap:8px}
 html.v266-mobile.v266-mobile #v206SettingGroup input[type=range]{width:100%;min-height:44px;touch-action:pan-x}
 html.v266-mobile.v266-mobile #shieldBlockBtnV79{display:none!important}
+html.v266-mobile.v266-mobile #h171Drawer:not([hidden]){z-index:10000!important}

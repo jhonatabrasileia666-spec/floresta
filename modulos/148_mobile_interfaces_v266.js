@@ -4,7 +4,7 @@
  const d=document,root=d.documentElement,$=id=>d.getElementById(id);
  function onActivate(button,fn){let touchAt=-Infinity;button.addEventListener('pointerup',e=>{if(e.pointerType!=='touch')return;e.preventDefault();touchAt=Date.now();fn()});button.addEventListener('click',()=>{if(Date.now()-touchAt>500)fn()});}
  root.classList.add('v266-mobile');
- const css=d.createElement('link');css.rel='stylesheet';css.href='fonte/mobile-v266.css?v=266';d.head.append(css);
+ const css=d.createElement('link');css.rel='stylesheet';css.href='fonte/mobile-v266.css?v=266.1';d.head.append(css);
  const svg=path=>`<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
  const icons={
   attack:svg('<path d="m8 28 14-24M17 7l7-3 5 8-5 6-10-5"/>'),

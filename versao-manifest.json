@@ -15,11 +15,11 @@
     {
       "file": "000_floresta-release.js",
       "script": "000_floresta-release",
-      "bytes": 1298,
-      "external_bytes": 1298,
+      "bytes": 1300,
+      "external_bytes": 1300,
       "kind": "classic",
       "load": "startup",
-      "sha256": "c3847f4b019c19f2269105f1f4ddcd51f3ab56fbe4ec09d42a19e59990a8bc2c"
+      "sha256": "4a8f4503f595af9b1c90e76566bb3fa7dd7a7fd37437e8d5f9ec124f87d9278a"
     },
     {
       "file": "000_floresta-stream-v254.js",
@@ -1340,9 +1340,9 @@
       "script": "floresta-mobile266",
       "kind": "classic",
       "load": "mobile-only",
-      "bytes": 11733,
-      "sha256": "b5f3257485c26ae21a8db07ca46a2427f4980e77d0fbdcab9bf301002c3f709d",
-      "external_bytes": 11733
+      "bytes": 11735,
+      "sha256": "f03c5d526dcfaa31e3c5045a5a38309d9eebbbd291598ba0c56052ea9b5410a9",
+      "external_bytes": 11735
     }
   ],
   "v255_changes": [

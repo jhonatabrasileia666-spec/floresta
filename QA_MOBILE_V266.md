@@ -23,3 +23,5 @@ Chromium com emulação de toque e telas de 844×390, 667×375 e 390×844. PC ve
 Não houve teste em aparelho Android/iOS físico, nem medição de FPS. Para inspecionar os painéis sem o custo da renderização 3D por software, parte da verificação pausou o loop da cena no ambiente de teste. A fornalha recebeu um estado de teste de estrutura concluída para abrir seu painel; isso não valida o processo completo de construção ou fundição. A bigorna e seus controles usaram os controladores originais. Não foram testadas todas as receitas nem todas as montarias.
 
 O console registrou `Cannot read properties of undefined (reading 'combatTargets')` na inicialização legada. A implementação desta entrega não altera esse subsistema de combate.
+
+Verificação complementar: Configurações abriu acima do menu e fechou por toque; catálogo de dragões do criativo abriu e fechou sem cobrir o HUD permanentemente.

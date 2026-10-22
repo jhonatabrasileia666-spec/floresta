@@ -5,7 +5,7 @@ Object.defineProperty(window,'FlorestaBuild',{value:build,enumerable:true,config
 const mobile=new URLSearchParams(location.search).get('platform')==='mobile'||!new URLSearchParams(location.search).has('platform')&&matchMedia('(pointer:coarse)').matches;
 if(mobile)document.documentElement.classList.add('v266-mobile');
 const apply=()=>{
- if(mobile&&!document.getElementById('florestaMobile266Loader')){const el=document.createElement('script');el.id='florestaMobile266Loader';el.src='modulos/148_mobile_interfaces_v266.js?v=266';document.body.append(el);}
+ if(mobile&&!document.getElementById('florestaMobile266Loader')){const el=document.createElement('script');el.id='florestaMobile266Loader';el.src='modulos/148_mobile_interfaces_v266.js?v=266.1';document.body.append(el);}
 
  document.documentElement.dataset.florestaVersion=build.version;
  document.title='FLORESTA '+build.version+' — '+(mobile?'Mobile':'PC');
