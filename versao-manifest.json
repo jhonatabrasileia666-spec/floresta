@@ -1,6 +1,6 @@
 {
-  "version": "V267",
-  "date": "2026-10-21",
+  "version": "V268",
+  "date": "2026-10-22",
   "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
   "merged_from": [
     "Floresta_V225_Camera_Imersiva_Visivel_PC_Mobile.html",
@@ -1448,5 +1448,11 @@
     "Combate por toque em arco: atacar, rolar, pular e defender com escudo; utilidades recolhidas.",
     "Catálogo de construção com corpo independente, ferramentas secundárias recolhidas e confirmação nativa.",
     "Interface PC, mecânicas, saves, modelos e gráficos preservados."
+  ],
+  "v268_changes": [
+    "Mobile: mini joystick com indicador que acompanha o dedo, puxar acima da borda superior para armar corrida automática e novo toque para interromper.",
+    "Mobile: tocar em slot equipado guarda arma/escudo/tocha; outros slots mantêm controlador e inventário originais.",
+    "Mobile: seta ao lado do frasco mostra poções disponíveis; primeiro toque no frasco equipa e segundo consome, sem botão Usar.",
+    "Mobile: personalização de posições e tamanhos dos botões, salvamento local e opção de restaurar; PC, mundo e saves preservados."
   ]
 }
