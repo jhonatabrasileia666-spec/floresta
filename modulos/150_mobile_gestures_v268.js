@@ -35,6 +35,7 @@ editing=on;root.classList.toggle('v268-editing',on);panel.hidden=!on;
 window.gameHud171?.close?.();window.gameReview?.keys?.clear?.();if(window.gameReview?.stick)window.gameReview.stick.x=window.gameReview.stick.y=0;stopRun();
 if(!on){drag=null;choose(null);save();}else{choose(null);layoutSync()}
 }
+panel.addEventListener('pointerup',e=>{const b=e.target.closest?.('[data-v268]');if(e.pointerType==='touch'&&b){e.preventDefault();b.click()}},false);
 panel.addEventListener('click',e=>{
 const b=e.target.closest('[data-v268]');if(!b)return;e.preventDefault();e.stopPropagation();
 const mode=b.dataset.v268;
@@ -65,7 +66,8 @@ window.addEventListener('pointercancel',editPointerUp,true);
 for(const type of ['click','touchstart','touchmove','touchend'])window.addEventListener(type,e=>{if(editing&&e.target.closest?.(targetIds.map(x=>'#'+x).join(','))){e.preventDefault();e.stopImmediatePropagation()}},{capture:true,passive:false});
 function settings(){for(const host of [$('v206SettingGroup'),$('v267Utilities')]){
 if(!host||host.querySelector('[data-v268-entry]'))continue;
-const b=d.createElement('button');b.type='button';b.dataset.v268Entry='';b.textContent='Personalizar botões';b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();editingSet(true)});host.append(b);
+const b=d.createElement('button');b.type='button';b.dataset.v268Entry='';b.textContent='Personalizar botões';b.addEventListener('pointerup',e=>{if(e.pointerType==='touch'){e.preventDefault();e.stopPropagation();editingSet(true)}});
+b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();editingSet(true)});host.append(b);
 }}
 // The V267 overlay moves its original equipment button into a secondary sheet.
 // V268 returns the flask to the HUD and uses the native potion engine for drinking.
@@ -93,7 +95,7 @@ p.sync?.();potionSync();
 },true);
 // Usar a poção não abre confirmação: primeiro toque equipa, segundo bebe.
 const STICK_RADIUS=.42;let activePointer=null,armed=false,auto=false,thumb=null,guide=null,stickBound=null,stopAt=0;
-function runKey(on){const g=window.gameReview;if(!g)return;
+function runKey(on){const g=window.gameReview;if(!g||(!on&&!runKey.state))return;
 const keys=g.keys;if(keys?.add&&keys?.delete){for(const k of ['Shift','shift','ShiftLeft'])on?keys.add(k):keys.delete(k);}
 if(on!==runKey.state){runKey.state=on;window.dispatchEvent(new KeyboardEvent(on?'keydown':'keyup',{code:'ShiftLeft',key:'Shift',bubbles:true}));}
 }
