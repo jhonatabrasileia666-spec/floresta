@@ -5,7 +5,7 @@
  let panel=null,lastFocus=null,initialDayPaused=false,bootAt=Date.now(),storageError='',loadQueued=null;
  // V255: o arquivo exportado e o slot salvo passam a conter o mundo inteiro.
  // Estes são os armazenamentos de gameplay; preferências gráficas/touch permanecem globais.
- const WORLD_KEYS=Object.freeze({construction:'floresta.construction.v222.world',alchemy:'Floresta_V195_Alquimia_Progress',cave:'floresta-cave-v186',potion:'floresta-potion-slot-v219',onboarding:'floresta-onboarding-v259'});
+ const WORLD_KEYS=Object.freeze({construction:'floresta.construction.v222.world',alchemy:'Floresta_V195_Alquimia_Progress',cave:'floresta-cave-v186',potion:'floresta-potion-slot-v219',onboarding:'floresta-onboarding-v259',bestiary:'floresta-bestiary-found-v273'});
  const ACTIVE_KEYS=[...Object.values(WORLD_KEYS),'floresta-progression-v52','floresta-ignis-legacy-v116','floresta-survival-day-v56','floresta-world-id-v255'];
  const BACKUP='floresta-save-backup-v255', ACTIVE_BACKUP='floresta-world-recovery-v255';
  const parse=(raw,fallback)=>{try{return raw===null?fallback:JSON.parse(raw)}catch{return fallback}};
@@ -14,7 +14,7 @@
   // Força o salvamento dos sistemas em memória, antes de capturar as chaves.
   window.gameConstruction?.flush?.();window.gameConstruction?.save?.();window.gameHerbalAlchemy?.save?.();
   const a=parse(localStorage.getItem(WORLD_KEYS.alchemy),{}),c=parse(localStorage.getItem(WORLD_KEYS.cave),{});
-  return {schema:1,worldId:ensureWorldId(),construction:window.gameConstruction?.snapshot?.()||parse(localStorage.getItem(WORLD_KEYS.construction),{schema:1,sites:[]}),alchemy:{discovered:Array.isArray(a?.discovered)?a.discovered:[],effects:{wardUntil:Number(a?.effects?.wardUntil)||0,sightUntil:Number(a?.effects?.sightUntil)||0},benches:Array.isArray(a?.benches)?a.benches:[],racks:Array.isArray(a?.racks)?a.racks:[]},cave:{queenDead:!!c?.queenDead,reward:!!c?.reward},potionSlot:localStorage.getItem(WORLD_KEYS.potion),journey:parse(localStorage.getItem(WORLD_KEYS.onboarding),null)};
+  return {schema:1,worldId:ensureWorldId(),construction:window.gameConstruction?.snapshot?.()||parse(localStorage.getItem(WORLD_KEYS.construction),{schema:1,sites:[]}),alchemy:{discovered:Array.isArray(a?.discovered)?a.discovered:[],effects:{wardUntil:Number(a?.effects?.wardUntil)||0,sightUntil:Number(a?.effects?.sightUntil)||0},benches:Array.isArray(a?.benches)?a.benches:[],racks:Array.isArray(a?.racks)?a.racks:[]},cave:{queenDead:!!c?.queenDead,reward:!!c?.reward},potionSlot:localStorage.getItem(WORLD_KEYS.potion),journey:parse(localStorage.getItem(WORLD_KEYS.onboarding),null),bestiary:parse(localStorage.getItem(WORLD_KEYS.bestiary),[])};
  }
  function validateWorld(world){
   if(!world||world.schema!==1||typeof world.worldId!=='string'||world.worldId.length>100||!world.worldId)throw Error('Identificação do mundo inválida.');
@@ -27,6 +27,7 @@
   if(!world.cave||typeof world.cave.queenDead!=='boolean'||typeof world.cave.reward!=='boolean')throw Error('Dados da caverna inválidos.');
   if(world.potionSlot!==null&&(typeof world.potionSlot!=='string'||world.potionSlot.length>120))throw Error('Poção selecionada inválida.');
   if(world.journey!=null&&(typeof world.journey!=='object'||world.journey.version!==1||!Number.isInteger(world.journey.step)||world.journey.step<0||world.journey.step>6||JSON.stringify(world.journey).length>4096))throw Error('Jornada inicial inválida.');
+  if(world.bestiary!==undefined&&(!Array.isArray(world.bestiary)||world.bestiary.length>80||!world.bestiary.every(x=>typeof x==='string'&&x.length<72)))throw Error('Descobertas do bestiário inválidas.');
   return world;
  }
  function transaction(steps){
@@ -66,6 +67,7 @@
     else if(key===WORLD_KEYS.cave)value=JSON.stringify(world.cave);
     else if(key===WORLD_KEYS.potion)value=world.potionSlot;
     else if(key===WORLD_KEYS.onboarding)value=world.journey==null?null:JSON.stringify(world.journey);
+    else if(key===WORLD_KEYS.bestiary)value=JSON.stringify(world.bestiary||[]);
    }
    steps.push([key,value]);
   }
