@@ -1,5 +1,5 @@
 {
-  "version": "V280",
+  "version": "V281",
   "date": "2026-10-23",
   "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
   "merged_from": [
@@ -1453,7 +1453,7 @@
     "cache": "Cache PWA V262 atualizado para arquivos OGG",
     "compatibility": "Preservados saves e mecânicas V261 sem alterar mapas ou equipamentos"
   },
-  "number": 280,
+  "number": 281,
   "v263_changes": [
     "index.html seleciona PC/Mobile automaticamente",
     "controle contextual e scroll protegido",
@@ -1587,5 +1587,12 @@
     "Sessão mobile V280 força nova checagem e limpeza exclusiva de caches JavaScript antigos, sem remover save ou mídias 3D.",
     "Entrada física da caverna V279, comando tátil e descoberta da área de interação preservados.",
     "Novo cache de service worker para evitar ressurgimento do controlador anterior em PWA instalado."
+  ],
+  "v281_changes": [
+    "Portal 3D e botão contextual da Caverna da Rainha carregam independentemente do controlador e dos monstros.",
+    "Coordenadas de acesso no mundo -15,-59; botão aparece próximo, orientação aparece a até 85m.",
+    "Entrada física reaproveita a malha original quando disponível e constrói entrada segura quando o modelo original falha.",
+    "Carregamento do controlador só é solicitado ao tocar/acionar a entrada, com feedback de erro concreto em vez de silêncio.",
+    "Portal e botão carregados em PC e mobile via módulo independente. Saves e demais recursos não alterados."
   ]
 }
