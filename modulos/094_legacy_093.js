@@ -13,6 +13,79 @@ window.createForestCaveEntrance=function(T,game){
  for(let i=0;i<12;i++){const side=i%2?1:-1,xx=side*(6.6+rand()*5),h=8+rand()*5,points=[new T.Vector3(xx,h,-1),new T.Vector3(xx*.96,h*.68,3),new T.Vector3(xx*.94,h*.28,5),new T.Vector3(xx+side,0,7)];mesh(new T.TubeGeometry(new T.CatmullRomCurve3(points),12,.08+rand()*.12,5,false),wood);}
  const lines=[];for(const [cx,cy,cz,r]of[[-5.4,6,5.5,2.4],[4.8,6.8,5.4,2.2],[0,8.1,5.3,1.4]]){for(let i=0;i<9;i++){const a=i/9*Math.PI*2;lines.push(cx,cy,cz,cx+Math.cos(a)*r,cy+Math.sin(a)*r,cz);for(let j=1;j<=4;j++){const rr=r*j/4,bb=(i+1)/9*Math.PI*2;lines.push(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr,cz,cx+Math.cos(bb)*rr,cy+Math.sin(bb)*rr,cz-.06);}}}const web=new T.BufferGeometry();web.setAttribute('position',new T.Float32BufferAttribute(lines,3));root.add(new T.LineSegments(web,new T.LineBasicMaterial({color:0xb6bbb0,transparent:true,opacity:.38})));
  for(let i=0;i<28;i++){const xx=(i%2?1:-1)*(5+rand()*5),zz=5+rand()*8;const o=mesh(stone,rock,[xx,game.groundY(x+xx,z+zz)-y+.1,zz]);o.scale.set(.15+rand()*.5,.12+rand()*.3,.2+rand()*.5);}
- game.scene.add(root);return {x,z:z+5,y,root};
+ // V279: interação acompanha o arco real, não um ponto distante do portal.
+ // Portal interno está a 3.3 m atrás do pivô; frente visível a ~5 m.
+ game.scene.add(root);return {x,z:z+5,y,root,front:{x,z:z+5},portal:{x,z:z-3.3}};
 };
 
+
+
+/* V279 — A entrada é parte permanente da floresta, independente do carregamento
+   pesado da região subterrânea. Evita sumiço quando o controlador atrasa no iOS. */
+(()=>{
+ 'use strict';
+ if(window.__CAVE186_ENTRY_BOOT_V279)return;
+ window.__CAVE186_ENTRY_BOOT_V279=true;
+ const nearEntrance=(player,entry)=>{
+  if(!player||!entry)return false;
+  const a=entry.front||{x:entry.x,z:entry.z};
+  const b=entry.portal||{x:entry.x,z:entry.z-8.3};
+  const vx=b.x-a.x,vz=b.z-a.z,den=vx*vx+vz*vz||1;
+  const t=Math.max(0,Math.min(1,((player.x-a.x)*vx+(player.z-a.z)*vz)/den));
+  return Math.hypot(player.x-a.x-vx*t,player.z-a.z-vz*t)<=10.5;
+ };
+ window.__CAVE186_NEAR_ENTRANCE=nearEntrance;
+ let entry=null,button=null,lastTap=0,lastAttempt=0;
+ function ensure(){
+  const G=window.gameReview,T=window.__THREE_MODULE;
+  if(!G?.scene||!G?.player||typeof G.groundY!=='function'||!T?.Group)return;
+  if(!entry){
+   const existing=window.__CAVE186_ENTRANCE_V279;
+   if(existing?.root?.parent===G.scene)entry=existing;
+   else{
+    try{entry=window.createForestCaveEntrance(T,G);window.__CAVE186_ENTRANCE_V279=entry;}
+    catch(error){console.warn('[Caverna V279] Entrada da floresta:',error);return;}
+   }
+  }
+  // Fallback: if the old cave controller fails, preserve an actionable portal.
+  const running=!!window.gameFront172?.started&&!window.gameFront172?.paused;
+  const native=document.getElementById('cave186Prompt');
+  const nativeVisible=native&&getComputedStyle(native).display!=='none';
+  if(!button){
+   button=document.createElement('button');
+   button.type='button';button.id='cave186EntryFallbackV279';
+   button.textContent='ENTRAR NA CAVERNA DA RAINHA';
+   button.setAttribute('aria-label','Entrar na Caverna da Rainha');
+   button.style.cssText='position:fixed;z-index:3500;bottom:max(86px,19vh);left:50%;transform:translateX(-50%);width:max-content;max-width:85vw;min-height:54px;padding:10px 17px;border:1px solid #b8a07d;border-radius:5px;background:#182019ed;color:#f3e7c6;font:700 14px/1.2 Georgia,serif;letter-spacing:.03em;box-shadow:0 5px 17px #000b;touch-action:manipulation;display:none;';
+   document.body.append(button);
+   const activate=()=>{
+    const controller=window.gameSpiderCave;
+    if(controller?.enter){controller.enter();return;}
+    const now=Date.now(),boot=window.__CAVE186_BOOT_V279;
+    if(boot?.loading){button.textContent='CAVERNA CARREGANDO...';return;}
+    if(now-lastAttempt<4000)return;
+    lastAttempt=now;
+    button.textContent='PREPARANDO ENTRADA...';
+    const script=document.createElement('script');
+    script.src='modulos/096_legacy_095.js?v=279.2';
+    script.onerror=()=>{button.textContent='FALHA AO INICIAR A CAVERNA';console.error('[Caverna V279] Arquivo do controlador indisponível');};
+    document.body.append(script);
+   };
+   button.addEventListener('pointerup',e=>{
+    if(e.pointerType!=='touch')return;
+    e.preventDefault();e.stopPropagation();lastTap=Date.now();activate();
+   });
+   button.addEventListener('click',e=>{
+    if(Date.now()-lastTap<600)return;
+    e.preventDefault();e.stopPropagation();activate();
+   });
+  }
+  const shouldShow=running&&!window.gameSpiderCave?.active&&nearEntrance(G.player,entry)&&!nativeVisible&&
+   !window.gameInventory?.isOpen&&!window.gameConstruction?.active;
+  button.style.display=shouldShow?'block':'none';
+  if(shouldShow&&window.gameSpiderCave?.enter)button.textContent='ENTRAR NA CAVERNA DA RAINHA';
+ }
+ ensure();
+ const clock=setInterval(ensure,420);
+ window.addEventListener('pagehide',()=>clearInterval(clock),{once:true});
+})();
