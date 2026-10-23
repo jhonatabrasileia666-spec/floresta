@@ -1,14 +1,26 @@
 
 /* V186 integration: preserves V185 controls/rig/combat, and V37 mount controller. */
 (async()=>{'use strict';
- const sleep=ms=>new Promise(r=>setTimeout(r,ms));for(let i=0;i<1800&&!window.gameFront172?.play;i++)await sleep(20);
- const game=window.gameReview,T=window.__THREE_MODULE;if(!game||!T)throw Error('Caverna: motor não inicializado');
+ const sleep=ms=>new Promise(r=>setTimeout(r,ms));// V277: no Safari, menu/engine may exist before the player, scene and physics are ready.
+ // Wait for actual APIs instead of only the menu's play method.
+ for(let i=0;i<1800;i++){
+  const g=window.gameReview;
+  if(window.gameFront172?.play&&g?.scene&&g?.player&&g?.camera&&g?.renderer&&
+   typeof g.groundY==='function'&&typeof g.teleport186==='function'&&
+   window.__THREE_MODULE&&typeof window.FlorestaCaveWorld==='function'&&
+   typeof window.createForestCaveEntrance==='function'&&window.FlorestaStream?.data)break;
+  await sleep(20);
+ }
+ const game=window.gameReview,T=window.__THREE_MODULE;
+ if(!game?.scene||!game?.player||!T||typeof game.teleport186!=='function'||
+    typeof window.FlorestaCaveWorld!=='function'||typeof window.createForestCaveEntrance!=='function')
+  throw Error('Caverna: motor 3D ou entrada não inicializados');
  const V=(x=0,y=0,z=0)=>new T.Vector3(x,y,z),clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
  const mobile=window.__CAVE_PLATFORM==='mobile'||matchMedia('(pointer:coarse)').matches,world=window.FlorestaCaveWorld(T,{mobile});
  const state={active:false,busy:false,ready:false,queenDead:false,reward:false,preparingMount:false,time:0,region:-1,returnTo:null,creatures:[],projectiles:[],savedVisibility:new Map(),lastSafe:null};
  try{const save=JSON.parse(localStorage.getItem('floresta-cave-v186')||'{}');state.queenDead=!!save.queenDead;state.reward=!!save.reward;}catch{}
  const persist=()=>{if(window.__FLORESTA_STORAGE_SWAP_V255)return;try{localStorage.setItem('floresta-cave-v186',JSON.stringify({queenDead:state.queenDead,reward:state.reward}));}catch{}};
- let assets=null;const cache={},pool=[];let queen=null,prisoner=null,mount=null;
+ let assets=null;const cache={},pool=[];let queen=null,prisoner=null,mount=null,worldBuilt=false;
  const root=world.root;root.visible=false;game.scene.add(root);const actors=new T.Group();actors.name='Cave186_Actors';root.add(actors);
  const hemi=new T.HemisphereLight(0x9dadb5,0x151918,.23);root.add(hemi);
  const lights=Array.from({length:mobile?3:4},()=>{const l=new T.PointLight(0xb7cedc,1,65,1.6);root.add(l);return l;});
@@ -22,7 +34,14 @@
  function uiRegion(i){if(state.region===i)return;state.region=i;locationUI.innerHTML='';locationUI.append(document.createTextNode(world.regions[i]?.name||'O Ninho Esquecido'));const small=document.createElement('small');small.textContent='CAVERNA DA RAINHA ARANHA';locationUI.append(small);locationUI.style.opacity='1';clearTimeout(uiRegion.timer);uiRegion.timer=setTimeout(()=>locationUI.style.opacity='0',4500);}
  async function bytes(b64){const raw=Uint8Array.from(atob(b64),x=>x.charCodeAt(0));if(window.DecompressionStream)return new Response(new Blob([raw]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();return window.__FFLATE_GUNZIP_SYNC(raw).buffer;}
  function repairShelon(loaded){const bind=loaded.model.getObjectByName('Bip001_03_12')?.position.clone();loaded.animations=loaded.animations.map(src=>{const c=src.clone(),first=Math.min(...c.tracks.filter(t=>t.times.length).map(t=>t.times[0]));for(const t of c.tracks){t.shift(-first);if(bind&&t.name==='Bip001_03_12.position'){const v=t.values,dx=bind.x-v[0],dy=bind.y-v[1],dz=bind.z-v[2];for(let i=0;i<v.length;i+=3){v[i]+=dx;v[i+1]+=dy;v[i+2]+=dz;}}}c.resetDuration();return c});return loaded;}
- async function resource(key){if(cache[key])return cache[key];if(key==='original'){for(let i=0;i<1200&&!window.gameCreativeSpiderMount;i++)await sleep(20);return {native:true,...window.gameCreativeSpiderMount.createSmallOriginalSpiderVisual()};}const data=await bytes(assets[key]);let loaded;if(key==='shelon'){const gltf=await new Promise((res,rej)=>new window.__FOREST_GLTF_LOADER().parse(data,'',res,rej));loaded=repairShelon({model:gltf.scene,animations:gltf.animations});if(loaded.animations.length!==24)throw Error('Rainha: GLB sem as 24 animações originais');}else{const manager=new T.LoadingManager();manager.setURLModifier(url=>assets.textures?.[url.split(/[\\/]/).pop().toLowerCase().replace('.jpeg','.jpg')]||url);const model=new window.__FBX_MODULE.FBXLoader(manager).parse(data,'');loaded={model,animations:model.animations||[]};}cache[key]=loaded;return loaded;}
+ async function resource(key){if(cache[key])return cache[key];if(key==='original'){
+  for(let i=0;i<1200&&typeof window.gameCreativeSpiderMount?.createSmallOriginalSpiderVisual!=='function';i++)await sleep(20);
+  if(typeof window.gameCreativeSpiderMount?.createSmallOriginalSpiderVisual!=='function')
+   throw Error('Modelo original da aranha ainda indisponível. Aguarde a montaria carregar.');
+  const original=window.gameCreativeSpiderMount.createSmallOriginalSpiderVisual();
+  if(!original?.model)throw Error('Modelo original da aranha não pôde ser clonado.');
+  return {native:true,...original};
+ }const data=await bytes(assets[key]);let loaded;if(key==='shelon'){const gltf=await new Promise((res,rej)=>new window.__FOREST_GLTF_LOADER().parse(data,'',res,rej));loaded=repairShelon({model:gltf.scene,animations:gltf.animations});if(loaded.animations.length!==24)throw Error('Rainha: GLB sem as 24 animações originais');}else{const manager=new T.LoadingManager();manager.setURLModifier(url=>assets.textures?.[url.split(/[\\/]/).pop().toLowerCase().replace('.jpeg','.jpg')]||url);const model=new window.__FBX_MODULE.FBXLoader(manager).parse(data,'');loaded={model,animations:model.animations||[]};}cache[key]=loaded;return loaded;}
  function play(e,pattern,once=false){if(!e.mixer)return;let clip=typeof pattern==='number'?e.clips[pattern]:e.clips.find(c=>pattern.test(c.name));clip=clip||e.clips[0];if(!clip||e.clip===clip)return;e.action?.fadeOut(.16);const a=e.mixer.clipAction(clip).reset().setEffectiveTimeScale(1).setEffectiveWeight(1);a.setLoop(once?T.LoopOnce:T.LoopRepeat,once?1:Infinity);a.clampWhenFinished=once;a.fadeIn(.16).play();e.action=a;e.clip=clip;}
  async function spawn(key,s,offset=0,wall=0){const data=await resource(key),model=data.native?data.model:window.__SKELETON_MODULE.clone(data.model);model.updateMatrixWorld(true);const box=new T.Box3().setFromObject(model),dims=box.getSize(V()),height=key==='shelon'?6.2:key==='terrifying'?2.25:1.85,ref=key==='shelon'?Math.max(dims.y,dims.x*.34,dims.z*.34):dims.y;model.scale.multiplyScalar(height/Math.max(.01,ref));model.updateMatrixWorld(true);box.setFromObject(model);const c=box.getCenter(V());model.position.sub(V(c.x,box.min.y,c.z));const pivot=new T.Group();pivot.name='Cave186_'+key;const point=world.routePoint(s,offset);pivot.position.copy(point);pivot.add(model);actors.add(pivot);model.traverse(o=>{if(o.isMesh){o.frustumCulled=false;o.castShadow=!mobile&&key==='shelon';o.receiveShadow=true;}});
  const e={id:'cave-'+state.creatures.length,key,pivot,root:model,clips:data.animations,mixer:data.animations.length?new T.AnimationMixer(data.native?(model.children[0]||model):model):null,hp:key==='shelon'?1500:key==='terrifying'?125:70,maxHp:key==='shelon'?1500:key==='terrifying'?125:70,dead:false,timer:1,mode:'idle',home:point.clone(),wall,rad:key==='shelon'?5.8:1.2,age:0,attackCount:0};play(e,/idle|stand|nomral/i);e.mixer?.update(.01);state.creatures.push(e);if(wall){pivot.position.y+=7;pivot.rotation.z=wall*Math.PI/2;}
@@ -55,12 +74,45 @@
  function rrAudio(a,b){return a+Math.random()*(b-a)}
  function entrance(){state.entrance=window.createForestCaveEntrance(T,game);return state.entrance.root;}
  entrance();
- async function build(){if(state.ready)return;document.getElementById('cave186Stage').textContent='Escavando túneis, rio e salões…';await world.build(v=>loading.querySelector('progress').value=v*.65);document.getElementById('cave186Stage').textContent='Carregando as aranhas originais e as 24 animações da Rainha…';
+ async function build(){if(state.ready)return;document.getElementById('cave186Stage').textContent='Escavando túneis, rio e salões…';if(!worldBuilt){await world.build(v=>loading.querySelector('progress').value=v*.65);worldBuilt=true;}document.getElementById('cave186Stage').textContent='Carregando as aranhas originais e as 24 animações da Rainha…';
   await resource('original');await resource('terrifying');await resource('shelon');const places=[['original',45,-2],['terrifying',90,10],['original',124,-12],['original',150,10],['terrifying',191,9],['original',209,27,1],['original',235,-28,-1],['terrifying',268,0],['original',300,14],['original',319,-14],['original',345,12],['terrifying',399,-10],['terrifying',433,11],['original',510,25],['original',550,-25]];
   for(let i=0;i<places.length;i++){await spawn(...places[i]);loading.querySelector('progress').value=.65+.24*(i+1)/places.length;await sleep(0);}if(!state.queenDead)await spawn('shelon',587);await createPrisoner();state.ready=true;loading.querySelector('progress').value=1;
  }
  async function createPrisoner(){const data=await resource('original');prisoner=new T.Group();prisoner.name='Cave186_Prisoner';prisoner.add(data.model);prisoner.position.set(world.secret.x+26,-22.2,world.secret.z);actors.add(prisoner);prisoner.userData.mixer=new T.AnimationMixer(data.model.children[0]||data.model);const idle=data.animations.find(c=>/idle/i.test(c.name));if(idle)prisoner.userData.mixer.clipAction(idle).play();}
- async function enter(){if(state.busy||state.active)return false;state.busy=true;loading.classList.add('show');game.keys.clear();document.exitPointerLock?.();state.returnTo={x:game.player.x,z:game.player.z,yaw:game.player.yaw,pitch:game.player.pitch};try{if(!state.ready)assets=assets||await window.FlorestaStream.data('cave');await build();if(state.ready)assets=null;state.active=true;root.visible=true;document.body.classList.add('cave186');state.region=-1;game.teleport186(world.routePoint(9).x,-9,0);state.lastSafe={x:game.player.x,z:game.player.z};await audio.start();notify('Siga o rio e os fungos claros. Golpes e fogo rompem as cortinas de seda.');return true;}catch(e){console.error('Caverna V186',e);notify('Não foi possível abrir a caverna: '+e.message);return false;}finally{state.busy=false;loading.classList.remove('show');}}
+ async function enter(){
+  if(state.busy||state.active)return false;
+  if(!window.gameFront172?.started){notify('Inicie a partida antes de entrar na caverna.');return false;}
+  state.busy=true;loading.classList.add('show');
+  game.keys?.clear?.();try{document.exitPointerLock?.()}catch{}
+  state.returnTo={x:game.player.x,z:game.player.z,yaw:game.player.yaw,pitch:game.player.pitch};
+  let entered=false;
+  try{
+   if(!state.ready){document.getElementById('cave186Stage').textContent='Carregando dados da Caverna da Rainha…';assets=assets||await window.FlorestaStream.data('cave');}
+   await build();
+   if(state.ready)assets=null;
+   state.active=true;root.visible=true;document.body.classList.add('cave186');state.region=-1;
+   const start=world.routePoint(9);
+   game.teleport186(start.x,start.z,0);
+   state.lastSafe={x:game.player.x,z:game.player.z};entered=true;
+   // AudioContext.resume can be rejected by Safari after asynchronous 3D loading.
+   // Sound must never cancel a successful cave entry or corrupt its active state.
+   Promise.resolve().then(()=>audio.start()).catch(e=>console.warn('[Caverna] Áudio opcional:',e));
+   notify('Siga o rio e os fungos claros. Golpes e fogo rompem as cortinas de seda.');
+   return true;
+  }catch(e){
+   console.error('[Caverna] Erro ao entrar:',e);
+   if(state.active){state.active=false;root.visible=false;document.body.classList.remove('cave186');}
+   if(entered||Math.abs(game.player.x-state.returnTo.x)>100){
+    try{game.teleport186(state.returnTo.x,state.returnTo.z,state.returnTo.yaw||0)}catch{}
+   }
+   audio.stop();
+   const description=String(e?.message||e||'Erro desconhecido');
+   document.getElementById('cave186Stage').textContent='Falha: '+description;
+   notify('Caverna não abriu: '+description);
+   window.FlorestaStream?.note?.('Caverna: '+description,true);
+   return false;
+  }finally{state.busy=false;loading.classList.remove('show');}
+ }
  function leave(){if(!state.active)return;const m=window.gameCreativeSpiderMount?.mounted;state.active=false;root.visible=false;document.body.classList.remove('cave186');boss.style.display='none';prompt.style.display='none';locationUI.style.opacity='0';const p=state.returnTo||state.entrance;game.teleport186(p.x,p.z,p.yaw||0);if(m)m.pivot.position.set(p.x,game.groundY(p.x,p.z),p.z);audio.stop();notify('Você voltou à floresta.');}
  async function freeMount(){if(!state.queenDead){notify('A montaria está presa à seda da Rainha. Derrote Shelon.');return false;}if(mount){window.gameCreativeSpiderMount.mount();return true;}state.preparingMount=true;try{mount=window.gameCreativeSpiderMount.spawn();if(!mount)throw Error('Montaria não carregada');mount.pivot.position.copy(prisoner.position);mount.pivot.rotation.y=Math.PI;prisoner.visible=false;state.reward=true;persist();interactionUI();notify('Aranha V37 libertada. Aproxime-se do corpo e use E para montar.');return true;}finally{state.preparingMount=false;}}
  let interaction=null;prompt.onclick=()=>{if(interaction==='enter')enter();if(interaction==='leave')leave();if(interaction==='mount')freeMount();};
