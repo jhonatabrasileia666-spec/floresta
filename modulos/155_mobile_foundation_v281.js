@@ -13,8 +13,7 @@
   '#h171Drawer:not([hidden])','#v267Utilities:not([hidden])','#v206MountPanel.open',
   '#v207PowersPanel.open','#v207SpiderPanel.open','#forge224Guide:not([hidden])',
   '#alq195Book.open','#fe210-root.fe-visible','#dragonLabV51',
-  '#v268EditPanel:not([hidden])','#v267PotionSheet:not([hidden])',
-  '#potion219Picker:not([hidden])','#cave186Loading.show'
+  '#v268EditPanel:not([hidden])','#cave186Loading.show'
  ].join(',');
  const visible=e=>!!(e&&!e.hidden&&e.getClientRects().length&&getComputedStyle(e).visibility!=='hidden'&&getComputedStyle(e).display!=='none');
  function viewport(){
