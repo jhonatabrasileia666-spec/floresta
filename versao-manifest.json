@@ -1,5 +1,5 @@
 {
-  "version": "V279",
+  "version": "V280",
   "date": "2026-10-23",
   "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
   "merged_from": [
@@ -1453,7 +1453,7 @@
     "cache": "Cache PWA V262 atualizado para arquivos OGG",
     "compatibility": "Preservados saves e mecânicas V261 sem alterar mapas ou equipamentos"
   },
-  "number": 279,
+  "number": 280,
   "v263_changes": [
     "index.html seleciona PC/Mobile automaticamente",
     "controle contextual e scroll protegido",
@@ -1581,5 +1581,11 @@
     "Fallback visual e botão próprio quando o controlador da caverna ainda não concluiu a inicialização, com tentativa manual de recuperação.",
     "Runa de iluminação discreta junto à entrada para facilitar a identificação na floresta dark fantasy.",
     "Cave V279 reaproveita o mesmo modelo da entrada sem duplicar portal, conserva interior e save; cache e versão atualizados."
+  ],
+  "v280_changes": [
+    "Safari Mobile: recarrega o script real do portal (094) e o controlador da caverna (096) nas URLs legadas e atualizadas, mesmo com Jogo.html referenciando parâmetros de cache antigos.",
+    "Sessão mobile V280 força nova checagem e limpeza exclusiva de caches JavaScript antigos, sem remover save ou mídias 3D.",
+    "Entrada física da caverna V279, comando tátil e descoberta da área de interação preservados.",
+    "Novo cache de service worker para evitar ressurgimento do controlador anterior em PWA instalado."
   ]
 }
