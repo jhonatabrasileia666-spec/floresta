@@ -25,3 +25,8 @@ const apply=()=>{
 };
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
 })();
+
+/* Mobile V281: camada de adaptação carregada sem bloquear o portal da caverna. */
+(()=>{'use strict';const q=new URLSearchParams(location.search).get('platform');const mobile=q==='mobile'||q!=='pc'&&(/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent||'')||matchMedia('(pointer:coarse)').matches);if(!mobile)return;
+const load=()=>{if(document.getElementById('florestaMobile281Loader'))return;const s=document.createElement('script');s.id='florestaMobile281Loader';s.src='modulos/155_mobile_foundation_v281.js?v=281';s.onerror=()=>console.warn('[Floresta V281] Camada mobile não carregada');document.body.append(s)};
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',load,{once:true});else load();})();
