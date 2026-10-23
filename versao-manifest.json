@@ -1,6 +1,6 @@
 {
-  "version": "V276",
-  "date": "2026-10-22",
+  "version": "V277",
+  "date": "2026-10-23",
   "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
   "merged_from": [
     "Floresta_V225_Camera_Imersiva_Visivel_PC_Mobile.html",
@@ -1453,7 +1453,7 @@
     "cache": "Cache PWA V262 atualizado para arquivos OGG",
     "compatibility": "Preservados saves e mecânicas V261 sem alterar mapas ou equipamentos"
   },
-  "number": 276,
+  "number": 277,
   "v263_changes": [
     "index.html seleciona PC/Mobile automaticamente",
     "controle contextual e scroll protegido",
@@ -1557,5 +1557,13 @@
     "Mobile: todos os módulos do HUD RPG, inventário, fabricação, bestiário 3D e joystick aceitam URL mobile explícita; platform=pc continua sem alterações.",
     "Mobile: versão V276 aplica cache-busting a módulos e reinicia verificação de caches legados sem limpar save nem assets 3D.",
     "PC: preservados motor, mecânicas e interface PC; a seleção explícita de platform=pc tem precedência."
+  ],
+  "v277_changes": [
+    "Caverna V186: aguarda motor 3D, jogador, câmera, colisão e entrada estarem realmente disponíveis antes de iniciar, corrigindo race no Safari.",
+    "Caverna V186: não interrompe a entrada se áudio WebAudio for bloqueado pelo iPhone após o carregamento assíncrono.",
+    "Caverna V186: exige que modelo original de aranha esteja carregado e mostra erro claro se não estiver.",
+    "Caverna V186: nova tentativa preserva chunks construídos e o ponto até onde inimigos foram gerados, sem duplicar a região.",
+    "Caverna V186: acesso pelo menu nativo é restabelecido se o HUD estiver disponível após o carregamento da caverna.",
+    "Atualização do cache de PWA e scripts sem apagar progresso ou alterar controles de PC."
   ]
 }
