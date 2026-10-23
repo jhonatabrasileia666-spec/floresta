@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="pt-BR">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#101510"><title>FLORESTA V276 — Mobile</title><meta name="floresta-version" content="V276"><style>body{margin:0;min-height:100dvh;display:grid;place-content:center;background:#101510;color:#ece5cd;font:15px system-ui;text-align:center;padding:20px;box-sizing:border-box}a{color:#e4c38d;padding:16px;display:block}</style></head>
-<body><p>Preparando a floresta…</p><a href="Jogo.html?platform=mobile&amp;ui=276">Abrir FLORESTA V276 — Mobile</a>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#101510"><title>FLORESTA V277 — Mobile</title><meta name="floresta-version" content="V277"><style>body{margin:0;min-height:100dvh;display:grid;place-content:center;background:#101510;color:#ece5cd;font:15px system-ui;text-align:center;padding:20px;box-sizing:border-box}a{color:#e4c38d;padding:16px;display:block}</style></head>
+<body><p>Preparando a floresta…</p><a href="Jogo.html?platform=mobile&amp;ui=277">Abrir FLORESTA V277 — Mobile</a>
 <script>
 (async()=>{
  // Give the existing PWA worker time to activate its new cache before loading the game.
@@ -19,11 +19,11 @@
  // Migrate old iPhone PWA JavaScript caches; keep saves and large 3D assets.
  // Jogo.html has legacy query versions in script tags, so a fresh SW alone
  // may not immediately refresh previously cached sources on older Safari.
- let shouldRefresh=true;try{shouldRefresh=!sessionStorage.getItem('floresta-mobile-v276-code-refresh')}catch{};
+ let shouldRefresh=true;try{shouldRefresh=!sessionStorage.getItem('floresta-mobile-v277-code-refresh')}catch{};
  if(navigator.onLine!==false && 'caches' in window && shouldRefresh){
   try{
-   const probe=await fetch('modulos/000_floresta-release.js?check=v276',{cache:'no-store'});
-   if(probe.ok && (await probe.text()).includes('"version":"V276"')){
+   const probe=await fetch('modulos/000_floresta-release.js?check=v277',{cache:'no-store'});
+   if(probe.ok && (await probe.text()).includes('"version":"V277"')){
     const versions=(await caches.keys()).filter(k=>k.startsWith('floresta-v'));
     for(const name of versions){
      const cache=await caches.open(name);
@@ -39,10 +39,10 @@
      fetch('modulos/004_floresta-menu172-bootstrap.js?v=264',{cache:'reload'}),
      fetch('modulos/096_legacy_095.js?v=255',{cache:'reload'})
     ]),new Promise(resolve=>setTimeout(resolve,3500))]);
-    sessionStorage.setItem('floresta-mobile-v276-code-refresh','1');
+    sessionStorage.setItem('floresta-mobile-v277-code-refresh','1');
    }
   }catch(e){console.warn('FLORESTA: atualização de scripts iOS',e)}
  }
- location.replace('Jogo.html?platform=mobile&ui=276');
+ location.replace('Jogo.html?platform=mobile&ui=277');
 })();
 </script></body></html>
