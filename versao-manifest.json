@@ -10,16 +10,13 @@
     "Floresta_V224_Mobilia_Livre_Escadas_Sobre_Piso_PC_Mobile.html",
     "Floresta_V256E_Escudos_Ajustados_PC_Mobile_COMPLETO (1).zip"
   ],
-  "script_count": 155,
+  "script_count": 156,
   "script_modules": [
     {
       "file": "000_floresta-release.js",
       "script": "000_floresta-release",
-      "bytes": 1967,
-      "external_bytes": 1967,
       "kind": "classic",
-      "load": "startup",
-      "sha256": "76bf69731bd31232cb3491acd30f26a001e6a40bf5b523a625c865f6910fc3e8"
+      "load": "startup"
     },
     {
       "file": "000_floresta-stream-v254.js",
@@ -1059,11 +1056,8 @@
     {
       "file": "117_floresta-v206-mobile-ui.js",
       "script": "117_floresta-v206-mobile-ui",
-      "bytes": 7974,
-      "external_bytes": 7974,
       "kind": "classic",
-      "load": "startup",
-      "sha256": "24c09ca5f18b60822cc3e45de6da67b1227f21dbb6ad6e5240e6ca5950b6e989"
+      "load": "startup"
     },
     {
       "file": "118_floresta-v207-ui.js",
@@ -1391,6 +1385,12 @@
       "script": "floresta-bestiary-discovery-v273",
       "kind": "classic",
       "load": "mobile-only"
+    },
+    {
+      "file": "155_mobile_foundation_v281.js",
+      "script": "floresta-mobile-foundation-v281",
+      "kind": "classic",
+      "load": "mobile-only"
     }
   ],
   "v255_changes": [
@@ -1593,6 +1593,11 @@
     "Coordenadas de acesso no mundo -15,-59; botão aparece próximo, orientação aparece a até 85m.",
     "Entrada física reaproveita a malha original quando disponível e constrói entrada segura quando o modelo original falha.",
     "Carregamento do controlador só é solicitado ao tocar/acionar a entrada, com feedback de erro concreto em vez de silêncio.",
-    "Portal e botão carregados em PC e mobile via módulo independente. Saves e demais recursos não alterados."
+    "Portal e botão carregados em PC e mobile via módulo independente. Saves e demais recursos não alterados.",
+    "Interface mobile responsiva independente e HUD com áreas seguras.",
+    "Menos comandos legados de teclado e correção do acionamento duplo por toque.",
+    "Proteção dos menus de inventário, fabricação, construção, forja, montaria e PWA contra entradas atrás de painéis.",
+    "Aranha e carga: ações organizadas verticalmente; corrida e escudo liberados ao pausar ou abrir menus.",
+    "A caverna independente da V281 foi preservada integralmente."
   ]
 }
