@@ -20,7 +20,7 @@
  const state={active:false,busy:false,ready:false,queenDead:false,reward:false,preparingMount:false,time:0,region:-1,returnTo:null,creatures:[],projectiles:[],savedVisibility:new Map(),lastSafe:null};
  try{const save=JSON.parse(localStorage.getItem('floresta-cave-v186')||'{}');state.queenDead=!!save.queenDead;state.reward=!!save.reward;}catch{}
  const persist=()=>{if(window.__FLORESTA_STORAGE_SWAP_V255)return;try{localStorage.setItem('floresta-cave-v186',JSON.stringify({queenDead:state.queenDead,reward:state.reward}));}catch{}};
- let assets=null;const cache={},pool=[];let queen=null,prisoner=null,mount=null,worldBuilt=false;
+ let assets=null;const cache={},pool=[];let queen=null,prisoner=null,mount=null,worldBuilt=false,buildSpawnIndex=0;
  const root=world.root;root.visible=false;game.scene.add(root);const actors=new T.Group();actors.name='Cave186_Actors';root.add(actors);
  const hemi=new T.HemisphereLight(0x9dadb5,0x151918,.23);root.add(hemi);
  const lights=Array.from({length:mobile?3:4},()=>{const l=new T.PointLight(0xb7cedc,1,65,1.6);root.add(l);return l;});
@@ -76,7 +76,7 @@
  entrance();
  async function build(){if(state.ready)return;document.getElementById('cave186Stage').textContent='Escavando túneis, rio e salões…';if(!worldBuilt){await world.build(v=>loading.querySelector('progress').value=v*.65);worldBuilt=true;}document.getElementById('cave186Stage').textContent='Carregando as aranhas originais e as 24 animações da Rainha…';
   await resource('original');await resource('terrifying');await resource('shelon');const places=[['original',45,-2],['terrifying',90,10],['original',124,-12],['original',150,10],['terrifying',191,9],['original',209,27,1],['original',235,-28,-1],['terrifying',268,0],['original',300,14],['original',319,-14],['original',345,12],['terrifying',399,-10],['terrifying',433,11],['original',510,25],['original',550,-25]];
-  for(let i=0;i<places.length;i++){await spawn(...places[i]);loading.querySelector('progress').value=.65+.24*(i+1)/places.length;await sleep(0);}if(!state.queenDead)await spawn('shelon',587);await createPrisoner();state.ready=true;loading.querySelector('progress').value=1;
+  for(let i=buildSpawnIndex;i<places.length;i++){await spawn(...places[i]);buildSpawnIndex=i+1;loading.querySelector('progress').value=.65+.24*(i+1)/places.length;await sleep(0);}if(!state.queenDead&&!queen)await spawn('shelon',587);if(!prisoner)await createPrisoner();state.ready=true;loading.querySelector('progress').value=1;
  }
  async function createPrisoner(){const data=await resource('original');prisoner=new T.Group();prisoner.name='Cave186_Prisoner';prisoner.add(data.model);prisoner.position.set(world.secret.x+26,-22.2,world.secret.z);actors.add(prisoner);prisoner.userData.mixer=new T.AnimationMixer(data.model.children[0]||data.model);const idle=data.animations.find(c=>/idle/i.test(c.name));if(idle)prisoner.userData.mixer.clipAction(idle).play();}
  async function enter(){
@@ -157,9 +157,13 @@
   if(window.gameZombie?.playerHp<=0){leave();notify('Você foi derrotado nas profundezas.');}
  }
  requestAnimationFrame(tick);
- function addMenu(){if(document.getElementById('cave186Explore'))return;const parent=document.getElementById('h171Native');if(!parent)return;const btn=document.createElement('button');btn.id='cave186Explore';btn.textContent='Caverna da Rainha • visitar';btn.onclick=async()=>{window.gameHud171?.close();if(!window.gameFront172.started)window.gameFront172.play('survival');await enter();};parent.append(btn);}
+ function addMenu(){if(document.getElementById('cave186Explore'))return true;const parent=document.getElementById('h171Native');if(!parent)return false;const btn=document.createElement('button');btn.id='cave186Explore';btn.textContent='Caverna da Rainha • visitar';btn.onclick=async()=>{window.gameHud171?.close();if(!window.gameFront172.started)window.gameFront172.play('survival');await enter();};parent.append(btn);return true;}
  addMenu();addEventListener('floresta:ready',addMenu);
- const api=window.gameSpiderCave={world,state,get active(){return state.active},get rewardUnlocked(){return state.reward},get preparingMount(){return state.preparingMount},enter,leave,freeMount,damageRadius,targets,hit,melee,heightAt:(x,z)=>world.heightAt(x,z),blocked:(x,z,r)=>world.blocked(x,z,r),get queen(){return queen},get creatures(){return state.creatures},get ready(){return state.ready},updateForCapture(delta){tick(performance.now(),false,delta);},snapshot(){return {active:state.active,ready:state.ready,region:state.region,queenDead:state.queenDead,reward:state.reward,creatures:state.creatures.length,animated:state.creatures.filter(x=>x.mixer).length,queenClips:queen?.clips.length,colliders:world.solids.length,sectors:world.chunks.length}}};
+ // Older iOS webviews may create the native menu after floresta:ready.
+ // Keep the access button available without duplicating it.
+ const caveMenuWatch=setInterval(()=>{if(addMenu()===true)clearInterval(caveMenuWatch)},1000);
+ window.addEventListener('pagehide',()=>clearInterval(caveMenuWatch),{once:true});
+ const api=window.gameSpiderCave={world,state,get active(){return state.active},get rewardUnlocked(){return state.reward},get preparingMount(){return state.preparingMount},enter,leave,freeMount,damageRadius,targets,hit,melee,heightAt:(x,z)=>world.heightAt(x,z),blocked:(x,z,r)=>world.blocked(x,z,r),get queen(){return queen},get creatures(){return state.creatures},get ready(){return state.ready},get loading(){return state.busy},updateForCapture(delta){tick(performance.now(),false,delta);},snapshot(){return {active:state.active,ready:state.ready,region:state.region,queenDead:state.queenDead,reward:state.reward,creatures:state.creatures.length,animated:state.creatures.filter(x=>x.mixer).length,queenClips:queen?.clips.length,colliders:world.solids.length,sectors:world.chunks.length}}};
  console.info('Caverna V186: entrada nas montanhas ao norte (-15, -59).');
 })();
 
