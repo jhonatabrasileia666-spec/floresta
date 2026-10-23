@@ -43,28 +43,97 @@
    foot:[cfg.width,cfg.length],height:cfg.high,slots};}
  register('cart',sCart,'2 troncos + 5 tábuas + 2 cipós para construir • carrega até 9 troncos ou 18 tábuas, conforme espaço e peso');
  register('wagon',sWagon,'3 troncos + 9 tábuas + 2 cipós • montagem física • carga até 15 tábuas ou 5 troncos');
- const overlay=document.getElementById('constructionOverlay');
- const tabs=overlay?.querySelector('.construction-tabs'),grid=overlay?.querySelector('.construction-grid');
- if(tabs&&grid&&!tabs.querySelector('[data-cat="vehicle"]')){
-   const tab=document.createElement('button');tab.type='button';tab.className='construction-tab';tab.dataset.cat='vehicle';tab.textContent='Transporte';tabs.appendChild(tab);
-   tab.addEventListener('click',()=>{
-     tabs.querySelectorAll('.construction-tab').forEach(x=>x.classList.toggle('active',x===tab));
-     grid.textContent='';
-     for(const kind of ['cart','wagon']){
-       const d=GC.definitions[keys[kind]],b=document.createElement('button');b.type='button';b.className='construction-card';
-       const detail=kind==='cart'?'Carrinho menor para empurrar carga':'Carroça grande para cargas pesadas';
-       b.innerHTML=`<strong>${d.name}</strong><span>${detail} · capacidade ${MAX[kind]} unidades</span><span>${d.desc}</span><span class="resource">Montar colocando os recursos um por um</span>`;
-       b.onclick=()=>{GC.setLevel(0);GC.select(d.id)};grid.appendChild(b);
-     }
-   });
+ // V278: transport catalog must survive mobile/PC asynchronous panel rebuilds.
+ // Previously this tab was registered only once and might never appear if the
+ // construction screen was inserted after this module initialized.
+ const transportStatus=(message)=>{const e=document.getElementById('status');if(e)e.textContent=message;};
+ function beginConstruction(kind){
+   const definition=GC.definitions[keys[kind]];
+   if(!definition){transportStatus('Receita do transporte não foi carregada.');return false;}
+   if(typeof GC.select!=='function'){transportStatus('Sistema de construção indisponível.');return false;}
+   try{
+     if(typeof GC.setLevel==='function')GC.setLevel(0);
+     const ok=GC.select(definition.id);
+     if(ok===false){transportStatus('Não foi possível selecionar '+definition.name+'.');return false;}
+     transportStatus(definition.name+': coloque a estrutura no chão e adicione os materiais um por um.');
+     return true;
+   }catch(error){
+     console.error('[V278] Início da construção do transporte:',error);
+     transportStatus('Falha ao iniciar '+definition.name+': '+(error?.message||error));
+     return false;
+   }
  }
+ function renderTransportCards(grid){
+   grid.replaceChildren();
+   for(const kind of ['cart','wagon']){
+     const definition=GC.definitions[keys[kind]];
+     if(!definition)continue;
+     const card=document.createElement('button');
+     card.type='button';card.className='construction-card';card.dataset.transportKind=kind;
+     const detail=kind==='cart'?'Carrinho menor para empurrar carga':'Carroça grande para cargas pesadas';
+     card.innerHTML='<strong>'+definition.name+'</strong><span>'+detail+' · capacidade '+MAX[kind]+' unidades</span><span>'+definition.desc+'</span><span class="resource">Montar colocando os recursos um por um</span>';
+     let touched=0;
+     card.addEventListener('pointerup',event=>{
+       if(event.pointerType!=='touch')return;
+       event.preventDefault();event.stopPropagation();touched=Date.now();
+       beginConstruction(kind);
+     });
+     card.addEventListener('click',event=>{
+       event.stopPropagation();
+       if(Date.now()-touched<650)return;
+       beginConstruction(kind);
+     });
+     grid.append(card);
+   }
+ }
+ function ensureTransportTab(){
+   const overlay=document.getElementById('constructionOverlay');
+   const tabs=overlay?.querySelector('.construction-tabs');
+   const grid=overlay?.querySelector('.construction-grid');
+   if(!tabs||!grid)return false;
+   let tab=tabs.querySelector('[data-cat="vehicle"]');
+   if(!tab){
+     tab=document.createElement('button');
+     tab.type='button';tab.className='construction-tab';tab.dataset.cat='vehicle';tab.textContent='Transporte';
+     tabs.appendChild(tab);
+   }
+   if(!tab.dataset.v278Bound){
+     tab.dataset.v278Bound='1';
+     let touched=0;
+     const show=()=>{
+       tabs.querySelectorAll('.construction-tab').forEach(b=>b.classList.toggle('active',b===tab));
+       renderTransportCards(grid);
+     };
+     tab.addEventListener('pointerup',event=>{
+       if(event.pointerType!=='touch')return;
+       event.preventDefault();event.stopPropagation();touched=Date.now();
+       show();
+     });
+     tab.addEventListener('click',event=>{
+       event.stopPropagation();
+       if(Date.now()-touched<650)return;
+       show();
+     });
+   }
+   // Other categories can replace the recipe grid. Restore ours on return.
+   if(tab.classList.contains('active')&&!grid.querySelector('[data-transport-kind]'))renderTransportCards(grid);
+   return true;
+ }
+ ensureTransportTab();
+ const transportTabsCss=document.createElement('style');
+ transportTabsCss.id='transport-v278-tabs';
+ transportTabsCss.textContent='#constructionOverlay .construction-tabs{overflow-x:auto!important;overscroll-behavior-x:contain;touch-action:pan-x;scrollbar-width:thin}#constructionOverlay .construction-tabs [data-cat="vehicle"]{flex:0 0 auto;min-width:95px}#constructionOverlay .construction-card[data-transport-kind]{touch-action:manipulation;min-height:74px}';
+ document.head.append(transportTabsCss);
+ const tabWatch=setInterval(ensureTransportTab,750);
+ window.addEventListener('pagehide',()=>clearInterval(tabWatch),{once:true});
  const payload=window.__FLORESTA_V228_CART_ASSETS||{};
  const registry={cart:null,wagon:null},siteMap=new Map();
  async function ungzip64(encoded){
    const binary=atob(encoded);const data=new Uint8Array(binary.length);
    for(let i=0;i<binary.length;i++)data[i]=binary.charCodeAt(i);
-   if(typeof DecompressionStream==='undefined')throw Error('O navegador não suporta descompactação gzip');
-   return await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+   if(typeof DecompressionStream!=='undefined')return await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+   if(typeof window.__FFLATE_GUNZIP_SYNC==='function'){const out=window.__FFLATE_GUNZIP_SYNC(data);return out.buffer.slice(out.byteOffset,out.byteOffset+out.byteLength);}
+   throw Error('O navegador não suporta descompactação gzip e não tem fallback.');
  }
  async function getModel(kind){
    if(registry[kind])return registry[kind];
