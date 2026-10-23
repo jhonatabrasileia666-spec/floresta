@@ -1,5 +1,5 @@
 {
-  "version": "V277",
+  "version": "V278",
   "date": "2026-10-23",
   "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
   "merged_from": [
@@ -1453,7 +1453,7 @@
     "cache": "Cache PWA V262 atualizado para arquivos OGG",
     "compatibility": "Preservados saves e mecânicas V261 sem alterar mapas ou equipamentos"
   },
-  "number": 277,
+  "number": 278,
   "v263_changes": [
     "index.html seleciona PC/Mobile automaticamente",
     "controle contextual e scroll protegido",
@@ -1565,5 +1565,13 @@
     "Caverna V186: nova tentativa preserva chunks construídos e o ponto até onde inimigos foram gerados, sem duplicar a região.",
     "Caverna V186: acesso pelo menu nativo é restabelecido se o HUD estiver disponível após o carregamento da caverna.",
     "Atualização do cache de PWA e scripts sem apagar progresso ou alterar controles de PC."
+  ],
+  "v278_changes": [
+    "Transporte: catálogo de carrinho de carga e carroça de madeira recriado caso a interface de construção seja carregada novamente, sem perder as receitas.",
+    "Transporte: seleção de estruturas por toque e clique do mouse, com diagnóstico de erros caso o controlador nativo não consiga iniciar.",
+    "Transporte: barra de categorias rolável para não ocultar a opção Transporte em telas menores.",
+    "Transporte: fallback gzip para modelos originais caso o navegador não tenha suporte nativo a DecompressionStream.",
+    "Transporte: mantidas construção por etapas com materiais, modelos 3D, interação e animação da câmera V252 do carrinho.",
+    "Compatibilidade: preserva saves, caverna corrigida V277 e interfaces de PC e mobile."
   ]
 }
