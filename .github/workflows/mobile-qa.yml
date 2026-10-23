@@ -1,0 +1,46 @@
+name: Validar versão Mobile
+on:
+  pull_request:
+    paths:
+      - 'modulos/**'
+      - 'fonte/**'
+      - 'Mobile.html'
+      - 'index.html'
+      - 'sw.js'
+      - 'manifest.webmanifest'
+      - 'versao-manifest.json'
+      - '.github/workflows/mobile-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-mobile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validar sintaxe dos scripts modificados
+        run: |
+          node --check modulos/000_floresta-release.js
+          node --check modulos/117_floresta-v206-mobile-ui.js
+          node --check modulos/150_mobile_gestures_v268.js
+          node --check modulos/155_mobile_foundation_v281.js
+          node --check sw.js
+      - name: Verificar entrada, PWA e manifesto
+        run: |
+          node <<'NODE'
+          const fs=require('fs'),assert=require('node:assert/strict');
+          for(const file of ['index.html','Mobile.html','PC.html','Jogo.html','sw.js','fonte/mobile-foundation-v281.css','modulos/155_mobile_foundation_v281.js'])
+            assert(fs.statSync(file).size>0,file+' ausente');
+          const build=JSON.parse(fs.readFileSync('versao-manifest.json','utf8'));
+          const pwa=JSON.parse(fs.readFileSync('manifest.webmanifest','utf8'));
+          const release=fs.readFileSync('modulos/000_floresta-release.js','utf8');
+          const mobile=fs.readFileSync('Mobile.html','utf8');
+          assert.equal(build.version,'V281');
+          assert.equal(pwa.version,'V281');
+          assert.equal(build.script_count,build.script_modules.length);
+          assert(build.script_modules.some(m=>m.file==='155_mobile_foundation_v281.js'));
+          assert(release.includes('155_mobile_foundation_v281.js'));
+          assert(mobile.includes('platform=mobile'));
+          assert(mobile.includes('v281'));
+          console.log('Entradas, módulos e caches mobile coerentes com V281.');
+          NODE

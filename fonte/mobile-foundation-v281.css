@@ -1,0 +1,61 @@
+/* FLORESTA V281 — ajustes exclusivos de toque, HUD, camadas e área segura. */
+html.v281-mobile{--v281-safe-l:max(8px,env(safe-area-inset-left));--v281-safe-r:max(8px,env(safe-area-inset-right));--v281-safe-t:max(6px,env(safe-area-inset-top));--v281-safe-b:max(6px,env(safe-area-inset-bottom))}
+html.v281-mobile body{overscroll-behavior:none;-webkit-text-size-adjust:100%}
+html.v281-mobile #c{touch-action:none!important}
+html.v281-mobile button,html.v281-mobile [role=button]{-webkit-tap-highlight-color:transparent}
+html.v281-mobile :is(#inventoryOverlay,#craftOverlay,#constructionOverlay,#skillTreeOverlay,#directorOverlay,#florestaHackOverlay){height:var(--v281-height,100dvh)!important;max-height:100dvh!important;box-sizing:border-box!important;overflow:hidden!important}
+html.v281-mobile :is(.inventory-panel,.craft-panel,.construction-panel,#skillTreePanel,#directorPanel,#florestaHackPanel){min-height:0!important;max-height:100%!important;overflow:hidden!important}
+html.v281-mobile :is(#v266CraftScroll,#v266ConstructionScroll,.inventory-content,.inventory-grid,.craft-content,.skill-tree-grid,#directorPanel .director-content){overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+html.v281-mobile :is(#v267Utilities,#v206MountPanel,#h171Drawer,#alq189Panel,#alq195Book,#forge222Panel .forge-side,#forge222Panel .forge-work){-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+html.v281-mobile :is(#v206MountPanel,#v267Utilities,#h171Drawer) button{min-height:44px;touch-action:manipulation}
+html.v281-mobile :is(#h171Drawer,#u173Hotbar,#inventoryOverlay,#craftOverlay,#constructionOverlay,#forge224Guide) kbd{display:none!important}
+/* HUD: seis ações legíveis, analógico e inventário sem encobrir o centro do mundo. */
+html.v281-mobile.v267-mobile.v267-mobile #stick{left:calc(var(--v281-safe-l) + 10px)!important;bottom:calc(var(--v281-safe-b) + 10px)!important;width:clamp(104px,28vh,135px)!important;height:clamp(104px,28vh,135px)!important}
+html.v281-mobile.v267-mobile.v267-mobile #mobileAttackBtn{right:calc(var(--v281-safe-r) + 59px)!important;bottom:calc(var(--v281-safe-b) + 65px)!important;width:62px!important;height:62px!important}
+html.v281-mobile.v267-mobile.v267-mobile #jumpBtn{right:var(--v281-safe-r)!important;bottom:calc(var(--v281-safe-b) + 12px)!important;width:49px!important;height:49px!important}
+html.v281-mobile.v267-mobile.v267-mobile #rollBtn{right:calc(var(--v281-safe-r) + 62px)!important;bottom:var(--v281-safe-b)!important;width:49px!important;height:49px!important}
+html.v281-mobile.v267-mobile.v267-mobile #v266Defend{right:calc(var(--v281-safe-r) + 2px)!important;bottom:calc(var(--v281-safe-b) + 110px)!important;width:49px!important;height:49px!important}
+html.v281-mobile.v267-mobile.v267-mobile #v266Defend:disabled{visibility:hidden!important;pointer-events:none!important}
+html.v281-mobile.v267-mobile.v267-mobile #v206ActionBtn{right:calc(var(--v281-safe-r) + 133px)!important;bottom:calc(var(--v281-safe-b) + 75px)!important;width:46px!important;height:46px!important}
+html.v281-mobile.v267-mobile.v267-mobile #mobileRunBtn{left:calc(var(--v281-safe-l) + 141px)!important;bottom:calc(var(--v281-safe-b) + 78px)!important;width:44px!important;height:44px!important}
+html.v281-mobile.v267-mobile.v267-mobile #mobileCrouchBtn{left:calc(var(--v281-safe-l) + 141px)!important;bottom:calc(var(--v281-safe-b) + 26px)!important;width:44px!important;height:44px!important}
+html.v281-mobile.v267-mobile.v267-mobile #u173Hotbar{bottom:var(--v281-safe-b)!important;max-width:calc(100vw - 430px)!important;min-width:200px!important;z-index:181!important}
+html.v281-mobile.v267-mobile.v267-mobile #u173Hotbar .u173-slots{touch-action:pan-x!important;overscroll-behavior-x:contain}
+html.v281-mobile :is(#mobileAttackBtn,#jumpBtn,#rollBtn,#v266Defend,#v206ActionBtn,#mobileRunBtn,#mobileCrouchBtn,#v207PowerCast) span{display:none!important}
+html.v281-mobile #v206ActionBtn svg{width:26px!important;height:26px!important}
+/* Modal aberto: bloquear toque no HUD sem bloquear rolagem dentro da janela. */
+html.v281-mobile.v281-modal-active :is(#v266TouchRoot,#mobileControls,#v206TopBar,#v206ActionBtn,#u173Hotbar,#stick,#v267Vitals,#v267Quest,#v207PowerCast,#v267Arts,#v206MountedAttack,#v206MountedJump){visibility:hidden!important;pointer-events:none!important}
+html.v281-mobile.v281-modal-active #v266TouchRoot *{pointer-events:none!important}
+html.v281-mobile.v281-modal-active #v206MountPanel.open{visibility:visible!important;pointer-events:auto!important}
+html.v281-mobile.v281-modal-active #v267Utilities:not([hidden]){visibility:visible!important;pointer-events:auto!important}
+/* Montaria: comandos carregar, retirar e pegar empilhados e com área de toque real. */
+html.v281-mobile #v206MountPanel.open{display:flex!important;position:fixed!important;right:var(--v281-safe-r)!important;top:calc(var(--v281-safe-t) + 54px)!important;bottom:auto!important;left:auto!important;z-index:12000!important;width:min(220px,calc(100vw - 20px))!important;max-height:calc(var(--v281-height,100dvh) - var(--v281-safe-t) - var(--v281-safe-b) - 60px)!important;overflow-y:auto!important;flex-direction:column!important;gap:5px!important;padding:10px!important;box-sizing:border-box!important;border:1px solid #9f8763!important;border-radius:5px!important;background:#141a14f5!important;box-shadow:0 8px 22px #000b!important}
+html.v281-mobile #v206MountPanel.open strong{font:600 12px Georgia,serif;letter-spacing:.12em;color:#d8c7a2;margin-bottom:5px}
+html.v281-mobile #v206MountPanel.open [data-mount]{display:block!important;width:100%!important;min-width:0!important;min-height:44px!important;margin:0!important;padding:9px 12px!important;text-align:left!important;font:600 12px Georgia,serif!important;white-space:normal!important;border:1px solid #77674d!important;background:linear-gradient(90deg,#2b3023,#161b15)!important;color:#e7dcc4!important}
+html.v281-mobile #v206MountPanel.open [data-mount="load"],html.v281-mobile #v206MountPanel.open [data-mount="unload"],html.v281-mobile #v206MountPanel.open [data-mount="pickup"]{border-left:3px solid #bc9a69!important}
+html.v281-mobile #v206MountPanel.open [data-mount="close"]{position:sticky;bottom:0;background:#443526!important}
+html.v281-mobile #v206RotateBtn{min-width:48px!important;min-height:44px!important;touch-action:manipulation}
+html.v281-mobile.v281-work-active :is(#u173Hotbar,#v267Vitals,#v267Quest){visibility:hidden!important;pointer-events:none!important}
+html.v281-mobile.v281-work-active #v206ActionBtn{visibility:visible!important;pointer-events:auto!important}
+html.v281-mobile.v268-editing #v267Utilities{visibility:hidden!important;pointer-events:none!important}
+html.v281-mobile #v268EditPanel{max-height:calc(var(--v281-height,100dvh) - var(--v281-safe-t) - var(--v281-safe-b))!important;overflow-y:auto!important}
+html.v281-mobile #v267Utilities:not([hidden]){z-index:12010!important;max-height:calc(var(--v281-height,100dvh) - var(--v281-safe-t) - 60px)!important}
+html.v281-mobile #h171Drawer:not([hidden]){z-index:12020!important;max-height:calc(var(--v281-height,100dvh) - var(--v281-safe-t) - var(--v281-safe-b))!important}
+html.v281-mobile #cave186EntryFallbackV279{max-width:calc(100vw - 24px)!important;min-height:48px!important;bottom:calc(var(--v281-safe-b) + 95px)!important;white-space:normal;touch-action:manipulation}
+@media(orientation:portrait){
+ html.v281-mobile.v267-mobile.v267-mobile #u173Hotbar{bottom:calc(var(--v281-safe-b) + 70px)!important;min-width:220px!important;max-width:calc(100vw - 20px)!important;width:min(320px,calc(100vw - 20px))!important}
+ html.v281-mobile.v267-mobile.v267-mobile #mobileAttackBtn{right:calc(var(--v281-safe-r) + 55px)!important;bottom:calc(var(--v281-safe-b) + 76px)!important}
+ html.v281-mobile.v267-mobile.v267-mobile #v206ActionBtn{right:calc(var(--v281-safe-r) + 135px)!important;bottom:calc(var(--v281-safe-b) + 132px)!important}
+ html.v281-mobile.v267-mobile.v267-mobile #mobileRunBtn{left:calc(var(--v281-safe-l) + 103px)!important;bottom:calc(var(--v281-safe-b) + 108px)!important}
+ html.v281-mobile.v267-mobile.v267-mobile #mobileCrouchBtn{left:calc(var(--v281-safe-l) + 103px)!important;bottom:calc(var(--v281-safe-b) + 55px)!important}
+ html.v281-mobile #v206MountPanel.open{top:auto!important;bottom:calc(var(--v281-safe-b) + 8px)!important;max-height:min(65dvh,440px)!important}
+}
+@media(max-height:410px) and (orientation:landscape){
+ html.v281-mobile.v267-mobile.v267-mobile #u173Hotbar{width:225px!important;min-width:195px!important;max-width:225px!important}
+ html.v281-mobile.v267-mobile.v267-mobile #v206ActionBtn{right:calc(var(--v281-safe-r) + 122px)!important;bottom:calc(var(--v281-safe-b) + 69px)!important}
+ html.v281-mobile.v267-mobile.v267-mobile #mobileRunBtn,html.v281-mobile.v267-mobile.v267-mobile #mobileCrouchBtn{width:42px!important;height:42px!important;left:calc(var(--v281-safe-l) + 124px)!important}
+ html.v281-mobile #v267Utilities:not([hidden]){top:calc(var(--v281-safe-t) + 48px)!important}
+}
+
+/* Portal contextual só aceita toque durante jogo livre, nunca por trás de menus. */
+html.v281-mobile.v281-modal-active :is(#cave281Entry,#cave281Locator){visibility:hidden!important;pointer-events:none!important}

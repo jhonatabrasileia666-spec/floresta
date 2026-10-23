@@ -35,7 +35,7 @@
  const hint=add('div','v206Hint','','');
  let hintUntil=0;
  function notice(s){hint.textContent=s;hint.classList.add('show');hintUntil=Date.now()+1900}
- function key(code){window.dispatchEvent(new KeyboardEvent('keydown',{key:code,code,bubbles:true,cancelable:true}));window.dispatchEvent(new KeyboardEvent('keyup',{key:code,code,bubbles:true,cancelable:true}))}
+ function key(code){const name=/^Key[A-Z]$/.test(code)?code.slice(-1).toLowerCase():code;window.dispatchEvent(new KeyboardEvent('keydown',{key:name,code,bubbles:true,cancelable:true}));window.dispatchEvent(new KeyboardEvent('keyup',{key:name,code,bubbles:true,cancelable:true}))}
  function bag(){const b=$('inventoryBtn');if(b)b.click();else notice('Inventário ainda não carregado')}
  function build(){const g=window.gameConstruction;if(g?.open)g.open();else $('constructionBtn')?.click()}
  function menu(){const d=window.gameHud171;if(d?.open)d.open();else $('mobileMenuBtn')?.click()}
