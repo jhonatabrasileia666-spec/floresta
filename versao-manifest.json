@@ -1,5 +1,5 @@
 {
-  "version": "V278",
+  "version": "V279",
   "date": "2026-10-23",
   "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
   "merged_from": [
@@ -1453,7 +1453,7 @@
     "cache": "Cache PWA V262 atualizado para arquivos OGG",
     "compatibility": "Preservados saves e mecânicas V261 sem alterar mapas ou equipamentos"
   },
-  "number": 278,
+  "number": 279,
   "v263_changes": [
     "index.html seleciona PC/Mobile automaticamente",
     "controle contextual e scroll protegido",
@@ -1573,5 +1573,13 @@
     "Transporte: fallback gzip para modelos originais caso o navegador não tenha suporte nativo a DecompressionStream.",
     "Transporte: mantidas construção por etapas com materiais, modelos 3D, interação e animação da câmera V252 do carrinho.",
     "Compatibilidade: preserva saves, caverna corrigida V277 e interfaces de PC e mobile."
+  ],
+  "v279_changes": [
+    "Entrada física da Caverna da Rainha continua visível de forma independente do controlador subterrâneo, mesmo quando seu carregamento atrasa.",
+    "Zona de interação alinhada à boca real do portal, acompanhando o corredor entre o arco e a abertura, sem perder o comando ao se aproximar.",
+    "Botão contextual compatível com toque mobile (pointerup) e tecla E no PC; funciona ao chegar perto do portal na floresta.",
+    "Fallback visual e botão próprio quando o controlador da caverna ainda não concluiu a inicialização, com tentativa manual de recuperação.",
+    "Runa de iluminação discreta junto à entrada para facilitar a identificação na floresta dark fantasy.",
+    "Cave V279 reaproveita o mesmo modelo da entrada sem duplicar portal, conserva interior e save; cache e versão atualizados."
   ]
 }
