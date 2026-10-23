@@ -57,6 +57,9 @@
   const rotate=$('v206RotateBtn');if(rotate)rotate.setAttribute('aria-label','Girar peça de construção');
  }
  function sync(){
+  // CSS da V281 deve vir após os estilos antigos de mobile carregados em cadeia.
+  const links=[...d.head.querySelectorAll('link[rel="stylesheet"]')];
+  if(links.length&&links[links.length-1]!==css)d.head.append(css);
   viewport();ensureControls();
   const open=!root.classList.contains('v268-editing')&&isMenu(),work=isWorking(),run=playing();
   state.modal=open;state.work=work;state.screen=open?'menu':work?'work':run?'play':'front';
