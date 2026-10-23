@@ -15,6 +15,11 @@ window.createForestCaveEntrance=function(T,game){
  for(let i=0;i<28;i++){const xx=(i%2?1:-1)*(5+rand()*5),zz=5+rand()*8;const o=mesh(stone,rock,[xx,game.groundY(x+xx,z+zz)-y+.1,zz]);o.scale.set(.15+rand()*.5,.12+rand()*.3,.2+rand()*.5);}
  // V279: interação acompanha o arco real, não um ponto distante do portal.
  // Portal interno está a 3.3 m atrás do pivô; frente visível a ~5 m.
+ // A little torch-lit rune by the opening marks a physical place, not a HUD waypoint.
+ const rune=new T.Mesh(new T.TorusGeometry(.72,.085,6,24),new T.MeshBasicMaterial({color:0xaa9c73,transparent:true,opacity:.82,depthWrite:false}));
+ rune.position.set(0,4.5,7);root.add(rune);
+ const ember=new T.PointLight(0xb69a66,.82,13,2);
+ ember.position.set(0,4.1,7.3);root.add(ember);
  game.scene.add(root);return {x,z:z+5,y,root,front:{x,z:z+5},portal:{x,z:z-3.3}};
 };
 
