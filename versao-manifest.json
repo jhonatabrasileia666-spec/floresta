@@ -1,5 +1,5 @@
 {
-  "version": "V280",
+  "version": "V281",
   "date": "2026-10-23",
   "base": "FLORESTA_V264_PC_MOBILE_REENVIO.zip",
   "merged_from": [
@@ -10,7 +10,7 @@
     "Floresta_V224_Mobilia_Livre_Escadas_Sobre_Piso_PC_Mobile.html",
     "Floresta_V256E_Escudos_Ajustados_PC_Mobile_COMPLETO (1).zip"
   ],
-  "script_count": 155,
+  "script_count": 156,
   "script_modules": [
     {
       "file": "000_floresta-release.js",
@@ -18,8 +18,7 @@
       "bytes": 1967,
       "external_bytes": 1967,
       "kind": "classic",
-      "load": "startup",
-      "sha256": "76bf69731bd31232cb3491acd30f26a001e6a40bf5b523a625c865f6910fc3e8"
+      "load": "startup"
     },
     {
       "file": "000_floresta-stream-v254.js",
@@ -1062,8 +1061,7 @@
       "bytes": 7974,
       "external_bytes": 7974,
       "kind": "classic",
-      "load": "startup",
-      "sha256": "24c09ca5f18b60822cc3e45de6da67b1227f21dbb6ad6e5240e6ca5950b6e989"
+      "load": "startup"
     },
     {
       "file": "118_floresta-v207-ui.js",
@@ -1391,6 +1389,12 @@
       "script": "floresta-bestiary-discovery-v273",
       "kind": "classic",
       "load": "mobile-only"
+    },
+    {
+      "file": "155_mobile_foundation_v281.js",
+      "script": "floresta-mobile-foundation-v281",
+      "kind": "classic",
+      "load": "mobile-only"
     }
   ],
   "v255_changes": [
@@ -1417,7 +1421,7 @@
   ],
   "startup_script_count": 140,
   "ondemand_script_count": 0,
-  "edition": "Interfaces completas para celular",
+  "edition": "Adaptação mobile: HUD, camadas, toque e PWA",
   "v258_changes": [
     "Monstro Lutador: fintas, contra-ataques, recuo e entradas laterais sem trocar FBX.",
     "Lobisomem: audição, última posição conhecida, perda de trilha e proteção contra salto/ataque através de paredes.",
@@ -1453,7 +1457,7 @@
     "cache": "Cache PWA V262 atualizado para arquivos OGG",
     "compatibility": "Preservados saves e mecânicas V261 sem alterar mapas ou equipamentos"
   },
-  "number": 280,
+  "number": 281,
   "v263_changes": [
     "index.html seleciona PC/Mobile automaticamente",
     "controle contextual e scroll protegido",
@@ -1587,5 +1591,13 @@
     "Sessão mobile V280 força nova checagem e limpeza exclusiva de caches JavaScript antigos, sem remover save ou mídias 3D.",
     "Entrada física da caverna V279, comando tátil e descoberta da área de interação preservados.",
     "Novo cache de service worker para evitar ressurgimento do controlador anterior em PWA instalado."
+  ],
+  "v281_changes": [
+    "Camada mobile independente para controlar modais, liberar movimento preso, respeitar área segura e telas pequenas.",
+    "Novo layout do HUD e painel vertical de ações de montaria/carga, sem substituir os controladores existentes.",
+    "Interação Q/G/R corrigida para eventos KeyboardEvent com key e code compatíveis.",
+    "Editor de HUD evita acionamento duplo do clique no toque.",
+    "Entrada Mobile, index, cache do service worker e manifest PWA sincronizados com V281.",
+    "PC e conteúdo dos saves não modificados."
   ]
 }
