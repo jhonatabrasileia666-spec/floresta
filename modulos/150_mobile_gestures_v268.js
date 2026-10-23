@@ -43,7 +43,6 @@ editing=on;root.classList.toggle('v268-editing',on);panel.hidden=!on;
 window.gameHud171?.close?.();window.gameReview?.keys?.clear?.();if(window.gameReview?.stick)window.gameReview.stick.x=window.gameReview.stick.y=0;stopRun();
 if(!on){drag=null;choose(null);save();}else{choose(null);layoutSync()}
 }
-panel.addEventListener('pointerup',e=>{const b=e.target.closest?.('[data-v268]');if(e.pointerType==='touch'&&b){e.preventDefault();b.click()}},false);
 panel.addEventListener('click',e=>{
 const b=e.target.closest('[data-v268]');if(!b)return;e.preventDefault();e.stopPropagation();
 const mode=b.dataset.v268;
