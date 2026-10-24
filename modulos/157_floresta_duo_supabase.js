@@ -8,7 +8,8 @@ const put=(k,v)=>{try{localStorage.setItem(k,v)}catch{}};
 const safe=s=>String(s||'').replace(/[&<>"']/g,'');
 const alphabet='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const roomCode=()=>{const bytes=crypto.getRandomValues(new Uint8Array(9));return [...bytes].map(x=>alphabet[x%alphabet.length]).join('')};
-const id=crypto.randomUUID(),state={url:Q.get('sburl')||get('fo-url'),key:Q.get('sbkey')||get('fo-key'),name:get('fo-name')||'Viajante',room:Q.get('room')||'',client:null,channel:null,connected:false,connecting:false,peers:new Map(),status:''};
+const DUO_URL="https://fswfhhymihuypkudnopg.supabase.co",DUO_KEY="sb_publishable_6rVU7k20yCUFzlMHmjOYzQ_kXFWDOSo";
+const id=crypto.randomUUID(),state={url:DUO_URL,key:DUO_KEY,name:get('fo-name')||'Viajante',room:Q.get('room')||'',client:null,channel:null,connected:false,connecting:false,peers:new Map(),status:''};
 let attempt=0,mounted=false,lastSent=0;
 const playing=()=>!!(window.gameFront172?.started&&window.gameFront172?.shell?.hidden);
 function status(s){state.status=s;if($('foStatus'))$('foStatus').textContent=s}
@@ -66,8 +67,8 @@ function leave(){
 }
 async function connect(create){
  if(state.connected||state.connecting)return;
- const url=($('foUrl')?.value||'').trim().replace(/\/$/,'');
- const key=($('foKey')?.value||'').trim(),name=safe(($('foName')?.value||'').trim()).slice(0,22)||'Viajante';
+ const url=DUO_URL;
+ const key=DUO_KEY,name=safe(($('foName')?.value||'').trim()).slice(0,22)||'Viajante';
  const code=($('foCode')?.value||'').trim().toUpperCase();
  if(!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url))return status('Use a URL HTTPS de seu projeto Supabase.');
  if(!(/^sb_publishable_[a-z0-9_-]+$/i.test(key)||(/^eyJ[a-z0-9_-]+\.[a-z0-9_-]+\.[a-z0-9_-]+$/i.test(key)&&key.length>100)))return status('Use somente a chave publishable (pública). Nunca a service_role.');
@@ -117,10 +118,10 @@ function open(){
  const F=window.gameFront172;if(!F?.ready)return;
  F.showPanel('Cooperativo · 2 jogadores',
  '<div id="foForm" style="max-width:480px;margin:auto;color:#e5ddc7;font:14px/1.5 system-ui">'+
- '<p>Você e um amigo no mesmo jogo. Sem Render, com um projeto Supabase Free separado.</p>'+
+ '<p>Você e um amigo conectados pelo Supabase jfloresta. Sala de teste para dois jogadores.</p>'+
  '<label>URL DO PROJETO SUPABASE</label><input id="foUrl" type="url" placeholder="https://seuprojeto.supabase.co">'+
  '<label>CHAVE PUBLISHABLE PÚBLICA</label><input id="foKey" placeholder="sb_publishable_...">'+
- '<small>Nunca coloque a chave secret/service_role. O projeto deve ser dedicado ao FLORESTA.</small>'+
+ '<small>Projeto configurado automaticamente. A chave usada é pública (publishable); nenhuma tabela de tatuagem será modificada.</small>'+
  '<label>SEU NOME</label><input id="foName" maxlength="22">'+
  '<label>CÓDIGO DA SALA</label><input id="foCode" maxlength="9" placeholder="9 CARACTERES">'+
  '<div class="foActions"><button id="foCreate">CRIAR SALA</button><button id="foJoin">ENTRAR</button></div>'+
@@ -128,12 +129,12 @@ function open(){
  '<div class="foActions"><button id="foInvite">COPIAR CONVITE</button><button id="foLeave">SAIR</button></div>'+
  '<p id="foStatus" role="status"></p>'+
  '<small>Protótipo: posição e presença online. Inimigos, dano, coleta e construções ainda não são compartilhados.</small></div>');
- $('foUrl').value=state.url;$('foKey').value=state.key;$('foName').value=state.name;$('foCode').value=state.room;
+ $('foUrl').value=state.url;$('foKey').value='Chave pública configurada';$('foUrl').readOnly=true;$('foKey').readOnly=true;$('foName').value=state.name;$('foCode').value=state.room;
  $('foCreate').onclick=()=>connect(true);$('foJoin').onclick=()=>connect(false);
  $('foLeave').onclick=()=>{leave();status('Saiu da sala. Modo solo preservado.')};
  $('foInvite').onclick=async()=>{
   const u=new URL('index.html',location.href);
-  u.searchParams.set('room',state.room);u.searchParams.set('sburl',state.url);u.searchParams.set('sbkey',state.key);
+  u.searchParams.set('room',state.room);
   try{await navigator.clipboard.writeText(u.href);status('Convite copiado!')}catch{status('Copie o código '+state.room)}
  };
  status(state.status);display();
