@@ -15,9 +15,11 @@ jobs:
           for(const f of ['modulos/024_legacy_023.js','modulos/030_legacy_029.js','modulos/015_legacy_014.js','modulos/082_construction_224.js']){
             const s=fs.readFileSync(f,'utf8');
             console.log('\nFILE',f,'bytes',s.length);
-            for(const pattern of [/window\\.gameRightHand\\s*=/g,/window\\.gameShield\\s*=/g,/gameRightHand\\s*=\\s*\\{/g,/createTorch/g,/torchObject/g,/torchMesh/g,/equipBtn/g,/gameReview\\s*=\\s*\\{/g]){
-              const m=[...s.matchAll(pattern)].slice(0,4);
-              for(const v of m) console.log('MATCH',pattern.source,v.index,JSON.stringify(s.slice(Math.max(0,v.index-240),v.index+650)));
+            for(const needle of ['gameRightHand','gameShield','torchObject','torchMesh','equipBtn','gameTorch','renderTorch','createTorch','equipRight','_equipRight','gameReview=','torchGroup']){
+              const hits=[];let i=-1;while((i=s.indexOf(needle,i+1))>=0)hits.push(i);
+              const chosen=hits.length<=8?hits:[...hits.slice(0,4),...hits.slice(-4)];
+              console.log('TERM',needle,'n',hits.length);
+              for(const x of chosen)console.log('AT',x,JSON.stringify(s.slice(Math.max(0,x-220),x+360)));
             }
           }
           NODE
