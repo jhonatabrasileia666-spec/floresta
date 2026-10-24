@@ -261,6 +261,17 @@ function maybePrimeNativeEquipment(){
   if(initialStatuses&&oldStatus!=null)initialStatuses.textContent=oldStatus;
   priming=false;primed=true;
  }
+ // If the native torch mesh is lazy-created, ask the ORIGINAL equipment handler
+ // to instantiate it and immediately restore the previous state (same JS frame).
+ // Never build a separate torch or flame in the multiplayer renderer.
+ if(!nativeTemplates.has('torch')&&!g.isEquipped?.()&&!window.gameShield?.equipped&&
+    !window.gameBranchHands?.side){
+  const button=document.getElementById?.('equipBtn');
+  if(button?.click){
+   try{button.click();captureTorch();}
+   finally{if(g.isEquipped?.())button.click();}
+  }
+ }
  cacheCurrentRight();
 }
 function nativeModel(id,side){
