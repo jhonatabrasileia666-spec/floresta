@@ -11,15 +11,13 @@ jobs:
       - name: Inspect runtime factories (bounded snippets)
         run: |
           node <<'NODE'
-          const fs=require('fs');
-          for(const f of ['modulos/024_legacy_023.js','modulos/030_legacy_029.js','modulos/015_legacy_014.js','modulos/082_construction_224.js']){
-            const s=fs.readFileSync(f,'utf8');
-            console.log('\nFILE',f,'bytes',s.length);
-            for(const needle of ['gameRightHand','gameShield','torchObject','torchMesh','equipBtn','gameTorch','renderTorch','createTorch','equipRight','_equipRight','gameReview=','torchGroup']){
-              const hits=[];let i=-1;while((i=s.indexOf(needle,i+1))>=0)hits.push(i);
-              const chosen=hits.length<=8?hits:[...hits.slice(0,4),...hits.slice(-4)];
-              console.log('TERM',needle,'n',hits.length);
-              for(const x of chosen)console.log('AT',x,JSON.stringify(s.slice(Math.max(0,x-220),x+360)));
-            }
+          const fs=require('fs');const path=require('path');
+          const targets=['gameRightHand','gameShield','gameReview','torchMesh','torchObject','equipBtn','makeTorch','createTorch'];
+          for(const dir of ['modulos','fonte']){
+           for(const file of fs.readdirSync(dir)){
+            const f=path.join(dir,file);if(!f.endsWith('.js'))continue;
+            const txt=fs.readFileSync(f,'utf8');const hits=targets.map(t=>({t,count:txt.split(t).length-1})).filter(o=>o.count>0);
+            if(hits.length)console.log('SOURCES',JSON.stringify({f,bytes:txt.length,hits}));
+           }
           }
           NODE
