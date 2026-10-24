@@ -417,6 +417,9 @@ try {
 
   function place(root,x,z,yOffset) {
     root.position.set(x,groundY(x,z)+yOffset,z);
+    // Stable resource ID on both devices, independent of array order.
+    const item=root.userData?.collectible;
+    if(item&&!root.userData.duoKey)root.userData.duoKey=[item.id,Math.round(x*100),Math.round(z*100)].join(':');
     root.traverse(o=>{if(o.isMesh)meshes.push(o)});
     collectRoot.add(root);
     collectibles.push(root);
@@ -622,20 +625,18 @@ try {
     }
   }
 
-  function collect(){
-    if(window.gameInventory?.isOpen)return false;
-    const root=findCandidate();
-    if(lastCandidate&&lastCandidate!==root)setHighlight(lastCandidate,false);
-    if(!validRoot(root))return false;
-
-    const item={...root.userData.collectible};
-    const added=window.gameInventory.addItem(item);
-    if(!added){
+  function byDuoKey(key){
+    if(typeof key!=='string'||key.length>120)return null;
+    return collectibles.find(r=>validRoot(r)&&r.userData.duoKey===key)||null;
+  }
+  function consume(root,credit=true){
+    if(!validRoot(root))return null;
+    const item={...root.userData.collectible},key=root.userData.duoKey;
+    if(credit&&!window.gameInventory.addItem(item)){
       const status=document.getElementById("status");
       if(status)status.textContent="Inventário cheio";
-      return false;
+      return null;
     }
-
     setHighlight(root,false);
     root.traverse(o=>{
       if(!o.isMesh)return;
@@ -646,12 +647,29 @@ try {
     const ci=collectibles.indexOf(root);if(ci>=0)collectibles.splice(ci,1);
     collectRoot.remove(root);
     candidate=null;lastCandidate=null;
-
-    const status=document.getElementById("status");
-    if(status)status.textContent=`Coletado: ${item.name} • inventário atualizado`;
-    if(resourceStatus)resourceStatus.textContent=`Coletado ${item.name} • restam ${collectibles.length}`;
+    if(credit){
+      const status=document.getElementById("status");
+      if(status)status.textContent=`Coletado: ${item.name} • inventário atualizado`;
+    }
+    if(resourceStatus)resourceStatus.textContent=`Restam ${collectibles.length} recursos`;
     updatePrompt();
-    return true;
+    if(credit&&window.FlorestaOnline?.connected&&window.FlorestaOnline.isHost){
+      window.dispatchEvent(new CustomEvent('game:duo-local-pickup',{detail:{key,item}}));
+    }
+    return item;
+  }
+  function collect(){
+    if(window.gameInventory?.isOpen)return false;
+    const root=findCandidate();
+    if(!validRoot(root))return false;
+    const online=window.FlorestaOnline;
+    if(online?.connected&&!online.isHost){
+      // Guest NEVER credits itself. Host confirms the resource and awards exactly once.
+      const ok=window.FlorestaDuoWorld?.requestPickup?.(root.userData.duoKey,root.userData.collectible.id);
+      if(!ok){const s=document.getElementById('status');if(s)s.textContent='Sincronizando coleta com anfitrião...';}
+      return !!ok;
+    }
+    return !!consume(root,true);
   }
 
   // Capture phase so Q is reliable even with the other game listeners.
@@ -678,6 +696,8 @@ try {
     get items(){return collectibles.slice()},
     collectNearest:collect,
     findNearest:findCandidate,
+    getByNetworkKey:byDuoKey,
+    consumeByNetworkKey(key,credit=false){return consume(byDuoKey(key),credit);},
     spawnVine,
     spawnWoodChip,
     spawnWoodShield,
