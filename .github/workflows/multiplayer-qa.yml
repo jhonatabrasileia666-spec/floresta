@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: "22"
       - name: Validar sintaxe do cliente e loader
-        run: node --check modulos/157_floresta_duo_supabase.js && node --check modulos/000_floresta-release.js
+        run: node --check modulos/157_floresta_duo_supabase.js && node --check modulos/158_floresta_duo_world.js && node --check modulos/000_floresta-release.js
       - name: Smoke test Realtime com duas conexões (canal temporário)
         working-directory: multiplayer-smoke
         run: |
@@ -28,6 +28,7 @@ jobs:
       - name: Verificar configuração da integração
         run: |
           grep -q '157_floresta_duo_supabase.js' modulos/000_floresta-release.js
+          grep -q '158_floresta_duo_world.js' modulos/000_floresta-release.js
           grep -q 'sburl' index.html
           grep -q 'sburl' PC.html
           grep -q 'sburl' Mobile.html
