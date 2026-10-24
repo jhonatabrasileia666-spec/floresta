@@ -185,7 +185,7 @@ function nativeTorchVisual(){
   const mat=Array.isArray(o.material)?o.material[0]:o.material;
   const isFlame=!!mat?.isShaderMaterial||/flame|fire|chama|fogo/i.test(o.name||'');
   if(isFlame)fx.push(o);
-  else if(mat?.isMeshStandardMaterial||mat?.isMeshLambertMaterial||mat?.isMeshPhongMaterial)
+  else if(mat&&!mat.isShaderMaterial)
     solid.union(part.setFromObject(o));
  });
  if(solid.isEmpty()||solid.getSize(new T.Vector3()).y<.15)return null;
