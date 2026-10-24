@@ -133,9 +133,10 @@ async function connect(create){
 }
 function open(){
  const F=window.gameFront172;if(!F?.ready)return;
- F.showPanel('Cooperativo · 2 jogadores',
+ F.showPanel('Cooperativo BETA · 2 jogadores',
  '<div id="foForm" style="max-width:480px;margin:auto;color:#e5ddc7;font:14px/1.5 system-ui">'+
- '<p>Você e um amigo conectados pelo Supabase jfloresta. Sala de teste para dois jogadores.</p>'+
+ '<p><strong>VERSÃO BETA:</strong> você e um amigo conectados pelo Supabase. Posições, chat e elementos do mundo são experimentais; inimigos, inventário e construções ainda não compartilham toda a lógica.</p>'+ 
+
  '<label>URL DO PROJETO SUPABASE</label><input id="foUrl" type="url" placeholder="https://seuprojeto.supabase.co">'+
  '<label>CHAVE PUBLISHABLE PÚBLICA</label><input id="foKey" placeholder="sb_publishable_...">'+
  '<small>Projeto configurado automaticamente. A chave usada é pública (publishable); nenhuma tabela de tatuagem será modificada.</small>'+
@@ -169,7 +170,7 @@ function mount(){
  '#foHUD[hidden]{display:none!important}';
  document.head.append(css);
  const btn=document.createElement('button');btn.type='button';btn.dataset.action='duo';
- btn.textContent='COOPERATIVO · 2 JOGADORES';
+ btn.textContent='COOPERATIVO BETA · 2 JOGADORES';
  (actions.querySelector('[data-action="new"]')||actions.lastElementChild).after(btn);
  btn.onclick=open;
  const hud=document.createElement('button');hud.id='foHUD';hud.hidden=true;hud.onclick=()=>{window.gameFront172?.open?.();setTimeout(open,100)};
