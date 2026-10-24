@@ -276,9 +276,14 @@ function makeEquipment(peer,side,id){
  const previous=peer.gear.get(side);
  if(previous?.id===id&&!previous.pending)return;
  if(previous?.id===id&&previous.pending){
-  // Retry every 400ms without replacing the already correct local hand state.
+  // A source that has just become available may be used on this very frame.
+  // Otherwise retry at a low rate to avoid scanning the scene continuously.
+  const available=typeof window.FlorestaEquipmentModels?.[id]==='function'||
+    (window.gameRightHand?.current===id&&!!window.gameRightHand?.object)||
+    (id==='torch'&&!!window.gameReview?.torchRoot)||
+    (id.startsWith('forged_')&&!!window.gameForgeV230?.makeEquipmentModel);
   const now=performance.now();
-  if(previous.lastAttempt&&now-previous.lastAttempt<400)return;
+  if(!available&&previous.lastAttempt&&now-previous.lastAttempt<400)return;
  }
  if(previous){clearGear(previous);peer.gear.delete(side);}
  if(!id)return;
