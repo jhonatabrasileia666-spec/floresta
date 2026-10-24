@@ -11,6 +11,8 @@ const roomCode=()=>{const bytes=crypto.getRandomValues(new Uint8Array(9));return
 const DUO_URL="https://fswfhhymihuypkudnopg.supabase.co",DUO_KEY="sb_publishable_6rVU7k20yCUFzlMHmjOYzQ_kXFWDOSo";
 const id=crypto.randomUUID(),state={url:DUO_URL,key:DUO_KEY,name:get('fo-name')||'Viajante',room:Q.get('room')||'',client:null,channel:null,connected:false,connecting:false,peers:new Map(),status:''};
 let attempt=0,mounted=false,lastSent=0;
+const listeners=new Set();let isHost=false;
+const emitLocal=(type,payload,peerId)=>{for(const fn of listeners){try{fn({type,payload,peerId})}catch(err){console.warn('[DUO bridge]',err)}}};
 const playing=()=>!!(window.gameFront172?.started&&window.gameFront172?.shell?.hidden);
 function status(s){state.status=s;if($('foStatus'))$('foStatus').textContent=s}
 function display(){
@@ -32,6 +34,7 @@ function syncPeers(){
  const keep=new Set(peers.slice(0,1).map(p=>p.id));
  for(const [pid,p] of state.peers)if(!keep.has(pid)){removePeer(p);state.peers.delete(pid)}
  for(const p of peers.slice(0,1))if(!state.peers.has(p.id))state.peers.set(p.id,{id:p.id,name:safe(p.name).slice(0,20),target:null,root:null});
+ emitLocal('presence',{count:1+state.peers.size},null);
  display();
 }
 function avatar(p){
@@ -59,7 +62,7 @@ function avatar(p){
  g.scene.add(r);p.root=r;
 }
 function leave(){
- attempt++;state.connected=false;state.connecting=false;
+ attempt++;state.connected=false;state.connecting=false;isHost=false;
  const client=state.client,channel=state.channel;state.client=null;state.channel=null;
  if(client&&channel)client.removeChannel(channel).catch(()=>{});
  for(const p of state.peers.values())removePeer(p);
@@ -74,6 +77,7 @@ async function connect(create){
  if(!(/^sb_publishable_[a-z0-9_-]+$/i.test(key)||(/^eyJ[a-z0-9_-]+\.[a-z0-9_-]+\.[a-z0-9_-]+$/i.test(key)&&key.length>100)))return status('Use somente a chave publishable (pública). Nunca a service_role.');
  if(!create&&!/^[A-HJ-NP-Z2-9]{9}$/.test(code))return status('Digite o código de 9 caracteres do seu amigo.');
  state.url=url;state.key=key;state.name=name;state.room=create?roomCode():code;
+ isHost=create;
  put('fo-url',url);put('fo-key',key);put('fo-name',name);
  state.connecting=true;display();status('Conectando ao Supabase Realtime…');
  const ticket=++attempt;
@@ -85,6 +89,11 @@ async function connect(create){
   state.client=client;state.channel=channel;
   let started=false;
   const timeout=setTimeout(()=>{if(ticket===attempt&&!state.connected){leave();status('A conexão expirou. Confira o Supabase.')}},15000);
+  channel.on('broadcast',{event:'coop'},({payload})=>{
+   if(!state.connected||!payload||!payload.id||payload.id===id||typeof payload.type!=='string')return;
+   if(!state.peers.has(payload.id))return;
+   emitLocal(payload.type,payload.data,payload.id);
+  });
   channel.on('broadcast',{event:'position'},({payload})=>{
    if(!state.connected||!payload||payload.id===id)return;
    const p=state.peers.get(payload.id),v=payload.pos;
@@ -98,7 +107,7 @@ async function connect(create){
     if((create&&others.length)||(!create&&others.length!==1)){
      clearTimeout(timeout);leave();status(create?'Código ocupado. Crie outra sala.':others.length?'Sala cheia. Apenas dois jogadores.':'Sala inexistente ou anfitrião desconectado.');return;
     }
-    const response=await channel.track({id,name,connected_at:Date.now()});
+    const response=await channel.track({id,name,host:create,connected_at:Date.now()});
     if(ticket!==attempt)return;
     if(response!=='ok'){clearTimeout(timeout);leave();status('Erro registrando o jogador.');return;}
     clearTimeout(timeout);state.connected=true;state.connecting=false;
@@ -187,6 +196,13 @@ window.addEventListener('floresta:ready',mount);
 const timer=setInterval(mount,400);
 window.addEventListener('pagehide',()=>{clearInterval(timer);leave()},{once:true});
 requestAnimationFrame(tick);
-window.FlorestaOnline={open,leave,get connected(){return state.connected},
- get room(){return state.room},diagnostic:()=>({connected:state.connected,players:state.peers.size+1,room:state.room})};
+window.FlorestaOnline={open,leave,
+ get connected(){return state.connected},get room(){return state.room},
+ get isHost(){return isHost},get clientId(){return id},
+ get peerId(){return [...state.peers.keys()][0]||null},
+ get playerCount(){return state.peers.size+(state.connected?1:0)},
+ onNetwork(fn){if(typeof fn!=='function')return()=>{};listeners.add(fn);return()=>listeners.delete(fn)},
+ send(type,data){if(!state.connected||!state.channel||!state.peers.size||typeof type!=='string'||type.length>48)return Promise.resolve('not_connected');
+  return state.channel.send({type:'broadcast',event:'coop',payload:{id,type,data}}).catch(()=> 'error');},
+ diagnostic:()=>({connected:state.connected,host:isHost,players:state.peers.size+1,room:state.room})};
 })();
