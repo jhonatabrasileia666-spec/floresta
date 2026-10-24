@@ -1170,7 +1170,7 @@
     }
     return true;
   }
-  function serialized(){return {schema:1,version:'V224',savedAt:new Date().toISOString(),sites:sites.map(s=>({id:s.def.id,x:s.root.position.x,y:s.root.position.y,z:s.root.position.z,yaw:s.root.rotation.y,level:s.level,count:s.count,stairShape:s.def.stairShape,paid:s.paid||[],hp:s.hp??100,open:!!s.open,edgeX:s.edgeX,edgeZ:s.edgeZ,wallSign:s.wallSign,storage:s.storage||[],text:s.text||''}))};}
+  function serialized(){return {schema:1,version:'V224',savedAt:new Date().toISOString(),sites:sites.filter(s=>!s.duoRemote).map(s=>({id:s.def.id,x:s.root.position.x,y:s.root.position.y,z:s.root.position.z,yaw:s.root.rotation.y,level:s.level,count:s.count,stairShape:s.def.stairShape,paid:s.paid||[],hp:s.hp??100,open:!!s.open,edgeX:s.edgeX,edgeZ:s.edgeZ,wallSign:s.wallSign,storage:s.storage||[],text:s.text||''}))};}
   function saveWorld(){
     if(window.__FLORESTA_STORAGE_SWAP_V255)return false; // V255: evita regravar o mundo antigo ao recarregar
     if(!loaded)return false;
@@ -1446,7 +1446,56 @@
   }
   requestAnimationFrame(frame);
 
-  window.gameConstruction={version:'V224_Posicionamento_Livre_Escadas_Sobre_Piso',definitions:DEF,sites,completedFloors,completedStairs,get level(){return buildLevel},setLevel,goGround:()=>setLevel(0),collisionAt:(x,z,feet)=>solidAt(x,z,feet),get active(){return positioning},get selected(){return selected?.id||null},open:openMenu,close:closeMenu,select:selectBlueprint,cancel:cancelPlacement,interact,save:saveWorld,flush:flushWorld,exportWorld,importWorld,snapshot:serialized,manage:manageSite,toggleDoor,damage:damageSite,impactAt,structureResistance,get focusedSite(){return managedSite},get storageKey(){return SAVE_KEY}};
+  // Native multiplayer replication. Uses restoreRecord() so both clients render
+  // the same original texture/material, full-size pieces, doors, floors, and colliders.
+  // Remote builds participate in sites[], completedFloors[] and collisionAt.
+  function duoKey(r){return [r.id,...['x','y','z','yaw'].map(k=>Number(r[k]).toFixed(3))].join(':');}
+  function duoSnapshot(){return serialized();}
+  function duoRemoveSite(site){
+    disposeSite(site);
+    for(const list of [sites,completedFloors,completedStairs]){
+      const ix=list.indexOf(site);if(ix>=0)list.splice(ix,1);
+    }
+    if(focused===site)focused=null;
+    if(managedSite===site)managedSite=null;
+  }
+  function duoClear(owner){
+    if(!owner||typeof owner!=='string')return;
+    let changed=false;
+    for(const site of [...sites])if(site.duoOwner===owner){duoRemoveSite(site);changed=true;}
+    if(changed)refreshStairOpenings();
+  }
+  function duoApply(owner,records){
+    if(!window.FlorestaOnline?.connected||typeof owner!=='string'||!owner||owner.length>90||
+       !Array.isArray(records)||records.length>650)return false;
+    const wanted=new Map();
+    for(const r of records){
+      if(!r||!DEF[r.id]||!Number.isInteger(r.count)||r.count<1)continue;
+      const normalized={...r,level:Number.isInteger(r.level)?r.level:0};
+      if(!validRecord(normalized))continue;
+      wanted.set(duoKey(normalized),normalized);
+    }
+    let changed=false;
+    for(const s of [...sites])if(s.duoOwner===owner){
+      const record=wanted.get(s.duoKey);
+      if(!record||record.count!==s.count||!!record.open!==!!s.open||
+         record.hp!==undefined&&Math.abs((s.hp||100)-record.hp)>.01){
+        duoRemoveSite(s);changed=true;
+      }
+    }
+    for(const [key,r] of wanted){
+      if(sites.some(s=>s.duoOwner===owner&&s.duoKey===key))continue;
+      // Avoid duplicate geometry at same position when both peers already have it locally.
+      if(sites.some(s=>!s.duoRemote&&duoKey({id:s.def.id,x:s.root.position.x,y:s.root.position.y,
+         z:s.root.position.z,yaw:s.root.rotation.y})===key))continue;
+      const site=restoreRecord(r);
+      site.duoRemote=true;site.duoOwner=owner;site.duoKey=key;
+      changed=true;
+    }
+    if(changed){reconnectWallsToFloor();refreshStairOpenings();}
+    return changed;
+  }
+  window.gameConstruction={version:'V224_Posicionamento_Livre_Escadas_Sobre_Piso',definitions:DEF,sites,completedFloors,completedStairs,applyRemote:duoApply,clearRemote:duoClear,get level(){return buildLevel},setLevel,goGround:()=>setLevel(0),collisionAt:(x,z,feet)=>solidAt(x,z,feet),get active(){return positioning},get selected(){return selected?.id||null},open:openMenu,close:closeMenu,select:selectBlueprint,cancel:cancelPlacement,interact,save:saveWorld,flush:flushWorld,exportWorld,importWorld,snapshot:serialized,manage:manageSite,toggleDoor,damage:damageSite,impactAt,structureResistance,get focusedSite(){return managedSite},get storageKey(){return SAVE_KEY}};
   loadWorld();
   console.info('[V224] Construção: fundações/pisos sem fendas, encaixe no topo real de pilares/paredes, piso elevado sólido, PC/Mobile');
 })();
