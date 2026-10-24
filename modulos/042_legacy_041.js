@@ -294,6 +294,8 @@
     tfp.visibleRoot.updateMatrixWorld(true);
   }
 
+  // Share the native game factory without touching the observer's inventory.
+  (window.FlorestaEquipmentModels ||= {}).hammer=()=>makeHammerModel();
   const heldHammer=makeHammerModel();
   heldHammer.visible=false;
   heldHammer.scale.setScalar(.78);

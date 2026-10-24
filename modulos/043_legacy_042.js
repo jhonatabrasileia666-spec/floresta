@@ -277,6 +277,10 @@
     return root;
   }
 
+  // Original branch mesh: multiplayer clones this, never equips the local character.
+  (window.FlorestaEquipmentModels ||= {}).branch=()=>{
+    const c=heldBranch.clone(true);c.removeFromParent();return c;
+  };
   const heldBranch=makeBranchModel();
 
   const tmp0=new THREE.Vector3();

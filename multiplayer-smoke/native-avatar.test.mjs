@@ -101,28 +101,30 @@ globals.window.gameShield={object:nativeShield};
 api.pose(peer,{pose:newPose,equipment:{right:'forged_silver_sword',left:'wood_shield',torch:false}});
 assert.equal(peer.gear.get('left').visual.children[0].geometry,shieldPlate.geometry);
 assert.equal(api.diagnostic().sources.includes('torch'),true);
-// Prime idle game-native templates without rendering any replacement shapes.
+// Work regression: remote player uses native hammer with EMPTY local observer inventory.
 const realHammer=new THREE.Group();
 const realHammerGeometry=new THREE.BoxGeometry(.2,.25,.18);
 realHammer.add(new THREE.Mesh(realHammerGeometry,new THREE.MeshStandardMaterial()));
+realHammer.position.set(800,120,300); // original viewmodel's displaced coordinates
 const hand=globals.window.gameRightHand;
 hand.current='axe';hand.object=rightHand;
-hand.equip=function(id){
- if(!['axe','hammer'].includes(id))return false;
- this.current=id;this.object=id==='hammer'?realHammer:rightHand;return true;
-};
-hand.unequip=function(){this.current=null;return true};
-globals.window.gameInventory={isOpen:false,items:[{id:'axe',quantity:1},{id:'hammer',quantity:1}]};
-gameReview.player={x:0,z:0};
+let calledEquip=0;
+hand.equip=()=>{calledEquip++;throw Error('remote observer must not equip items');};
+hand.unequip=()=>{calledEquip++;throw Error('remote observer must not unequip items');};
+globals.window.gameInventory={isOpen:false,items:[]};
+globals.window.FlorestaEquipmentModels={hammer:()=>realHammer};
 globals.window.FlorestaOnline={connected:true};
-globals.performance={now:()=>10000};
-const initial=hand.current;
+const beforePosition=realHammer.position.clone(),oldCurrent=hand.current;
 api.primeNativeEquipment();
-assert.equal(hand.current,initial,'priming deve restaurar o item equipado local');
-assert.ok(api.diagnostic().sources.includes('hammer'),'capturar martelo original sem construir geometria inventada');
+assert.equal(calledEquip,0,'network renderer must not change local hand');
 api.pose(peer,{pose:newPose,equipment:{right:'hammer',left:'',torch:false}});
-assert.equal(peer.gear.get('right').visual.children[0].geometry,realHammerGeometry,
- 'martelo remoto usa a malha REAL capturada pelo sistema original');
+const hammer=peer.gear.get('right');
+assert.ok(hammer.native&&!hammer.pending,'native hammer loads without any local inventory');
+assert.equal(hammer.visual.children[0].geometry,realHammerGeometry);
+assert.equal(hammer.visual.position.x,0,'remote copy must not inherit original first-person x position');
+assert.ok(realHammer.position.equals(beforePosition),'source must retain first-person coordinates');
+assert.equal(hand.current,oldCurrent,'observer remains equipped with original axe');
+assert.equal(calledEquip,0,"rendering another player's hammer never calls equip");
 assert.equal(api.dispose(peer),true);
 assert.equal(peer.root,null);
 assert.equal(mesh.geometry.isBufferGeometry,true,'descarregar avatar remoto não pode destruir corpo original');

@@ -227,55 +227,19 @@ function cacheCurrentRight(){
  captureTorch();
 }
 function maybePrimeNativeEquipment(){
- if(primed||priming||!window.FlorestaOnline?.connected)return;
- const now=performance.now();
- if(now-lastPriming<4000)return;
- lastPriming=now;
- const hand=window.gameRightHand,inv=window.gameInventory,g=window.gameReview;
- if(!hand?.equip||!hand?.unequip||!hand?.object||!inv?.items||!g?.player)return;
- if(inv.isOpen||window.gameCraft?.active||window.gameForgeV230?.active||
-   window.gameRoll?.active||window.gameLumber?.carrying||
-   window.gameSpiderCave?.transitioning||window.gamePlayerHit?.active)return;
- // Prime original item meshes between render frames without modifying inventory.
- // Skip if a combat animation or the player is actively moving.
- const pose=g.player;
- if(pose?.sprinting||pose?.attacking||pose?.rolling||g?.attackState)return;
- priming=true;
- const before=hand.current||null,initialStatuses=window.document?.getElementById('status');
- const oldStatus=initialStatuses?.textContent;
- try{
-  for(const id of PRIMABLE){
-   if(nativeTemplates.has(id))continue;
-   const qty=inv.items.find(item=>item.id===id)?.quantity||0;
-   if(qty<1)continue;
-   try{
-    if(hand.current!==id&&hand.equip(id)===false)continue;
-    if(hand.current===id)rememberNative(id,hand.object,'originalEquip('+id+')');
-   }catch(e){nativeFailure.set(id,'equip failure');}
-  }
- }finally{
-  try{
-   if(before&&hand.current!==before)hand.equip(before);
-   else if(!before&&hand.current)hand.unequip();
-  }catch(err){console.warn('[FLORESTA DUO] restoration of local equip failed',err);}
-  if(initialStatuses&&oldStatus!=null)initialStatuses.textContent=oldStatus;
-  priming=false;primed=true;
- }
- // If the native torch mesh is lazy-created, ask the ORIGINAL equipment handler
- // to instantiate it and immediately restore the previous state (same JS frame).
- // Never build a separate torch or flame in the multiplayer renderer.
- if(!nativeTemplates.has('torch')&&!g.isEquipped?.()&&!window.gameShield?.equipped&&
-    !window.gameBranchHands?.side){
-  const button=document.getElementById?.('equipBtn');
-  if(button?.click){
-   try{button.click();captureTorch();}
-   finally{if(g.isEquipped?.())button.click();}
-  }
- }
+ // The observer NEVER equips or unequips items to display remote equipment.
  cacheCurrentRight();
 }
 function nativeModel(id,side){
  if(!id)return null;
+ // Factory exported by original gameplay; no observer inventory required.
+ const originalFactory=window.FlorestaEquipmentModels?.[id];
+ if(typeof originalFactory==='function'){
+  try{
+   const built=originalFactory(),clone=cloneNativeSource(built);
+   if(clone)return clone;
+  }catch(e){nativeFailure.set(id,'original 3D factory unavailable');}
+ }
  cacheCurrentRight();
  if(nativeTemplates.has(id))return cloneNativeSource(nativeTemplates.get(id));
  if(id.startsWith('forged_')){
@@ -305,6 +269,11 @@ function makeEquipment(peer,side,id){
   return;
  }
  const socket=new T.Group();socket.name='Floresta_Duo_Original_'+side+'_'+id;
+ // Remove held object's first-person position/orientation before attaching it
+ // to the remote character bone. This does not touch the original source.
+ visual.position.set(0,0,0);
+ visual.quaternion.identity();
+ visual.updateMatrixWorld(true);
  socket.add(visual);
  // The native item can be a first-person object with a camera offset, so
  // normalize its existing geometry (not a substituted primitive) to hand units.
