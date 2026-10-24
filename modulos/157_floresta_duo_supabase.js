@@ -192,6 +192,7 @@ function tick(){
  }
  for(const p of state.peers.values()){
   if(!p.root)avatar(p);
+  if(p.root&&window.gameReview?.scene&&p.root.parent!==window.gameReview.scene)window.gameReview.scene.add(p.root);
   if(!p.root||!p.target)continue;
   const v=p.target;
   if(!p.placed){p.root.position.set(v.x,v.y,v.z);p.root.rotation.y=v.yaw;p.placed=true;}
