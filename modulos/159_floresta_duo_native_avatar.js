@@ -8,6 +8,15 @@ const norm=name=>String(name||'').replace(/^.*[|:]/,'').replace(/^mixamorig/i,''
 const round=n=>Math.round(n*1000)/1000;
 const getRig=()=>window.gameReview?.trueFirstPerson;
 const three=()=>window.__THREE_MODULE;
+function captureEquipment(){
+ const g=window.gameReview,forge=window.gameForgedEquipmentV230||null;
+ const right=String(forge?.right||window.gameRightHand?.current||'').slice(0,52);
+ const shield=window.gameShield;
+ const left=String(forge?.left||(shield?.equipped?'wood_shield':'')||
+  window.gamePotionSlot220?.equipped||'').slice(0,52);
+ const torch=!!g?.isEquipped?.();
+ return {right,left,torch,torchLit:torch,armor:!!window.gamePrimitive?.armorEquipped};
+}
 function capture(){
  const mesh=getRig()?.fullMesh;
  const bones=mesh?.skeleton?.bones;
@@ -175,6 +184,11 @@ function nativeTorchCandidates(){
   }
  };
  if(!g)return possible;
+ // The native FLORESTA engine stores its fully assembled torch on torchRoot.
+ // Capture it first, before inspecting flame/particle subobjects.
+ add(g.torchRoot,'gameReview.torchRoot');
+ add(g.torch,'gameReview.torch');
+ add(g.equippedTorch,'gameReview.equippedTorch');
  // Trust runtime torch holders and any torch actually attached to the player's rig.
  for(const k of Object.keys(g))if(/torch|tocha/i.test(k))add(g[k],'gameReview.'+k);
  for(const k of ['gameTorch','gameTorchV2','gameFirstPersonTorch'])add(window[k],k);
@@ -259,13 +273,18 @@ function clearGear(gear){
 function makeEquipment(peer,side,id){
  const T=three();if(!T?.Group||!peer.root||!peer.gear)return;
  const previous=peer.gear.get(side);
- if(previous?.id===id)return;
+ if(previous?.id===id&&!previous.pending)return;
+ if(previous?.id===id&&previous.pending){
+  // Retry every 400ms without replacing the already correct local hand state.
+  const now=performance.now();
+  if(previous.lastAttempt&&now-previous.lastAttempt<400)return;
+ }
  if(previous){clearGear(previous);peer.gear.delete(side);}
  if(!id)return;
  const visual=nativeModel(id,side);
  if(!visual){
   // Retry after native source has been instantiated, without showing a fake.
-  peer.gear.set(side,{id,pending:true,root:null});
+  peer.gear.set(side,{id,pending:true,root:null,lastAttempt:performance.now()});
   return;
  }
  const socket=new T.Group();socket.name='Floresta_Duo_Original_'+side+'_'+id;
@@ -294,9 +313,6 @@ function makeEquipment(peer,side,id){
 function refreshPending(peer){
  for(const [side,item] of peer.gear||[]){
   if(!item.pending)continue;
-  const m=nativeModel(item.id,side);
-  if(!m)continue;
-  peer.gear.delete(side);
   makeEquipment(peer,side,item.id);
  }
 }
@@ -345,6 +361,7 @@ function pose(peer,v){
  }
  maybePrimeNativeEquipment();
  const equipment=v.equipment||{};
+ peer.lastEquipment=equipment;
  makeEquipment(peer,'right',String(equipment.right||'').slice(0,52));
  // Resolve torch and shield to one stable left-hand slot. Never recreate the torch every animation frame.
  const left=equipment.left||(equipment.torch?'torch':'');
@@ -352,11 +369,18 @@ function pose(peer,v){
  refreshPending(peer);
  snapEquipment(peer);
 }
+function diagnosticPeer(peer){
+ return {native:!!peer?.nativeAvatar,received:peer?.lastEquipment||null,
+   models:[...(peer?.gear?.entries?.()||[])].map(([hand,model])=>({
+    hand,id:model.id,pending:!!model.pending,visible:!!model.root?.visible,
+    parented:!!model.root?.parent,meshCount:model.visual?visibleMeshCount(model.visual):0
+   }))};
+}
 function probe(){
  const t=sourceRig();
  return {ready:!!t,model:t?.root?.name||null,bones:t?.tfp?.fullMesh?.skeleton?.bones?.length||0};
 }
 window.FlorestaDuoAvatar={version:'NativeRig-NativeEquipment-2',capture,create,pose,dispose,probe,
- captureLocalEquipment:cacheCurrentRight, primeNativeEquipment:maybePrimeNativeEquipment,
+ captureLocalEquipment:cacheCurrentRight, primeNativeEquipment:maybePrimeNativeEquipment, captureEquipment, diagnosticPeer,
  diagnostic(){return{sources:[...nativeTemplates.keys()],missing:[...nativeFailure.entries()],primed}}};
 })();
