@@ -1,0 +1,31 @@
+name: Inspect native models for online player
+on:
+  push:
+    branches: [fix/duo-equipment-payload-visibility-20261024]
+jobs:
+  locate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Locate native item render factories
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          const files=['Jogo.html',...fs.readdirSync('modulos').filter(x=>x.endsWith('.js')).map(x=>'modulos/'+x)];
+          const terms=['torchRoot','gameRightHand','gameShield','makeAxe','makeHammer','makeSpear','makePickaxe','FlorestaEquipmentModels','torchObject'];
+          let total=0;
+          for(const f of files){
+           const s=fs.readFileSync(f,'utf8');
+           for(const term of terms){
+            const hits=[];let p=-1;while((p=s.indexOf(term,p+1))>=0){hits.push(p);if(hits.length>=25)break;}
+            if(hits.length && (f==='Jogo.html'||/(0(17|24|42|43|49)|1(30|57|59))/.test(f))) {
+              console.log('HITS',f,term,hits.length);
+              for(const p of hits.slice(0,3)){
+                console.log('CONTEXT',JSON.stringify(s.slice(Math.max(0,p-280),p+500)));
+              }
+              total++;
+            }
+           }
+          }
+          console.log('done',total);
+          NODE
