@@ -183,7 +183,8 @@ function tick(){
    const moved=lastLocalPos?Math.hypot(p.x-lastLocalPos.x,p.z-lastLocalPos.z)>.07:false;
    const pos={x:p.x,y:Number.isFinite(y)?y:Number(p.y)||0,z:p.z,yaw:p.yaw||0,
     moving:moved,torch:!!g.isEquipped?.(),weapon:String(window.gameRightHand?.current||'').slice(0,30),
-    carryingLog:!!window.gameLumber?.carrying,mounted:!!window.gameCreativeSpiderMount?.mounted};
+    carryingLog:!!window.gameLumber?.carrying,mounted:!!window.gameCreativeSpiderMount?.mounted,
+    zone:window.gameSpiderCave?.active?'cave':'forest'};
    lastLocalPos={x:p.x,z:p.z};
    if([pos.x,pos.y,pos.z,pos.yaw].every(Number.isFinite)){
     state.channel.send({type:'broadcast',event:'position',payload:{id,pos}});lastSent=t;
@@ -205,6 +206,7 @@ function tick(){
   if(p.torch)p.torch.visible=!!v.torch;
   if(p.weapon)p.weapon.visible=!!v.weapon;
   if(p.log)p.log.visible=!!v.carryingLog;
+  p.root.visible=(v.zone==='cave'?'cave':'forest')===(window.gameSpiderCave?.active?'cave':'forest');
   const swing=v.moving?Math.sin(performance.now()*.009)*.12:0;
   for(const leg of p.root.children)if(leg.geometry?.type==='CylinderGeometry'&&leg.position.y<.7&&Math.abs(leg.position.x)>.08)leg.rotation.x=(leg.position.x>0?1:-1)*swing;
  }
