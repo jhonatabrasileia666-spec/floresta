@@ -164,11 +164,19 @@ function open(){
  '<div class="foActions"><button id="foCreate">CRIAR SALA</button><button id="foJoin">ENTRAR</button></div>'+
  '<p>Sala <strong id="foRoomLabel"></strong> · <span id="foCount">0</span>/2 jogadores</p>'+
  '<div class="foActions"><button id="foInvite">COPIAR CONVITE</button><button id="foLeave">SAIR</button></div>'+
+ '<div class="foActions"><button id="foEquipDebug" type="button">COPIAR DIAGNÓSTICO DOS ITENS</button></div>'+
  '<p id="foStatus" role="status"></p>'+
  '<small>Protótipo: posição e presença online. Inimigos, dano, coleta e construções ainda não são compartilhados.</small></div>');
  $('foUrl').value=state.url;$('foKey').value='Chave pública configurada';$('foUrl').readOnly=true;$('foKey').readOnly=true;$('foName').value=state.name;$('foCode').value=state.room;
  $('foCreate').onclick=()=>connect(true);$('foJoin').onclick=()=>connect(false);
  $('foLeave').onclick=()=>{leave();status('Saiu da sala. Modo solo preservado.')};
+ $('foEquipDebug').onclick=async()=>{
+  const local=window.FlorestaOnline?.diagnostic?.();
+  const native=window.FlorestaDuoAvatar?.diagnostic?.();
+  const json=JSON.stringify({version:'duo-equipment-3',local,native},null,2);
+  try{await navigator.clipboard.writeText(json);status('Diagnóstico de itens copiado. Envie no chat para analisar.');}
+  catch{status('Não foi possível copiar; abra console e execute FlorestaOnline.diagnostic().');}
+ };
  $('foInvite').onclick=async()=>{
   const u=new URL('index.html',location.href);
   u.searchParams.set('room',state.room);
