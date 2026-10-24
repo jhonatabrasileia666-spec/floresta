@@ -220,10 +220,11 @@ function captureTorch(){
   const namedTorch=/(torch|tocha)/i.test(root.name||'');
   // A glowing cone/plane is only the flame FX, not the held torch model.
   const onlyFireEffect=!shafts&&!textured&&(flameOnly+brightOnly>=meshes);
-  // Imported meshes may use BufferGeometry: accept recognizable original
-  // torch assemblies, but never clone a standalone beam/particle.
+  // The canonical torchRoot group is a native game assembly and does not
+  // need custom mesh names. Still reject particle-only / beam-only subtrees.
+  const canonicalRoot=candidate.tag==='gameReview.torchRoot'&&meshes>=2;
   if(!meshes||flameOnly===meshes||onlyFireEffect||
-    (!shafts&&!(namedTorch&&(meshes>=2||textured>0))))continue;
+    (!shafts&&!canonicalRoot&&!(namedTorch&&(meshes>=2||textured>0))))continue;
   if(rememberNative('torch',root,candidate.tag))return true;
  }
  return false;
