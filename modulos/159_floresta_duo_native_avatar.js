@@ -226,10 +226,9 @@ function pose(peer,v){
  }
  const equipment=v.equipment||{};
  makeEquipment(peer,'right',String(equipment.right||'').slice(0,52));
- makeEquipment(peer,'left',String(equipment.left||'').slice(0,52));
- // Torch and carried logs are represented as separate hand/shoulder items.
- if(equipment.torch&&!equipment.left)makeEquipment(peer,'left','torch');
- if(!equipment.torch&&peer.gear.get('left')?.id==='torch')makeEquipment(peer,'left','');
+ // Resolve torch and shield to one stable left-hand slot. Never recreate the torch every animation frame.
+ const left=equipment.left||(equipment.torch?'torch':'');
+ makeEquipment(peer,'left',String(left).slice(0,52));
  snapEquipment(peer);
 }
 function probe(){
