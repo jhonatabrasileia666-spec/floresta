@@ -1,0 +1,23 @@
+name: Inspect multiplayer native equipment factories
+on:
+  push:
+    branches: [fix/duo-native-equipment-work-release]
+  workflow_dispatch:
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect runtime factories (bounded snippets)
+        run: |
+          node <<'NODE'
+          const fs=require('fs');
+          for(const f of ['modulos/024_legacy_023.js','modulos/030_legacy_029.js','modulos/015_legacy_014.js','modulos/082_construction_224.js']){
+            const s=fs.readFileSync(f,'utf8');
+            console.log('\nFILE',f,'bytes',s.length);
+            for(const pattern of [/window\\.gameRightHand\\s*=/g,/window\\.gameShield\\s*=/g,/gameRightHand\\s*=\\s*\\{/g,/createTorch/g,/torchObject/g,/torchMesh/g,/equipBtn/g,/gameReview\\s*=\\s*\\{/g]){
+              const m=[...s.matchAll(pattern)].slice(0,4);
+              for(const v of m) console.log('MATCH',pattern.source,v.index,JSON.stringify(s.slice(Math.max(0,v.index-240),v.index+650)));
+            }
+          }
+          NODE
