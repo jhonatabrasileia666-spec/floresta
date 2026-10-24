@@ -11,6 +11,7 @@ const roomCode=()=>{const bytes=crypto.getRandomValues(new Uint8Array(9));return
 const DUO_URL="https://fswfhhymihuypkudnopg.supabase.co",DUO_KEY="sb_publishable_6rVU7k20yCUFzlMHmjOYzQ_kXFWDOSo";
 const id=crypto.randomUUID(),state={url:DUO_URL,key:DUO_KEY,name:get('fo-name')||'Viajante',room:Q.get('room')||'',client:null,channel:null,connected:false,connecting:false,peers:new Map(),status:''};
 let attempt=0,mounted=false,lastSent=0,lastLocalPos=null;
+let lastEquipmentWire='',lastEquipmentSent=0,lastEquipmentLocal=null;
 const listeners=new Set();let isHost=false;
 const emitLocal=(type,payload,peerId)=>{for(const fn of listeners){try{fn({type,payload,peerId})}catch(err){console.warn('[DUO bridge]',err)}}};
 const playing=()=>!!(window.gameFront172?.started&&window.gameFront172?.shell?.hidden);
@@ -72,7 +73,7 @@ function avatar(p){
  g.scene.add(r);p.root=r;
 }
 function leave(){
- attempt++;state.connected=false;state.connecting=false;isHost=false;
+ attempt++;state.connected=false;state.connecting=false;isHost=false;lastEquipmentWire='';lastEquipmentSent=0;
  const client=state.client,channel=state.channel;state.client=null;state.channel=null;
  if(client&&channel)client.removeChannel(channel).catch(()=>{});
  for(const p of state.peers.values())removePeer(p);
@@ -104,10 +105,26 @@ async function connect(create){
    if(!state.peers.has(payload.id))return;
    emitLocal(payload.type,payload.data,payload.id);
   });
+  channel.on('broadcast',{event:'equipment'},({payload})=>{
+   if(!state.connected||!payload||payload.id===id)return;
+   const p=state.peers.get(payload.id),equip=payload.equipment;
+   if(!p||!equip||typeof equip!=='object')return;
+   const normalized={
+    right:String(equip.right||'').slice(0,52),
+    left:String(equip.left||'').slice(0,52),
+    torch:!!equip.torch,torchLit:!!equip.torchLit,armor:!!equip.armor
+   };
+   p.lastEquipment=normalized;
+   if(p.target)p.target.equipment=normalized;
+  });
   channel.on('broadcast',{event:'position'},({payload})=>{
    if(!state.connected||!payload||payload.id===id)return;
    const p=state.peers.get(payload.id),v=payload.pos;
-   if(p&&v&&[v.x,v.y,v.z,v.yaw].every(Number.isFinite)&&Math.abs(v.x)<10000&&Math.abs(v.z)<10000)p.target=v;
+   if(p&&v&&[v.x,v.y,v.z,v.yaw].every(Number.isFinite)&&Math.abs(v.x)<10000&&Math.abs(v.z)<10000){
+    if(v.equipment&&typeof v.equipment==='object')p.lastEquipment=v.equipment;
+    v.equipment=p.lastEquipment||v.equipment||null;
+    p.target=v;
+   }
   });
   channel.on('presence',{event:'sync'},async()=>{
    if(ticket!==attempt)return;
@@ -147,11 +164,19 @@ function open(){
  '<div class="foActions"><button id="foCreate">CRIAR SALA</button><button id="foJoin">ENTRAR</button></div>'+
  '<p>Sala <strong id="foRoomLabel"></strong> · <span id="foCount">0</span>/2 jogadores</p>'+
  '<div class="foActions"><button id="foInvite">COPIAR CONVITE</button><button id="foLeave">SAIR</button></div>'+
+ '<div class="foActions"><button id="foEquipDebug" type="button">COPIAR DIAGNÓSTICO DOS ITENS</button></div>'+
  '<p id="foStatus" role="status"></p>'+
  '<small>Protótipo: posição e presença online. Inimigos, dano, coleta e construções ainda não são compartilhados.</small></div>');
  $('foUrl').value=state.url;$('foKey').value='Chave pública configurada';$('foUrl').readOnly=true;$('foKey').readOnly=true;$('foName').value=state.name;$('foCode').value=state.room;
  $('foCreate').onclick=()=>connect(true);$('foJoin').onclick=()=>connect(false);
  $('foLeave').onclick=()=>{leave();status('Saiu da sala. Modo solo preservado.')};
+ $('foEquipDebug').onclick=async()=>{
+  const local=window.FlorestaOnline?.diagnostic?.();
+  const native=window.FlorestaDuoAvatar?.diagnostic?.();
+  const json=JSON.stringify({version:'duo-equipment-3',local,native},null,2);
+  try{await navigator.clipboard.writeText(json);status('Diagnóstico de itens copiado. Envie no chat para analisar.');}
+  catch{status('Não foi possível copiar; abra console e execute FlorestaOnline.diagnostic().');}
+ };
  $('foInvite').onclick=async()=>{
   const u=new URL('index.html',location.href);
   u.searchParams.set('room',state.room);
@@ -184,18 +209,26 @@ function tick(){
   if(g?.scene&&p&&t-lastSent>=250){
    const y=g.groundY?.(p.x,p.z);
    const moved=lastLocalPos?Math.hypot(p.x-lastLocalPos.x,p.z-lastLocalPos.z)>.07:false;
+   const equipment=window.FlorestaDuoAvatar?.captureEquipment?.()||{
+    right:String(window.gameForgedEquipmentV230?.right||window.gameRightHand?.current||''),
+    left:String(window.gameForgedEquipmentV230?.left||(window.gameShield?.equipped?'wood_shield':'')||''),
+    torch:!!g.isEquipped?.(),torchLit:!!g.isEquipped?.()};
+   lastEquipmentLocal=equipment;
    const pos={x:p.x,y:Number.isFinite(y)?y:Number(p.y)||0,z:p.z,yaw:p.yaw||0,
     moving:moved,torch:!!g.isEquipped?.(),weapon:String(window.gameRightHand?.current||'').slice(0,30),
     carryingLog:!!window.gameLumber?.carrying,mounted:!!window.gameCreativeSpiderMount?.mounted,
     zone:window.gameSpiderCave?.active?'cave':'forest',
     look:window.gameCharacterV263?.get?.()||null,
-    equipment:{right:window.gameForgedEquipmentV230?.right||window.gameRightHand?.current||'',
-     left:window.gameForgedEquipmentV230?.left||(window.gameShield?.equipped?'wood_shield':''),
-     torch:!!g.isEquipped?.(),armor:!!window.gamePrimitive?.armorEquipped},
+    equipment,
     pose:window.FlorestaDuoAvatar?.capture?.()||null};
    lastLocalPos={x:p.x,z:p.z};
    if([pos.x,pos.y,pos.z,pos.yaw].every(Number.isFinite)){
     state.channel.send({type:'broadcast',event:'position',payload:{id,pos}});lastSent=t;
+    const wire=JSON.stringify(equipment);
+    if(wire!==lastEquipmentWire||t-lastEquipmentSent>2200){
+     state.channel.send({type:'broadcast',event:'equipment',payload:{id,equipment}});
+     lastEquipmentWire=wire;lastEquipmentSent=t;
+    }
    }
   }
  }
@@ -218,7 +251,10 @@ function tick(){
   if(p.torch)p.torch.visible=!!v.torch;
   if(p.weapon)p.weapon.visible=!!v.weapon;
   if(p.log)p.log.visible=!!v.carryingLog;
-  if(p.nativeAvatar)window.FlorestaDuoAvatar?.pose?.(p,v);
+  if(p.nativeAvatar){
+   if(p.lastEquipment)v.equipment=p.lastEquipment;
+   window.FlorestaDuoAvatar?.pose?.(p,v);
+  }
   p.root.visible=(v.zone==='cave'?'cave':'forest')===(window.gameSpiderCave?.active?'cave':'forest');
   const swing=v.moving?Math.sin(performance.now()*.009)*.12:0;
   for(const leg of p.root.children)if(leg.geometry?.type==='CylinderGeometry'&&leg.position.y<.7&&Math.abs(leg.position.x)>.08)leg.rotation.x=(leg.position.x>0?1:-1)*swing;
@@ -238,5 +274,8 @@ window.FlorestaOnline={open,leave,
  onNetwork(fn){if(typeof fn!=='function')return()=>{};listeners.add(fn);return()=>listeners.delete(fn)},
  send(type,data){if(!state.connected||!state.channel||!state.peers.size||typeof type!=='string'||type.length>48)return Promise.resolve('not_connected');
   return state.channel.send({type:'broadcast',event:'coop',payload:{id,type,data}}).catch(()=> 'error');},
- diagnostic:()=>({connected:state.connected,host:isHost,players:state.peers.size+1,room:state.room})};
+ diagnostic:()=>({connected:state.connected,host:isHost,players:state.peers.size+1,room:state.room,
+  sentEquipment:lastEquipmentLocal,
+  peers:[...state.peers.values()].map(p=>({name:p.name,receivedEquipment:p.lastEquipment||null,
+    avatar:window.FlorestaDuoAvatar?.diagnosticPeer?.(p)||null}))})};
 })();

@@ -12,7 +12,7 @@ const apply=()=>{
  // Lobby online carregado separadamente: nunca bloqueia o modo solo.
  if(!document.getElementById('florestaOnlineMVP1Loader')){
   const online=document.createElement('script');online.id='florestaOnlineMVP1Loader';
-  online.src='modulos/157_floresta_duo_supabase.js?v=duo-3';
+  online.src='modulos/157_floresta_duo_supabase.js?v=duo-7';
   online.onload=()=>{
    const bridge=document.createElement('script');
    bridge.src='modulos/158_floresta_duo_world.js?v=duo-3';bridge.id='florestaDuoWorldLoader';
@@ -22,7 +22,7 @@ const apply=()=>{
   online.onerror=()=>console.warn('[FLORESTA ONLINE] Módulo não disponível; modo solo preservado.');
   const remoteAvatar=document.createElement('script');
   remoteAvatar.id='florestaDuoNativeAvatar159Loader';
-  remoteAvatar.src='modulos/159_floresta_duo_native_avatar.js?v=duo-6';
+  remoteAvatar.src='modulos/159_floresta_duo_native_avatar.js?v=duo-7';
   remoteAvatar.onload=()=>document.body.append(online);
   remoteAvatar.onerror=()=>{console.warn('[DUO] Rig remoto indisponível; fallback temporário.');document.body.append(online);};
   document.body.append(remoteAvatar);
