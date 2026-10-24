@@ -15,7 +15,7 @@ function captureEquipment(){
  const left=String(forge?.left||(shield?.equipped?'wood_shield':'')||
   window.gamePotionSlot220?.equipped||'').slice(0,52);
  const torch=!!g?.isEquipped?.();
- return {right,left,torch,torchLit:torch,armor:!!window.gamePrimitive?.armorEquipped};
+ return {right,left,torch,torchLit:torch&&!!g?.isTorchLit?.(),armor:!!window.gamePrimitive?.armorEquipped};
 }
 function capture(){
  const mesh=getRig()?.fullMesh;
@@ -164,6 +164,50 @@ function cloneNativeSource(source){
  });
  return cloned;
 }
+// The original torchRoot is the full first-person 3D mesh + shader flame
+// + camera-local PointLights and Sprite bloom. In multiplayer only the native
+// physical mesh and its shader flame should be attached to a character's hand.
+// Copying the strong PointLights is what overexposed nearby characters.
+function nativeTorchVisual(){
+ const T=three(),source=window.gameReview?.torchRoot;
+ if(!T?.Box3||!supportedSource(source))return null;
+ const model=cloneNativeSource(source);
+ if(!model)return null;
+ const remove=[];
+ model.traverse(o=>{
+  if(o.isLight||o.isSprite)remove.push(o);
+ });
+ for(const obj of remove)obj.removeFromParent();
+ const solid=new T.Box3(),part=new T.Box3(),fx=[];
+ model.updateWorldMatrix(true,true);
+ model.traverse(o=>{
+  if(!o.isMesh)return;
+  const mat=Array.isArray(o.material)?o.material[0]:o.material;
+  const isFlame=!!mat?.isShaderMaterial||/flame|fire|chama|fogo/i.test(o.name||'');
+  if(isFlame)fx.push(o);
+  else if(mat?.isMeshStandardMaterial||mat?.isMeshLambertMaterial||mat?.isMeshPhongMaterial)
+    solid.union(part.setFromObject(o));
+ });
+ if(solid.isEmpty()||solid.getSize(new T.Vector3()).y<.15)return null;
+ // Bounding metadata is for the SOLID handle, not the huge first-person flame.
+ // The original geometry/materials/shader remain shared; only the clone's
+ // transforms and visual light hierarchy change.
+ model.userData.duoTorchNative=true;
+ model.userData.duoTorchBounds={
+  min:[solid.min.x,solid.min.y,solid.min.z],max:[solid.max.x,solid.max.y,solid.max.z]
+ };
+ return model;
+}
+function setTorchFlame(gear,lit){
+ if(gear?.id!=='torch'||!gear?.visual)return;
+ if(gear.lastLit===!!lit)return;
+ gear.lastLit=!!lit;
+ gear.visual.traverse(o=>{
+  if(!o.isMesh&&!o.isSprite)return;
+  const mat=Array.isArray(o.material)?o.material[0]:o.material;
+  if(mat?.isShaderMaterial||/flame|fire|chama|fogo/i.test(o.name||''))o.visible=!!lit;
+ });
+}
 function rememberNative(id,object,reason){
  if(!id||nativeTemplates.has(id)||!supportedSource(object))return false;
  const source=cloneNativeSource(object);
@@ -247,6 +291,9 @@ function maybePrimeNativeEquipment(){
 }
 function nativeModel(id,side){
  if(!id)return null;
+ // Never use the raw camera torchRoot (its strong PointLights and large bloom
+ // are intended for first-person view only, not as a peer's held model).
+ if(id==='torch')return nativeTorchVisual();
  // Factory exported by original gameplay; no observer inventory required.
  const originalFactory=window.FlorestaEquipmentModels?.[id];
  if(typeof originalFactory==='function'){
@@ -300,19 +347,30 @@ function makeEquipment(peer,side,id){
  visual.quaternion.identity();
  visual.updateMatrixWorld(true);
  socket.add(visual);
- // The native item can be a first-person object with a camera offset, so
- // normalize its existing geometry (not a substituted primitive) to hand units.
- const bounding=new T.Box3().setFromObject(visual);
- const size=new T.Vector3(),center=new T.Vector3();
- bounding.getSize(size);bounding.getCenter(center);
- const longest=Math.max(size.x,size.y,size.z);
- const meters=({torch:.64,axe:.75,hammer:.75,pickaxe:.85,spear:1.4,rock:.3,
-   branch:.62,wood_chip:.37,wood_shield:.64})[id]||
-   (id.includes('shield')?.65:id.includes('spear')?1.4:id.includes('sword')?.87:.78);
- if(!Number.isFinite(longest)||longest<1e-6){peer.gear.set(side,{id,pending:true,root:null});return;}
- const scalar=Math.min(25,Math.max(.00001,meters/longest));
- visual.scale.multiplyScalar(scalar);
- visual.position.sub(center.multiplyScalar(scalar));
+ // Torch sizing comes only from the THREE original wooden handle.
+ // Its first-person flame planes are intentionally outside this bounding box.
+ if(id==='torch'&&visual.userData.duoTorchNative){
+  const {min,max}=visual.userData.duoTorchBounds;
+  const height=max[1]-min[1];
+  if(!Number.isFinite(height)||height<.15){peer.gear.set(side,{id,pending:true,root:null});return;}
+  const scalar=Math.max(.1,Math.min(2,.70/height));
+  visual.scale.setScalar(scalar);
+  visual.position.set(-(min[0]+max[0])*.5*scalar,
+    -(min[1]+height*.19)*scalar,
+    -(min[2]+max[2])*.5*scalar);
+ }else{
+  const bounding=new T.Box3().setFromObject(visual);
+  const size=new T.Vector3(),center=new T.Vector3();
+  bounding.getSize(size);bounding.getCenter(center);
+  const longest=Math.max(size.x,size.y,size.z);
+  const meters=({axe:.75,hammer:.75,pickaxe:.85,spear:1.4,rock:.3,
+    branch:.62,wood_chip:.37,wood_shield:.64})[id]||
+    (id.includes('shield')?.65:id.includes('spear')?1.4:id.includes('sword')?.87:.78);
+  if(!Number.isFinite(longest)||longest<1e-6){peer.gear.set(side,{id,pending:true,root:null});return;}
+  const scalar=Math.min(25,Math.max(.00001,meters/longest));
+  visual.scale.multiplyScalar(scalar);
+  visual.position.sub(center.multiplyScalar(scalar));
+ }
  socket.visible=true;peer.root.add(socket);
  peer.gear.set(side,{id,pending:false,root:socket,visual,native:true});
 }
@@ -372,6 +430,7 @@ function pose(peer,v){
  // Resolve torch and shield to one stable left-hand slot. Never recreate the torch every animation frame.
  const left=equipment.left||(equipment.torch?'torch':'');
  makeEquipment(peer,'left',String(left).slice(0,52));
+ setTorchFlame(peer.gear.get('left'),equipment.torchLit!==false);
  refreshPending(peer);
  snapEquipment(peer);
 }
