@@ -200,6 +200,7 @@ window.FlorestaOnline={open,leave,
  get connected(){return state.connected},get room(){return state.room},
  get isHost(){return isHost},get clientId(){return id},
  get peerId(){return [...state.peers.keys()][0]||null},
+ get peerPosition(){return [...state.peers.values()][0]?.target||null},
  get playerCount(){return state.peers.size+(state.connected?1:0)},
  onNetwork(fn){if(typeof fn!=='function')return()=>{};listeners.add(fn);return()=>listeners.delete(fn)},
  send(type,data){if(!state.connected||!state.channel||!state.peers.size||typeof type!=='string'||type.length>48)return Promise.resolve('not_connected');
