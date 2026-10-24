@@ -126,7 +126,7 @@ function hostDamage(request,peerId){
 function onMessage(m){
  if(!N()?.connected)return;
  if(m.type==='presence'){
-  if(N().isHost&&m.payload?.count===2)setTimeout(()=>distribute(true),850);
+  if(m.payload?.count===2)setTimeout(()=>distribute(true),850);
   return;
  }
  if(m.peerId!==N()?.peerId)return;
@@ -134,8 +134,8 @@ function onMessage(m){
  case 'clock':
   updateClock(m.payload);break;
  case 'world-snapshot':
-  if(N().isHost||m.payload?.schema!==1||!Array.isArray(m.payload?.construction?.sites)||m.payload.construction.sites.length>MAX_SITES)return;
-  lastRemoteWorld=m.payload;received.world++;updateClock(m.payload.clock);applyWorld(m.payload);break;
+  if(m.payload?.schema!==1||!Array.isArray(m.payload?.construction?.sites)||m.payload.construction.sites.length>MAX_SITES)return;
+  lastRemoteWorld=m.payload;received.world++;if(!N().isHost)updateClock(m.payload.clock);applyWorld(m.payload);break;
  case 'hit-request':
   hostDamage(m.payload,m.peerId);break;
  case 'impact':
@@ -173,8 +173,8 @@ function frame(ts){
  const cb=document.getElementById('foDuoChat')||makeChatButton();
  if(cb)cb.style.display=active&&n.playerCount>1?'block':'none';
  if(active&&n.playerCount>1&&window.gameFront172?.started){
+  if(ts-lastWorldTime>3500){distribute();lastWorldTime=ts;}
   if(n.isHost){
-   if(ts-lastWorldTime>3500){distribute();lastWorldTime=ts;}
    if(ts-lastTime>2300){
     const d=G()?.dayNight;
     if(d&&num(d.day,100000)&&num(d.hour,24.1)){send('clock',{day:d.day,hour:d.hour});sent.clock++;}
