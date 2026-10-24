@@ -173,6 +173,12 @@ function nativeTorchVisual(){
  if(!T?.Box3||!supportedSource(source))return null;
  const model=cloneNativeSource(source);
  if(!model)return null;
+ // Source is parented to the LOCAL first-person camera at (-.62,-.52,-1.07).
+ // Normalize its pivot BEFORE measuring the physical handle. Otherwise the
+ // source camera displacement corrupts the remote hand anchor.
+ model.position.set(0,0,0);
+ model.quaternion.identity();
+ model.scale.set(1,1,1);
  const remove=[];
  model.traverse(o=>{
   if(o.isLight||o.isSprite)remove.push(o);
