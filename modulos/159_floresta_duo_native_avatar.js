@@ -81,7 +81,7 @@ function create(peer,T,g){
  full.visible=true;full.onBeforeRender=()=>{};full.onAfterRender=()=>{};
  cloned.visible=true;
  cloned.position.set(0,0,0);
- cloned.rotation.set(0,0,0);
+ cloned.rotation.set(0,Math.PI,0); // Mixamo's +Z face vs. FLORESTA camera's -Z forward
  // Keep the original FBX rig scale; the peer root uses world-space metres.
  cloned.traverse(o=>{
   if(o.isSkinnedMesh||o.isMesh){o.onBeforeRender=()=>{};o.onAfterRender=()=>{};o.frustumCulled=false;}
@@ -249,7 +249,15 @@ function makeEquipment(peer,side,id){
  const T=three();if(!T?.Group||!peer.root||!peer.gear)return;
  const old=peer.gear.get(side);
  if(old?.id===id)return;
- if(old){old.root.removeFromParent();old.root.traverse?.(o=>{if(o.userData?.duoOwnedGeometry)o.geometry?.dispose?.();});peer.gear.delete(side);}
+ if(old){
+  old.root.removeFromParent();
+  const ownedMaterials=new Set();
+  old.root.traverse?.(o=>{
+   if(o.userData?.duoOwnedGeometry){o.geometry?.dispose?.();if(o.material)ownedMaterials.add(o.material);}
+  });
+  for(const material of ownedMaterials)material.dispose?.();
+  peer.gear.delete(side);
+ }
  if(!id)return;
  const source=lookupModel(id,side);
  let visual=visibleClone(source);
@@ -285,6 +293,7 @@ function snapEquipment(peer){
   const bone=peer.bones.get(side==='left'?'lefthand':'righthand');
   if(!bone){gear.root.visible=false;continue;}
   bone.getWorldPosition(p);bone.getWorldQuaternion(q);
+  const worldHand=p.clone();
   gear.root.position.copy(peer.root.worldToLocal(p));
   gear.root.quaternion.copy(rootQ).multiply(q);
   if(side==='left'&&gear.id.includes('shield')){
@@ -292,7 +301,7 @@ function snapEquipment(peer){
    const fore=peer.bones.get('leftforearm');
    if(fore){
     const elbow=new T.Vector3();fore.getWorldPosition(elbow);
-    const delta=elbow.sub(p).multiplyScalar(.38);
+    const delta=elbow.sub(worldHand).multiplyScalar(.38);
     gear.root.position.add(delta.applyQuaternion(rootQ));
    }
    gear.root.rotateY(Math.PI*.5);
