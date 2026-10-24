@@ -47,7 +47,11 @@ function snapshot(){
  const siteList=raw.construction.sites.slice(0,MAX_SITES).filter(a=>a&&['x','y','z','yaw'].every(k=>num(a[k]))&&Number.isInteger(a.count)&&a.count>=0)
   .map(a=>({id:String(a.id).slice(0,90),x:a.x,y:a.y,z:a.z,yaw:a.yaw,count:a.count,
     level:Number.isInteger(a.level)?a.level:0,edgeX:a.edgeX,edgeZ:a.edgeZ,
-    wallSign:a.wallSign,wallAttached:!!a.wallAttached}));
+    wallSign:a.wallSign,wallAttached:!!a.wallAttached,stairShape:a.stairShape||undefined,
+    hp:Number.isFinite(a.hp)?a.hp:100,open:!!a.open,
+    text:typeof a.text==='string'?a.text.slice(0,80):'',
+    paid:Array.isArray(a.paid)?a.paid.slice(0,60).map(Boolean):[],
+    storage:Array.isArray(a.storage)?a.storage.slice(0,40):[]}));
  return {schema:1,construction:{sites:siteList},cave:{queenDead:!!raw.cave?.queenDead},clock:{day:g.dayNight.day,hour:g.dayNight.hour},at:Date.now()};
 }
 function distribute(force=false){
