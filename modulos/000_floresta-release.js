@@ -12,15 +12,20 @@ const apply=()=>{
  // Lobby online carregado separadamente: nunca bloqueia o modo solo.
  if(!document.getElementById('florestaOnlineMVP1Loader')){
   const online=document.createElement('script');online.id='florestaOnlineMVP1Loader';
-  online.src='modulos/157_floresta_duo_supabase.js?v=duo-2';
+  online.src='modulos/157_floresta_duo_supabase.js?v=duo-3';
   online.onload=()=>{
    const bridge=document.createElement('script');
-   bridge.src='modulos/158_floresta_duo_world.js?v=duo-2';bridge.id='florestaDuoWorldLoader';
+   bridge.src='modulos/158_floresta_duo_world.js?v=duo-3';bridge.id='florestaDuoWorldLoader';
    bridge.onerror=()=>console.warn('[DUO] Ponte de mundo não carregou; conexão de jogadores continua.');
    document.body.append(bridge);
   };
   online.onerror=()=>console.warn('[FLORESTA ONLINE] Módulo não disponível; modo solo preservado.');
-  document.body.append(online);
+  const remoteAvatar=document.createElement('script');
+  remoteAvatar.id='florestaDuoNativeAvatar159Loader';
+  remoteAvatar.src='modulos/159_floresta_duo_native_avatar.js?v=duo-3';
+  remoteAvatar.onload=()=>document.body.append(online);
+  remoteAvatar.onerror=()=>{console.warn('[DUO] Rig remoto indisponível; fallback temporário.');document.body.append(online);};
+  document.body.append(remoteAvatar);
  }
  // Portal independente dos inimigos e do HUD: deve ser carregado em PC e mobile.
  if(!document.getElementById('florestaCavePortal281Loader')){
