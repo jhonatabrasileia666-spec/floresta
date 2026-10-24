@@ -314,6 +314,7 @@ function snapEquipment(peer){
  peer.root.updateWorldMatrix(true,true);
  peer.root.getWorldQuaternion(rootQ);rootQ.invert();
  for(const [side,gear] of peer.gear){
+  if(!gear?.root||gear.pending)continue;
   const bone=peer.bones.get(side==='left'?'lefthand':'righthand');
   if(!bone){gear.root.visible=false;continue;}
   bone.getWorldPosition(p);bone.getWorldQuaternion(q);
