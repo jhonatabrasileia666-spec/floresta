@@ -32,7 +32,7 @@ rightHand.add(new THREE.Mesh(new THREE.ConeGeometry(.1,.7,8),new THREE.MeshStand
 const gameReview={trueFirstPerson:{model:rig,visibleRoot:rig,fullMesh:mesh,localMesh:null},scene};
 const character={get:()=>({style:'longo',color:'#674229',size:1}),
  makeRemoteHair(head,look){const hair=new THREE.Group();hair.name='Hair_'+look.style;head.add(hair);return hair;}};
-const globals={window:{gameReview,__THREE_MODULE:THREE,gameCharacterV263:character,gameRightHand:{current:'axe',object:rightHand}},document,console,Math,Map,Set,Array,String,Number,Boolean};
+const globals={window:{gameReview,__THREE_MODULE:THREE,gameCharacterV263:character,gameRightHand:{current:'axe',object:rightHand}},document,console,Math,Map,Set,Array,String,Number,Boolean,performance:{now:()=>1000}};
 vm.createContext(globals);
 vm.runInContext(source,globals);
 const api=globals.window.FlorestaDuoAvatar;
