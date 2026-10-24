@@ -28,7 +28,7 @@ function harness(host){
   send(type,payload){packets.push({type,payload});return Promise.resolve('ok');}
  };
  const display={body:{append(){}},createElement(){return {style:{},setAttribute(){},append(){},textContent:'',id:''};},getElementById(){return null}};
- let onFrame=null;
+ let onFrame=null;const intervals=[];
  const listeners={};
  const w={
   FlorestaOnline:bridge,__THREE_MODULE:T,gameReview:{scene,dayNight},
@@ -37,11 +37,11 @@ function harness(host){
   gameZombie:{combatTargets(){return[{root:{position:{x:1,y:0,z:1}},hit(amount){w.hitDamage=amount;return true;}}]}}
  };
  const context={window:w,document:display,performance:{now(){return 1000}},
-   requestAnimationFrame(fn){onFrame=fn},setInterval(fn){fn();return 3;},clearInterval(){},
+   requestAnimationFrame(fn){onFrame=fn},setInterval(fn){intervals.push(fn);return 3;},clearInterval(){},
    addEventListener(type,fn){listeners[type]=fn;},setTimeout(){return 0;},clearTimeout(){},
    prompt(){return''},console,Math,Date,JSON,Number,Map,Set,String,Array,Boolean,Error,Promise,
    CustomEvent:class {},};
- vm.createContext(context);vm.runInContext(source,context);
+ vm.createContext(context);vm.runInContext(source,context);intervals.forEach(fn=>fn());
  return{bridge,w,packets,listeners,frame(time){onFrame?.(time);},api:w.FlorestaDuoWorld};
 }
 const host=harness(true);
