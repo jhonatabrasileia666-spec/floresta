@@ -150,7 +150,8 @@ function cloneNativeSource(source){
  // Only unhide the root and meshes that are actually part of the captured item.
  cloned.visible=true;
  cloned.traverse(o=>{
-  if(o.isMesh){o.visible=true;o.frustumCulled=false;o.castShadow=true;}
+  o.visible=true;
+  if(o.isMesh){o.frustumCulled=false;o.castShadow=true;}
  });
  return cloned;
 }
@@ -197,7 +198,10 @@ function captureTorch(){
      (/CylinderGeometry|BoxGeometry/.test(geo)&&!(/fire|flame|fogo|chama/i.test(name))))shafts++;
    if(/fire|flame|fogo|chama|spark|billboard/i.test(name))flameOnly++;
   });
-  if(!meshes||!shafts||flameOnly===meshes)continue;
+  const namedTorch=/(torch|tocha)/i.test(root.name||'');
+  // Real imported meshes often have BufferGeometry rather than CylinderGeometry:
+  // allow a positively identified model, but never an isolated flame-only mesh.
+  if(!meshes||flameOnly===meshes||(!shafts&&!(namedTorch&&meshes>=1)))continue;
   if(rememberNative('torch',root,candidate.tag))return true;
  }
  return false;
