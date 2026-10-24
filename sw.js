@@ -1,6 +1,6 @@
 /* FLORESTA V281 — JS network-first; large media cache-first. Never cache HTML.
    Important on iOS: an old PWA may keep a V264 script URL even after code changes. */
-const CACHE='floresta-v281-duo-equipment-cache-2';
+const CACHE='floresta-v281-native-only-equipment-cache-3';
 self.addEventListener('install',event=>event.waitUntil(self.skipWaiting()));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{
  for(const key of await caches.keys())if(key.startsWith('floresta-v')&&key!==CACHE)await caches.delete(key);

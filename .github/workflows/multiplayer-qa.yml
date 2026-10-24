@@ -1,7 +1,7 @@
 name: FLORESTA Duo static checks
 on:
   push:
-    branches: [main, feature/multiplayer-online-mvp, fix/duo-facing-hand-items-20261024]
+    branches: [main, feature/multiplayer-online-mvp, fix/duo-use-existing-models-only-20261024]
   pull_request:
     paths:
       - "modulos/157_floresta_duo_supabase.js"
