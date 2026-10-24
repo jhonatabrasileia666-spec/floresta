@@ -133,6 +133,7 @@ assert.equal(peer.gear.get('right').pending,true);
 const originalPickaxe=new THREE.Group(),originalPickaxeGeometry=new THREE.CylinderGeometry(.04,.09,.8,6);
 originalPickaxe.add(new THREE.Mesh(originalPickaxeGeometry,new THREE.MeshStandardMaterial()));
 globals.window.FlorestaEquipmentModels.pickaxe=()=>originalPickaxe;
+globals.performance={now:()=>11000};
 api.pose(peer,{pose:newPose,equipment:{right:'pickaxe',left:'',torch:false}});
 assert.equal(peer.gear.get('right').pending,false,'recovered item must become visible');
 assert.equal(peer.gear.get('right').visual.children[0].geometry,originalPickaxeGeometry);
