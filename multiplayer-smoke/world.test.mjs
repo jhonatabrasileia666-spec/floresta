@@ -27,7 +27,7 @@ function harness(host){
   playerCount:2,peerPosition:{x:0,z:0},onNetwork(fn){this.receive=fn;return()=>{}},
   send(type,payload){packets.push({type,payload});return Promise.resolve('ok');}
  };
- const display={body:{append(){}},createElement(){return {style:{},setAttribute(){},append(){},textContent:'',id:''};},getElementById(){return null}};
+ const display={body:{append(){},appendChild(){}},createElement(){return {style:{},setAttribute(){},append(){},textContent:'',id:''};},getElementById(){return null}};
  let onFrame=null;const intervals=[];
  const listeners={};
  const w={
