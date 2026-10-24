@@ -22,7 +22,7 @@ const apply=()=>{
   online.onerror=()=>console.warn('[FLORESTA ONLINE] Módulo não disponível; modo solo preservado.');
   const remoteAvatar=document.createElement('script');
   remoteAvatar.id='florestaDuoNativeAvatar159Loader';
-  remoteAvatar.src='modulos/159_floresta_duo_native_avatar.js?v=duo-3';
+  remoteAvatar.src='modulos/159_floresta_duo_native_avatar.js?v=duo-4';
   remoteAvatar.onload=()=>document.body.append(online);
   remoteAvatar.onerror=()=>{console.warn('[DUO] Rig remoto indisponível; fallback temporário.');document.body.append(online);};
   document.body.append(remoteAvatar);
