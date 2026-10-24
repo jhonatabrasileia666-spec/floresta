@@ -136,6 +136,7 @@ function hostDamage(request,peerId){
  const n=N();if(!n?.connected||!n.isHost||peerId!==n.peerId||!request||request.weapon!=='sword')return;
  if(!num(request.x)||!num(request.z)||!num(request.y,2000))return;
  const p=n.peerPosition;if(!p||!num(p.x)||!num(p.z))return;
+ if((p.zone==='cave')!==!!window.gameSpiderCave?.active)return;
  if(Math.hypot(p.x-request.x,p.z-request.z)>4.7)return;
  const now=performance.now();if(now-lastImpact<260)return;lastImpact=now;
  const targets=enemyTargets();let chosen=null,d=3;
