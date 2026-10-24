@@ -64,7 +64,45 @@
   return true;
  }
  function apply(next){look=sanitize(next);try{localStorage.setItem(KEY,JSON.stringify(look))}catch{}removeHair();attach();window.dispatchEvent(new CustomEvent('floresta:appearance-change',{detail:{...look}}));return {...look};}
- const api=window.gameCharacterV263={get:()=>({...look}),apply,get ready(){return !!hair?.parent},get diagnostic(){return {rig:!!rig,head:head?.name||null,physicalRadius:.105,localRadius:headSize,visible:!!hair?.visible,error:lastWarn}},styles:STYLES,colors:COLORS,version:'V264'};
+ // Reuses the approved V264 hairstyles on cloned remote Mixamo skeletons.
+ // Never changes local player appearance or saves while constructing a remote hair mesh.
+ function makeRemoteHair(b,raw){
+  const T=window.__THREE_MODULE;
+  if(!T?.Mesh||!b)return null;
+  const style=sanitize(raw);
+  b.updateWorldMatrix?.(true,false);
+  const scale=new T.Vector3(1,1,1);b.getWorldScale?.(scale);
+  const sx=Math.abs(scale.x)||1,sy=Math.abs(scale.y)||sx;
+  const r=Math.max(.005,Math.min(999,.105/sx));
+  const top=b.children?.find?.(x=>norm(x.name)==='headtop');
+  const topY=top&&Number.isFinite(top.position.y)?top.position.y:(.158/sy);
+  const y=Math.max(.07/sy,Math.min(.245/sy,topY))-r*.54;
+  const g=new T.Group();g.name='Floresta_Cabelo_Jogador_Duo';
+  const mat=new T.MeshStandardMaterial({color:style.color,roughness:.94,metalness:0,side:T.DoubleSide});
+  const add=(geom,x=0,dy=0,z=0,rz=0)=>{
+   const m=new T.Mesh(geom,mat);
+   m.position.set(x,y+dy,z);m.rotation.z=rz;m.castShadow=true;m.frustumCulled=false;g.add(m);return m;
+  };
+  if(style.style==='raspado'){
+   add(new T.SphereGeometry(r*.985,20,12,0,Math.PI*2,0,Math.PI*.49)).scale.set(1,.41,1);
+  }else{
+   const thick=style.style==='curto'?.58:style.style==='medio'?.75:.87;
+   add(new T.SphereGeometry(r*1.09,24,14,0,Math.PI*2,0,Math.PI*.59),0,r*.16).scale.set(1,thick,1.05);
+   for(let i=0;i<5;i++)add(new T.SphereGeometry(r*.225,10,8),(i-2)*r*.36,r*.09,-r*.81).scale.set(.91,.56,1);
+   if(style.style==='medio'||style.style==='longo'){
+    const length=style.style==='longo'?r*2.25:r*1.13;
+    for(const sign of [-1,1]){
+     add(new T.SphereGeometry(r*.37,12,9),sign*r*.87,-r*.50).scale.set(.68,1.05,.88);
+     add(new T.CylinderGeometry(r*.32,r*.19,length,12),sign*r*.88,-r*.58-length*.45,.04,sign*.07);
+    }
+    if(style.style==='longo')add(new T.CylinderGeometry(r*.69,r*.37,r*1.8,14),0,-r*1.22,r*.42);
+   }
+  }
+  g.scale.setScalar(style.size);
+  b.add(g);
+  return g;
+ }
+ const api=window.gameCharacterV263={get:()=>({...look}),apply,makeRemoteHair,get ready(){return !!hair?.parent},get diagnostic(){return {rig:!!rig,head:head?.name||null,physicalRadius:.105,localRadius:headSize,visible:!!hair?.visible,error:lastWarn}},styles:STYLES,colors:COLORS,version:'V264'};
  const sync=setInterval(()=>{try{if(!hair?.parent)attach();if(hair)hair.visible=!!window.gameThirdPersonTest?.active;}catch(e){if(lastWarn!==String(e)){lastWarn=String(e);console.warn('[FLORESTA CABELO V264]',e);}}},320);
  window.addEventListener('pagehide',()=>clearInterval(sync),{once:true});
  // Miniaturas são SVG locais, sem depender de modelos/arquivos externos.

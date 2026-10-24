@@ -3,9 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node smoke.mjs && node world.test.mjs"
+    "test": "node smoke.mjs && node world.test.mjs && node native-avatar.test.mjs"
   },
   "dependencies": {
-    "@supabase/supabase-js": "2.75.0"
+    "@supabase/supabase-js": "2.75.0",
+    "three": "0.165.0"
   }
 }
