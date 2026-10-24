@@ -190,18 +190,26 @@ function captureTorch(){
   const root=candidate.value;
   // Reject unmounted pure flame particles/huge camera billboards: these created
   // the solid giant yellow "torch" bug in the previous implementation.
-  let meshes=0,shafts=0,flameOnly=0;
+  let meshes=0,shafts=0,flameOnly=0,brightOnly=0,textured=0;
   root.traverse?.(o=>{
    if(!o.isMesh)return;meshes++;
    const name=String(o.name||'').toLowerCase(),geo=o.geometry?.type||'';
+   const mats=Array.isArray(o.material)?o.material:[o.material];
+   const particle= /fire|flame|fogo|chama|spark|billboard/i.test(name);
    if(/shaft|handle|grip|cabo|madeira|wood|stick|torchbody/.test(name)||
-     (/CylinderGeometry|BoxGeometry/.test(geo)&&!(/fire|flame|fogo|chama/i.test(name))))shafts++;
-   if(/fire|flame|fogo|chama|spark|billboard/i.test(name))flameOnly++;
+     (/CylinderGeometry|BoxGeometry/.test(geo)&&!particle))shafts++;
+   if(particle)flameOnly++;
+   if(mats.some(m=>m?.map||m?.normalMap))textured++;
+   if((/ConeGeometry|PlaneGeometry/.test(geo)||
+       mats.every(m=>m?.emissiveIntensity>1&&!m?.map))&&!particle)brightOnly++;
   });
   const namedTorch=/(torch|tocha)/i.test(root.name||'');
-  // Real imported meshes often have BufferGeometry rather than CylinderGeometry:
-  // allow a positively identified model, but never an isolated flame-only mesh.
-  if(!meshes||flameOnly===meshes||(!shafts&&!(namedTorch&&meshes>=1)))continue;
+  // A glowing cone/plane is only the flame FX, not the held torch model.
+  const onlyFireEffect=!shafts&&!textured&&(flameOnly+brightOnly>=meshes);
+  // Imported meshes may use BufferGeometry: accept recognizable original
+  // torch assemblies, but never clone a standalone beam/particle.
+  if(!meshes||flameOnly===meshes||onlyFireEffect||
+    (!shafts&&!(namedTorch&&(meshes>=2||textured>0))))continue;
   if(rememberNative('torch',root,candidate.tag))return true;
  }
  return false;
