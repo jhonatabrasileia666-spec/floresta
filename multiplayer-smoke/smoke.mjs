@@ -24,8 +24,9 @@ function subscribe(chan){
  });
 }
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-let received=null;
+let received=null,receivedEquipment=null;
 two.on("broadcast",{event:"position"},({payload})=>{received=payload});
+two.on("broadcast",{event:"equipment"},({payload})=>{receivedEquipment=payload});
 try{
  await subscribe(one);
  await subscribe(two);
@@ -42,7 +43,16 @@ try{
  assert.equal(result,"ok","Broadcast não foi aceito pelo Supabase");
  for(let tries=0;tries<35&&!received;tries++)await sleep(200);
  assert.equal(received?.pos?.x,1,"Segundo jogador não recebeu movimento");
- console.log("SUCESSO: Supabase Realtime aceitou 2 jogadores, Presence e Broadcast.");
+ // End-to-end payload: remote tablet/PC receives equipment independently of movement
+ const equipment={right:"hammer",left:"wood_shield",torch:true,torchLit:true,armor:false};
+ const gearSend=await one.send({type:"broadcast",event:"equipment",
+   payload:{id:"duo-ci-1",equipment}});
+ assert.equal(gearSend,"ok","Supabase recusou evento do equipamento");
+ for(let tries=0;tries<35&&!receivedEquipment;tries++)await sleep(200);
+ assert.equal(receivedEquipment?.equipment?.right,"hammer","Martelo remoto não chegou ao segundo jogador");
+ assert.equal(receivedEquipment?.equipment?.left,"wood_shield","Escudo remoto não chegou ao segundo jogador");
+ assert.equal(receivedEquipment?.equipment?.torch,true,"Estado da tocha não chegou ao segundo jogador");
+ console.log("SUCESSO: Supabase Realtime aceitou 2 jogadores, Presence, movimentação e equipamentos em dois clientes.");
 }finally{
  await Promise.allSettled([a.removeChannel(one),b.removeChannel(two)]);
 }
