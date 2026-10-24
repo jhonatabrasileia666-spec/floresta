@@ -54,7 +54,7 @@ const nativeShaft=new THREE.Mesh(new THREE.CylinderGeometry(.04,.05,.55,7),new T
 nativeShaft.name='TorchHandle';nativeTorch.add(nativeShaft);
 const nativeFire=new THREE.Mesh(new THREE.ConeGeometry(.08,.20,7),new THREE.MeshStandardMaterial({color:0xffbb39}));
 nativeFire.name='TorchFlame';nativeFire.position.y=.34;nativeTorch.add(nativeFire);
-gameReview.torchObject=nativeTorch;
+gameReview.torchRoot=nativeTorch;
 api.pose(peer,{pose:newPose,look:{style:'longo',color:'#674229',size:1},
  equipment:{right:'axe',left:'',torch:false}});
 assert.ok(Math.abs(peer.bones.get('hips').quaternion.y-bones[0].quaternion.y)<.01,'replicar animação sem deslocar rig');
@@ -64,6 +64,8 @@ assert.equal(axe.native,true,'machado vem do próprio equipamento do jogo');
 assert.equal(axe.visual.children[0].geometry,rightHand.children[0].geometry,'usar malha real, não substituta');
 api.pose(peer,{pose:newPose,equipment:{right:'axe',left:'',torch:true}});
 const torch=peer.gear.get('left');
+assert.equal(api.diagnosticPeer(peer).received.torch,true,'estado da tocha recebido no avatar remoto');
+assert.equal(api.diagnosticPeer(peer).models.find(x=>x.id==='torch')?.meshCount,2,'tocha clonada com geometria original');
 assert.ok(torch.native&&!torch.pending,'tocha deve ser clonada do modelo real');
 assert.equal(torch.visual.children[0].geometry,nativeShaft.geometry);
 assert.equal(torch.visual.children[1].geometry,nativeFire.geometry);
@@ -125,6 +127,15 @@ assert.equal(hammer.visual.position.x,0,'remote copy must not inherit original f
 assert.ok(realHammer.position.equals(beforePosition),'source must retain first-person coordinates');
 assert.equal(hand.current,oldCurrent,'observer remains equipped with original axe');
 assert.equal(calledEquip,0,"rendering another player's hammer never calls equip");
+// Model pending on first frame must recover without the local player equipping anything.
+api.pose(peer,{pose:newPose,equipment:{right:'pickaxe',left:'',torch:false}});
+assert.equal(peer.gear.get('right').pending,true);
+const originalPickaxe=new THREE.Group(),originalPickaxeGeometry=new THREE.CylinderGeometry(.04,.09,.8,6);
+originalPickaxe.add(new THREE.Mesh(originalPickaxeGeometry,new THREE.MeshStandardMaterial()));
+globals.window.FlorestaEquipmentModels.pickaxe=()=>originalPickaxe;
+api.pose(peer,{pose:newPose,equipment:{right:'pickaxe',left:'',torch:false}});
+assert.equal(peer.gear.get('right').pending,false,'recovered item must become visible');
+assert.equal(peer.gear.get('right').visual.children[0].geometry,originalPickaxeGeometry);
 assert.equal(api.dispose(peer),true);
 assert.equal(peer.root,null);
 assert.equal(mesh.geometry.isBufferGeometry,true,'descarregar avatar remoto não pode destruir corpo original');
