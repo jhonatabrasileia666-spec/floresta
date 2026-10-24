@@ -55,6 +55,10 @@ assert.ok(Math.abs(peer.bones.get('hips').quaternion.y-bones[0].quaternion.y)<.0
 assert.ok(peer.hair?.parent,'replicar penteado original');
 assert.ok(peer.gear.has('right'),'arma aparece na mão direita');
 assert.ok(peer.gear.get('right').visual);
+api.pose(peer,{pose:newPose,equipment:{right:'axe',left:'',torch:true}});
+const torchSocket=peer.gear.get('left').root;
+api.pose(peer,{pose:newPose,equipment:{right:'axe',left:'',torch:true}});
+assert.equal(peer.gear.get('left').root,torchSocket,'tocha não deve ser reconstruída em cada frame');
 assert.equal(api.dispose(peer),true);
 assert.equal(peer.root,null);
 assert.equal(mesh.geometry.isBufferGeometry,true,'descarregar avatar remoto não pode destruir corpo original');
