@@ -101,6 +101,28 @@ globals.window.gameShield={object:nativeShield};
 api.pose(peer,{pose:newPose,equipment:{right:'forged_silver_sword',left:'wood_shield',torch:false}});
 assert.equal(peer.gear.get('left').visual.children[0].geometry,shieldPlate.geometry);
 assert.equal(api.diagnostic().sources.includes('torch'),true);
+// Prime idle game-native templates without rendering any replacement shapes.
+const realHammer=new THREE.Group();
+const realHammerGeometry=new THREE.BoxGeometry(.2,.25,.18);
+realHammer.add(new THREE.Mesh(realHammerGeometry,new THREE.MeshStandardMaterial()));
+const hand=globals.window.gameRightHand;
+hand.current='axe';hand.object=rightHand;
+hand.equip=function(id){
+ if(!['axe','hammer'].includes(id))return false;
+ this.current=id;this.object=id==='hammer'?realHammer:rightHand;return true;
+};
+hand.unequip=function(){this.current=null;return true};
+globals.window.gameInventory={isOpen:false,items:[{id:'axe',quantity:1},{id:'hammer',quantity:1}]};
+gameReview.player={x:0,z:0};
+globals.window.FlorestaOnline={connected:true};
+globals.performance={now:()=>10000};
+const initial=hand.current;
+api.primeNativeEquipment();
+assert.equal(hand.current,initial,'priming deve restaurar o item equipado local');
+assert.ok(api.diagnostic().sources.includes('hammer'),'capturar martelo original sem construir geometria inventada');
+api.pose(peer,{pose:newPose,equipment:{right:'hammer',left:'',torch:false}});
+assert.equal(peer.gear.get('right').visual.children[0].geometry,realHammerGeometry,
+ 'martelo remoto usa a malha REAL capturada pelo sistema original');
 assert.equal(api.dispose(peer),true);
 assert.equal(peer.root,null);
 assert.equal(mesh.geometry.isBufferGeometry,true,'descarregar avatar remoto não pode destruir corpo original');
