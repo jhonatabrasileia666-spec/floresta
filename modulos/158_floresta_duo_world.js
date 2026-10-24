@@ -201,7 +201,7 @@ function makeChatButton(){
 function frame(ts){
  const n=N(),active=!!n?.connected;
  if(!active&&connected){connected=false;room='';clearWorld();lastWorldHash='';lastRemoteWorld=null;remoteEnemyList=[];}
- if(active&&(!connected||room!==n.room)){connected=true;room=n.room;lastWorldHash='';clearWorld();note('Duo conectado: '+(n.isHost?'anfitrião':'convidado'));}
+ if(active&&(!connected||room!==n.room)){const switched=connected&&room!==n.room;connected=true;room=n.room;lastWorldHash='';if(switched){clearWorld();lastRemoteWorld=null;remoteEnemyList=[];}note('Duo conectado: '+(n.isHost?'anfitrião':'convidado'));}
  const cb=document.getElementById('foDuoChat')||makeChatButton();
  if(cb)cb.style.display=active&&n.playerCount>1?'block':'none';
  if(active&&n.playerCount>1&&window.gameFront172?.started){
