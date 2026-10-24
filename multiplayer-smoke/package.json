@@ -1,0 +1,11 @@
+{
+  "name": "floresta-duo-ci",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node smoke.mjs && node world.test.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.75.0"
+  }
+}

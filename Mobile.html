@@ -45,6 +45,6 @@
    }
   }catch(e){console.warn('FLORESTA: atualização de scripts iOS',e)}
  }
- location.replace('Jogo.html?platform=mobile&ui=281');
+ const next=new URL('Jogo.html',location.href);next.searchParams.set('platform','mobile');next.searchParams.set('ui','281');for(const k of ['room','server','sburl','sbkey']){const v=new URLSearchParams(location.search).get(k);if(v)next.searchParams.set(k,v);}location.replace(next.toString());
 })();
 </script></body></html>

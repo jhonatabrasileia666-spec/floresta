@@ -1,0 +1,34 @@
+name: FLORESTA Duo static checks
+on:
+  push:
+    branches: [feature/multiplayer-online-mvp]
+  pull_request:
+    paths:
+      - "modulos/157_floresta_duo_supabase.js"
+      - "modulos/000_floresta-release.js"
+      - "index.html"
+      - "Mobile.html"
+      - "PC.html"
+      - ".github/workflows/multiplayer-qa.yml"
+jobs:
+  duo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validar sintaxe do cliente e loader
+        run: node --check modulos/157_floresta_duo_supabase.js && node --check modulos/158_floresta_duo_world.js && node --check modulos/000_floresta-release.js
+      - name: Smoke test Realtime com duas conexões (canal temporário)
+        working-directory: multiplayer-smoke
+        run: |
+          npm install --ignore-scripts --no-audit --no-fund
+          npm test
+      - name: Verificar configuração da integração
+        run: |
+          grep -q '157_floresta_duo_supabase.js' modulos/000_floresta-release.js
+          grep -q '158_floresta_duo_world.js' modulos/000_floresta-release.js
+          grep -q 'sburl' index.html
+          grep -q 'sburl' PC.html
+          grep -q 'sburl' Mobile.html
