@@ -81,7 +81,7 @@ function create(peer,T,g){
  full.visible=true;full.onBeforeRender=()=>{};full.onAfterRender=()=>{};
  cloned.visible=true;
  cloned.position.set(0,0,0);
- cloned.rotation.set(0,0,0);
+ cloned.rotation.set(0,Math.PI,0); // Mixamo's +Z face vs. FLORESTA camera's -Z forward
  // Keep the original FBX rig scale; the peer root uses world-space metres.
  cloned.traverse(o=>{
   if(o.isSkinnedMesh||o.isMesh){o.onBeforeRender=()=>{};o.onAfterRender=()=>{};o.frustumCulled=false;}
@@ -125,72 +125,163 @@ function dispose(peer){
  peer.root=null;peer.bones=null;peer.rigBody=null;peer.nativeAvatar=false;
  return true;
 }
+// The equipment factory must never require the LOCAL player to have the same item equipped.
+// Forged meshes have a real asset factory; primitive meshes are cloned when the native
+// engine exposes the appropriate template, or reconstructed in 3D without 2D placeholder boards.
 function lookupModel(id,side){
  if(!id)return null;
- if(id.startsWith('forged_')){
-  const existing=window.gameForgedEquipmentV230?.models;
-  const candidate=(side==='left'?existing?.left:existing?.right);
-  if(candidate&&window.gameForgedEquipmentV230?.equipped?.[side]===id)return candidate;
-  try{return window.gameForgeV230?.makeEquipmentModel?.(id)||null;}catch{return null;}
+ const forged=id.startsWith('forged_');
+ if(forged){
+  try{
+   const current=window.gameForgedEquipmentV230;
+   const model=side==='left'?current?.models?.left:current?.models?.right;
+   if(current?.equipped?.[side]===id&&model)return model;
+   return window.gameForgeV230?.makeEquipmentModel?.(id)||null;
+  }catch(e){console.warn('[DUO] Modelo forjado não disponível:',id,e);return null;}
+ }
+ if(id==='torch'){
+  const g=window.gameReview,torch=window.gameTorch;
+  return torch?.model||torch?.object||g?.torchObject||g?.torch?.model||g?.torch?.object||null;
  }
  if(id==='wood_shield')return window.gameShield?.object||null;
- if(id==='torch')return window.gameQuickHands?.object||window.gameReview?.torchObject||null;
+ // Only clone local primitive if its ID actually matches; otherwise it would
+ // show your equipped axe on the remote character's spear, for example.
  if(window.gameRightHand?.current===id)return window.gameRightHand?.object||null;
  return null;
 }
-function fallbackItem(T,id,side){
- const r=new T.Group();r.name='FlorestaRemoteItem_'+id;
- const wood=new T.MeshStandardMaterial({color:0x65472e,roughness:.96,flatShading:true});
- const iron=new T.MeshStandardMaterial({color:0x909b91,metalness:.35,roughness:.54,flatShading:true});
- const fire=new T.MeshStandardMaterial({color:0xffb756,emissive:0xff7a15,emissiveIntensity:1.8});
- const part=(geom,mat,x,y,z)=>{const m=new T.Mesh(geom,mat);m.position.set(x,y,z);r.add(m);return m;};
- if(side==='left'){
-  const board=part(new T.BoxGeometry(.48,.7,.09),id.includes('silver')?iron:wood,0,0,0);
-  part(new T.SphereGeometry(.06,8,6),iron,0,0,.06);return r;
- }
+function buildPrimitiveEquipment(T,id,side){
+ const r=new T.Group();r.name='FlorestaRemoteModel_'+id;
+ const wood=new T.MeshStandardMaterial({color:0x63472e,roughness:.95,flatShading:true});
+ const woodLight=new T.MeshStandardMaterial({color:0x8d6943,roughness:.9,flatShading:true});
+ const steel=new T.MeshStandardMaterial({color:0xadb6b1,metalness:.55,roughness:.42,flatShading:true});
+ const darkSteel=new T.MeshStandardMaterial({color:0x586661,metalness:.38,roughness:.58,flatShading:true});
+ const fire=new T.MeshStandardMaterial({color:0xffbd55,emissive:0xff8121,emissiveIntensity:1.7,transparent:true,opacity:.95,depthWrite:false});
+ const coal=new T.MeshStandardMaterial({color:0x322c25,roughness:1,flatShading:true});
+ const add=(geo,mat,x=0,y=0,z=0)=>{
+  const m=new T.Mesh(geo,mat);m.position.set(x,y,z);m.castShadow=true;r.add(m);return m;
+ };
+ const rod=(height,radius,mat,y=0)=>add(new T.CylinderGeometry(radius*.81,radius,height,9),mat,0,y,0);
+ const shield=id.includes('shield')||id==='wood_shield';
  if(id==='torch'){
-  part(new T.CylinderGeometry(.045,.055,.45,8),wood,0,-.03,0);
-  part(new T.ConeGeometry(.11,.3,8),fire,0,.31,0);return r;
+  // A torch is NEVER a left-hand shield. Handle, charred head and fire use 3D volumes.
+  rod(.52,.042,wood,-.045);rod(.11,.078,coal,.24);
+  for(let i=0;i<3;i++){
+   const flame=add(new T.ConeGeometry(.083-i*.013,.24+i*.065,8),fire,
+    (i-1)*.036,.39+i*.039,(i%2?-.025:.02));
+   flame.rotation.z=(i-1)*.15;
+  }
+  const ember=add(new T.SphereGeometry(.052,9,7),fire,0,.33,0);
+  ember.userData.duoFlame=true;return r;
  }
- if(id==='rock'){part(new T.DodecahedronGeometry(.16,0),iron,0,.14,0);return r;}
- if(id==='branch'){part(new T.CylinderGeometry(.018,.03,.6,6),wood,0,.18,0);return r;}
- const long=id.includes('spear')||id.includes('lança')||id==='spear';
- const blade=id.includes('sword')||id.includes('espada');
- part(new T.CylinderGeometry(.035,.04,long?1.45:.54,7),wood,0,long?.48:.12,0);
- if(blade)part(new T.BoxGeometry(.065,.67,.045),iron,0,.64,0);
- else if(long)part(new T.ConeGeometry(.10,.26,7),iron,0,1.31,0);
- else if(id.includes('hammer'))part(new T.BoxGeometry(.35,.16,.16),iron,0,.43,0);
- else part(new T.BoxGeometry(.34,.33,.085),iron,.11,.42,0);
- return r;
-}
-function makeEquipment(peer,side,id){
- const T=three();
- if(!T?.Group||!peer.root)return;
- const old=peer.gear.get(side);
- if(old?.id===id)return;
- if(old){old.root.removeFromParent();peer.gear.delete(side);}
- if(!id)return;
- let model=lookupModel(id,side);
- let visual;
- try{visual=model?.clone?.(true)||null;}catch(e){visual=null;}
- const fall=!visual;
- if(!visual)visual=fallbackItem(T,id,side);
- const socket=new T.Group();socket.name='Floresta_Duo_'+side+'_'+id;
- socket.add(visual);
- if(!fall){
-  // Meshy and POV meshes use different units. Normalize from their actual geometry,
-  // rather than letting an FBX centimetre-sized object cover the other player.
-  const bounds=new T.Box3().setFromObject(visual),size=new T.Vector3(),center=new T.Vector3();
-  bounds.getSize(size);bounds.getCenter(center);
-  const max=Math.max(size.x,size.y,size.z);
-  if(Number.isFinite(max)&&max>0.00001){
-   const desired=side==='left'?.69:id.includes('spear')?1.35:.77;
-   const k=Math.min(50,Math.max(.0001,desired/max));
-   visual.scale.multiplyScalar(k);visual.position.sub(center.multiplyScalar(k));
+ if(shield){
+  // Real-volume curved shield with planks/straps and a visible iron rim.
+  const silver=id.includes('silver'),board=silver?steel:wood;
+  for(let i=-2;i<=2;i++){
+   const strip=add(new T.BoxGeometry(.135,.69-.055*Math.abs(i),.061),board,i*.119,-.02,Math.abs(i)*.014);
+   strip.rotation.z=-i*.028;
+  }
+  for(const y of [-.30,.26])add(new T.BoxGeometry(.63,.045,.087),silver?darkSteel:woodLight,0,y,.09);
+  add(new T.SphereGeometry(.085,10,8),silver?darkSteel:steel,0,0,.14);
+  const strap=add(new T.BoxGeometry(.27,.12,.035),woodLight,0,-.05,-.075);
+  strap.rotation.z=.12;
+  r.rotation.z=.03;
+  return r;
+ }
+ if(id==='rock'){
+  add(new T.DodecahedronGeometry(.18,1),darkSteel,0,.09,0);
+  return r;
+ }
+ if(id==='branch'||id==='wood_chip'){
+  const s=id==='wood_chip'?.34:.73;
+  rod(s,.028,wood,s*.22);
+  add(new T.ConeGeometry(.045,.12,6),woodLight,.05,s*.41,0).rotation.z=-.65;
+  return r;
+ }
+ const spear=id.includes('spear')||id.includes('lanca')||id.includes('lança');
+ const sword=id.includes('sword')||id.includes('espada')||id.includes('longsword');
+ const hammer=id.includes('hammer')||id.includes('martelo');
+ const pickaxe=id.includes('pickaxe')||id.includes('picareta');
+ const axe=id.includes('axe')||id.includes('machado');
+ if(spear){
+  rod(1.48,.034,wood,.54);
+  add(new T.ConeGeometry(.104,.32,7),steel,0,1.43,0);
+  add(new T.CylinderGeometry(.073,.055,.1,8),darkSteel,0,1.21,0);
+ }else if(sword){
+  rod(.34,.033,wood,-.12);
+  add(new T.BoxGeometry(.27,.045,.07),darkSteel,0,.08,0);
+  const blade=add(new T.BoxGeometry(.077,.72,.038),steel,0,.47,0);
+  add(new T.ConeGeometry(.054,.17,4),steel,0,.91,0).rotation.y=Math.PI/4;
+ }else{
+  rod(hammer?.71:pickaxe?.9:.78,.039,wood,.08);
+  if(hammer){
+   add(new T.BoxGeometry(.38,.18,.18),steel,0,.49,0);
+   add(new T.BoxGeometry(.35,.037,.22),darkSteel,0,.39,0);
+  }else if(pickaxe){
+   add(new T.BoxGeometry(.48,.082,.075),darkSteel,0,.6,0);
+   for(const sign of [-1,1]){
+    add(new T.ConeGeometry(.067,.3,6),steel,sign*.34,.6,0).rotation.z=-sign*Math.PI/2;
+   }
+  }else if(axe||!id){
+   const blade=add(new T.BoxGeometry(.29,.36,.065),steel,.115,.43,0);
+   add(new T.ConeGeometry(.16,.25,4),steel,.24,.47,0).rotation.z=-Math.PI/2;
+   add(new T.BoxGeometry(.045,.31,.074),darkSteel,-.018,.43,0);
+  }else{
+   // Unknown tool: do not misrepresent it as a shield.
+   add(new T.BoxGeometry(.23,.29,.085),steel,.12,.42,0);
   }
  }
+ return r;
+}
+function visibleClone(source){
+ let visual=null;
+ try{visual=source?.clone?.(true)||null;}catch(e){return null;}
+ if(!visual)return null;
+ // Many game source meshes are hidden when unequipped; cloning preserves
+ // visible=false. A remote item needs its own visibility independent of the owner.
+ visual.traverse?.(o=>{
+  o.visible=true;
+  if(o.isMesh){o.frustumCulled=false;o.castShadow=true;}
+ });
+ return visual;
+}
+const EQUIPMENT_HEIGHT={torch:.72,wood_shield:.72,axe:.80,hammer:.79,pickaxe:1.03,spear:1.67,branch:.78,rock:.36,wood_chip:.40};
+function makeEquipment(peer,side,id){
+ const T=three();if(!T?.Group||!peer.root||!peer.gear)return;
+ const old=peer.gear.get(side);
+ if(old?.id===id)return;
+ if(old){
+  old.root.removeFromParent();
+  const ownedMaterials=new Set();
+  old.root.traverse?.(o=>{
+   if(o.userData?.duoOwnedGeometry){o.geometry?.dispose?.();if(o.material)ownedMaterials.add(o.material);}
+  });
+  for(const material of ownedMaterials)material.dispose?.();
+  peer.gear.delete(side);
+ }
+ if(!id)return;
+ const source=lookupModel(id,side);
+ let visual=visibleClone(source);
+ const fromNative=!!visual;
+ if(!visual)visual=buildPrimitiveEquipment(T,id,side);
+ const socket=new T.Group();socket.name='Floresta_Duo_'+side+'_'+id;
+ socket.add(visual);
+ if(fromNative){
+  // Native equipment can be in a first-person camera coordinate system or be
+  // hidden under other transforms. Convert its actual bounds to hand-sized metres.
+  visual.updateMatrixWorld(true);
+  const bounds=new T.Box3().setFromObject(visual),size=new T.Vector3(),center=new T.Vector3();
+  bounds.getSize(size);bounds.getCenter(center);
+  const max=Math.max(size.x,size.y,size.z),wanted=EQUIPMENT_HEIGHT[id]||
+   (id.includes('shield')?.72:id.includes('spear')?1.67:id.includes('sword')?.98:.80);
+  if(Number.isFinite(max)&&max>1e-7){
+   const k=Math.max(1e-5,Math.min(100,wanted/max));
+   visual.scale.multiplyScalar(k);visual.position.sub(center.multiplyScalar(k));
+  }
+ }else{
+  visual.traverse(o=>{if(o.isMesh)o.userData.duoOwnedGeometry=true;});
+ }
  socket.visible=true;peer.root.add(socket);
- peer.gear.set(side,{id,root:socket,visual,isFallback:fall});
+ peer.gear.set(side,{id,root:socket,visual,fromNative,isFallback:!fromNative});
 }
 const V3=()=>new (three().Vector3)();
 function snapEquipment(peer){
@@ -202,9 +293,20 @@ function snapEquipment(peer){
   const bone=peer.bones.get(side==='left'?'lefthand':'righthand');
   if(!bone){gear.root.visible=false;continue;}
   bone.getWorldPosition(p);bone.getWorldQuaternion(q);
+  const worldHand=p.clone();
   gear.root.position.copy(peer.root.worldToLocal(p));
   gear.root.quaternion.copy(rootQ).multiply(q);
-  if(side==='left')gear.root.rotateX(-.3);
+  if(side==='left'&&gear.id.includes('shield')){
+   // Keep the shield across the forearm, not in front of the palm.
+   const fore=peer.bones.get('leftforearm');
+   if(fore){
+    const elbow=new T.Vector3();fore.getWorldPosition(elbow);
+    const delta=elbow.sub(worldHand).multiplyScalar(.38);
+    gear.root.position.add(delta.applyQuaternion(rootQ));
+   }
+   gear.root.rotateY(Math.PI*.5);
+  }
+  if(gear.id==='torch')gear.root.rotateZ(-.08);
  }
 }
 function pose(peer,v){
