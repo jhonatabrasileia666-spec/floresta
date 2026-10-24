@@ -37,6 +37,12 @@ function harness(host){
       for(const rec of records)this.sites.push({...rec,duoOwner:owner});return true;},
     clearRemote(owner){this.sites=this.sites.filter(s=>s.duoOwner!==owner);}
    },
+  gameCollectibles:{
+    remaining:new Map([['rock:100:100',{position:{x:1,z:1},userData:{collectible:{id:'rock',name:'Pedra',quantity:1}}}]]),
+    getByNetworkKey(k){return this.remaining.get(k)||null;},
+    consumeByNetworkKey(k){const x=this.remaining.get(k);if(!x)return null;this.remaining.delete(k);return {...x.userData.collectible};}
+  },
+  gameInventory:{items:[],addItem(i){this.items.push(i);return true;}},
   gameFront172:{started:true,getWorldSnapshot(){return {schema:1,construction:{sites:[{id:'wall',x:2,y:0,z:3,yaw:0,count:1}]},cave:{queenDead:false}};}},
   gameZombie:{zombies:[{id:'z-1',root:{position:{x:1,y:0,z:1},rotation:{y:0}},alive:true,state:'idle'}],combatTargets(){return[{root:{position:{x:1,y:0,z:1}},hit(amount){w.hitDamage=amount;return true;}}]}}
  };
@@ -71,4 +77,20 @@ guest.frame(4800);
 assert.ok(zombie.root.position.x>-2&&zombie.root.position.z>-2,'convidado interpola monstro do host');
 guest.bridge.receive({type:'world-snapshot',peerId:'intruso',payload:worldPacket.payload});
 assert.equal(guest.api.guestVisualSites,1,'ignora pacotes de outros IDs');
-console.log('Duo world: construção, relógio, autoridade de dano e validação de remetente OK');
+// Collection must be one-time and host-authorized.
+host.bridge.receive({type:'pickup-request',peerId:'amigo',payload:{key:'rock:100:100',itemId:'rock'}});
+assert.equal(host.w.gameCollectibles.remaining.size,0,'host retirou recurso do mundo');
+assert.equal(host.packets.filter(p=>p.type==='pickup-awarded').length,1,'host confirmou a coleta uma vez');
+host.bridge.receive({type:'pickup-request',peerId:'amigo',payload:{key:'rock:100:100',itemId:'rock'}});
+assert.equal(host.packets.filter(p=>p.type==='pickup-awarded').length,1,'requisição repetida não duplica pedra');
+assert.equal(host.packets.at(-1).type,'pickup-denied','requisição repetida rejeitada');
+assert.equal(guest.api.requestPickup('rock:100:100','rock'),true,'guest solicita host, não se auto concede item');
+assert.equal(guest.w.gameInventory.items.length,0,'convidado ainda não recebeu item sem confirmação');
+guest.bridge.receive({type:'pickup-awarded',peerId:'amigo',
+ payload:{key:'rock:100:100',to:'self',item:{id:'rock',name:'Pedra',quantity:1}}});
+assert.equal(guest.w.gameInventory.items.length,1,'convidado recebe pedra apenas após aprovação');
+assert.equal(guest.w.gameCollectibles.remaining.size,0,'pedra desaparece da sessão convidada');
+guest.bridge.receive({type:'pickup-awarded',peerId:'amigo',
+ payload:{key:'rock:100:100',to:'self',item:{id:'rock',name:'Pedra',quantity:1}}});
+assert.equal(guest.w.gameInventory.items.length,1,'não duplica por confirmação retransmitida');
+console.log('Duo world: construções V224, relógio, dano, zumbis e coleta única OK');
