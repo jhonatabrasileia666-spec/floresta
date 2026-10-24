@@ -34,6 +34,7 @@ function syncPeers(){
  const keep=new Set(peers.slice(0,1).map(p=>p.id));
  for(const [pid,p] of state.peers)if(!keep.has(pid)){removePeer(p);state.peers.delete(pid)}
  for(const p of peers.slice(0,1))if(!state.peers.has(p.id))state.peers.set(p.id,{id:p.id,name:safe(p.name).slice(0,20),target:null,root:null});
+ if(state.connected&&!isHost&&peers.length===0){leave();status('O anfitrião desconectou. A partida online foi encerrada.');return;}
  emitLocal('presence',{count:1+state.peers.size},null);
  display();
 }
