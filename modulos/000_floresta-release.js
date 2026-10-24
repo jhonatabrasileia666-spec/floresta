@@ -15,7 +15,7 @@ const apply=()=>{
   online.src='modulos/157_floresta_duo_supabase.js?v=duo-3';
   online.onload=()=>{
    const bridge=document.createElement('script');
-   bridge.src='modulos/158_floresta_duo_world.js?v=duo-3';bridge.id='florestaDuoWorldLoader';
+   bridge.src='modulos/158_floresta_duo_world.js?v=duo-6';bridge.id='florestaDuoWorldLoader';
    bridge.onerror=()=>console.warn('[DUO] Ponte de mundo não carregou; conexão de jogadores continua.');
    document.body.append(bridge);
   };
@@ -48,3 +48,5 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 (()=>{'use strict';const q=new URLSearchParams(location.search).get('platform');const mobile=q==='mobile'||q!=='pc'&&(/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent||'')||matchMedia('(pointer:coarse)').matches);if(!mobile)return;
 const load=()=>{if(document.getElementById('florestaMobile281Loader'))return;const s=document.createElement('script');s.id='florestaMobile281Loader';s.src='modulos/155_mobile_foundation_v281.js?v=281';s.onerror=()=>console.warn('[Floresta V281] Camada mobile não carregada');document.body.append(s)};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',load,{once:true});else load();})();
+
+(()=>{const s=document.createElement('script');s.src='modulos/160_floresta_duo_shared.js?v=duo-6';document.head.append(s);})();

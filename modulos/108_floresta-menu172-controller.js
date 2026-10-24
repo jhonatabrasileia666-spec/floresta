@@ -46,6 +46,7 @@
   const data=activeSnapshot();if(data!==null)localStorage.setItem(ACTIVE_BACKUP,data);
  }
  function saveUnified(p){
+  if(window.FlorestaOnline?.connected&&!window.FlorestaOnline.isHost)throw Error('O mundo online é salvo pelo anfitrião. Seu arquivo solo foi preservado.');
   validate(p);const previous=localStorage.getItem(KEY),steps=[];
   if(previous!==null)steps.push([BACKUP,previous]);
   steps.push([KEY,JSON.stringify(p)]);transaction(steps);

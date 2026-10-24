@@ -1147,7 +1147,7 @@
 
   // ---------- V222: gestão, armazenamento e saves versionados ----------
   const SAVE_KEY='floresta.construction.v222.world';
-  let managedSite=null,managementOpen=false,saveErrorShown=false,loaded=false,signTexture=null;
+  let managedSite=null,managementOpen=false,saveErrorShown=false,loaded=false,signTexture=null,duoBackup=null;
   function say(text){if(status)status.textContent=text;}
   function localXZ(site,x,z){const dx=x-site.root.position.x,dz=z-site.root.position.z,a=site.root.rotation.y;return{x:Math.cos(a)*dx-Math.sin(a)*dz,z:Math.sin(a)*dx+Math.cos(a)*dz};}
   function shapeContains(site,x,z){
@@ -1170,8 +1170,9 @@
     }
     return true;
   }
-  function serialized(){return {schema:1,version:'V224',savedAt:new Date().toISOString(),sites:sites.filter(s=>!s.duoRemote).map(s=>({id:s.def.id,x:s.root.position.x,y:s.root.position.y,z:s.root.position.z,yaw:s.root.rotation.y,level:s.level,count:s.count,stairShape:s.def.stairShape,paid:s.paid||[],hp:s.hp??100,open:!!s.open,edgeX:s.edgeX,edgeZ:s.edgeZ,wallSign:s.wallSign,storage:s.storage||[],text:s.text||''}))};}
+  function serialized(){return {schema:1,version:'V224',savedAt:new Date().toISOString(),sites:sites.filter(s=>!s.duoRemote).map(s=>({netId:s.netId||(s.netId=globalThis.crypto.randomUUID()),id:s.def.id,x:s.root.position.x,y:s.root.position.y,z:s.root.position.z,yaw:s.root.rotation.y,level:s.level,count:s.count,stairShape:s.def.stairShape,paid:s.paid||[],hp:s.hp??100,open:!!s.open,edgeX:s.edgeX,edgeZ:s.edgeZ,wallSign:s.wallSign,storage:s.storage||[],text:s.text||''}))};}
   function saveWorld(){
+    if(duoBackup!==null)return false; // Guest session must never overwrite solo world.
     if(window.__FLORESTA_STORAGE_SWAP_V255)return false; // V255: evita regravar o mundo antigo ao recarregar
     if(!loaded)return false;
     try{localStorage.setItem(SAVE_KEY,JSON.stringify(serialized()));saveErrorShown=false;return true;}
@@ -1195,6 +1196,7 @@
   }
   function restoreRecord(r){
     const d=restoredDefinition(r),site=makeSite(d,{...r,stairShape:d.stairShape,level:r.level||0});
+    site.netId=typeof r.netId==='string'?r.netId:globalThis.crypto.randomUUID();
     site.paid=Array.from({length:r.count},(_,i)=>r.paid?.[i]===true);site.storage=(r.storage||[]).map(i=>({...i}));site.hp=Math.max(1,Math.min(100,Number(r.hp)||100));site.text=String(r.text||'').slice(0,80);
     for(let i=0;i<r.count;i++){
       const p=d.slots[i];let m;
@@ -1446,6 +1448,31 @@
   }
   requestAnimationFrame(frame);
 
+  // Shared records retain native meshes, materials and colliders. Guest solo world
+  // stays in memory and on disk; only the host persists the online construction.
+  function sharedBegin(guest){
+    if(guest&&duoBackup===null){duoBackup=serialized();sharedApply([]);}
+  }
+  function sharedEnd(){
+    if(duoBackup!==null){const original=duoBackup;sharedApply(original.sites);duoBackup=null;}
+  }
+  function sharedValid(records){
+    return Array.isArray(records)&&records.length<=650&&records.every(r=>
+      typeof r?.netId==='string'&&r.netId.length>0&&r.netId.length<=90&&validRecord(r))&&
+      new Set(records.map(r=>r.netId)).size===records.length;
+  }
+  function sharedApply(records){
+    if(!sharedValid(records))return false;
+    const wanted=new Map(records.map(r=>[r.netId,r]));
+    const current=new Map(serialized().sites.map(r=>[r.netId,r]));
+    for(const site of [...sites]){
+      const rec=wanted.get(site.netId);
+      if(!rec||JSON.stringify(rec)!==JSON.stringify(current.get(site.netId)))duoRemoveSite(site);
+    }
+    for(const r of records)if(!sites.some(s=>s.netId===r.netId))restoreRecord(r);
+    reconnectWallsToFloor();refreshStairOpenings();
+    return true;
+  }
   // Native multiplayer replication. Uses restoreRecord() so both clients render
   // the same original texture/material, full-size pieces, doors, floors, and colliders.
   // Remote builds participate in sites[], completedFloors[] and collisionAt.
@@ -1495,7 +1522,7 @@
     if(changed){reconnectWallsToFloor();refreshStairOpenings();}
     return changed;
   }
-  window.gameConstruction={version:'V224_Posicionamento_Livre_Escadas_Sobre_Piso',definitions:DEF,sites,completedFloors,completedStairs,applyRemote:duoApply,clearRemote:duoClear,get level(){return buildLevel},setLevel,goGround:()=>setLevel(0),collisionAt:(x,z,feet)=>solidAt(x,z,feet),get active(){return positioning},get selected(){return selected?.id||null},open:openMenu,close:closeMenu,select:selectBlueprint,cancel:cancelPlacement,interact,save:saveWorld,flush:flushWorld,exportWorld,importWorld,snapshot:serialized,manage:manageSite,toggleDoor,damage:damageSite,impactAt,structureResistance,get focusedSite(){return managedSite},get storageKey(){return SAVE_KEY}};
+  window.gameConstruction={version:'V224_Posicionamento_Livre_Escadas_Sobre_Piso',definitions:DEF,sharedBegin,sharedEnd,sharedApply,sharedValid,sites,completedFloors,completedStairs,applyRemote:duoApply,clearRemote:duoClear,get level(){return buildLevel},setLevel,goGround:()=>setLevel(0),collisionAt:(x,z,feet)=>solidAt(x,z,feet),get active(){return positioning},get selected(){return selected?.id||null},open:openMenu,close:closeMenu,select:selectBlueprint,cancel:cancelPlacement,interact,save:saveWorld,flush:flushWorld,exportWorld,importWorld,snapshot:serialized,manage:manageSite,toggleDoor,damage:damageSite,impactAt,structureResistance,get focusedSite(){return managedSite},get storageKey(){return SAVE_KEY}};
   loadWorld();
   console.info('[V224] Construção: fundações/pisos sem fendas, encaixe no topo real de pilares/paredes, piso elevado sólido, PC/Mobile');
 })();

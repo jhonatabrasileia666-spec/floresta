@@ -82,8 +82,9 @@ host.bridge.receive({type:'pickup-request',peerId:'amigo',payload:{key:'rock:100
 assert.equal(host.w.gameCollectibles.remaining.size,0,'host retirou recurso do mundo');
 assert.equal(host.packets.filter(p=>p.type==='pickup-awarded').length,1,'host confirmou a coleta uma vez');
 host.bridge.receive({type:'pickup-request',peerId:'amigo',payload:{key:'rock:100:100',itemId:'rock'}});
-assert.equal(host.packets.filter(p=>p.type==='pickup-awarded').length,1,'requisição repetida não duplica pedra');
-assert.equal(host.packets.at(-1).type,'pickup-denied','requisição repetida rejeitada');
+assert.equal(host.packets.filter(p=>p.type==='pickup-awarded').length,2,'requisição repetida reenvia confirmação perdida');
+assert.equal(host.w.gameCollectibles.remaining.size,0,'reenvio não recria recurso');
+assert.equal(host.packets.at(-1).type,'pickup-awarded','reenvia concessão idempotente');
 assert.equal(guest.api.requestPickup('rock:100:100','rock'),true,'guest solicita host, não se auto concede item');
 assert.equal(guest.w.gameInventory.items.length,0,'convidado ainda não recebeu item sem confirmação');
 guest.bridge.receive({type:'pickup-awarded',peerId:'amigo',

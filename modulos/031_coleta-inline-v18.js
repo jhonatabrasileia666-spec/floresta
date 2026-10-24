@@ -690,7 +690,29 @@ try {
   }
   requestAnimationFrame(frame);
 
+  let networkBackup=null,restoringNetwork=false;
   window.gameCollectibles={
+    networkBegin(){if(networkBackup===null)networkBackup=this.networkSnapshot();},
+    networkEnd(){if(networkBackup!==null){restoringNetwork=true;this.applyNetworkSnapshot(networkBackup);restoringNetwork=false;networkBackup=null;}},
+    networkSnapshot(){return collectibles.filter(validRoot).map(r=>({key:r.userData.duoKey,x:r.position.x,y:r.position.y,z:r.position.z,item:{...r.userData.collectible}}));},
+    applyNetworkSnapshot(records){
+      if((!restoringNetwork&&(!window.FlorestaOnline?.connected||window.FlorestaOnline.isHost))||!Array.isArray(records))return;
+      if(!restoringNetwork)this.networkBegin();
+      const allowed=new Set(['rock','branch','vine','wood_chip','wood_shield']);
+      const valid=records.filter(r=>r&&typeof r.key==='string'&&r.key.length<120&&allowed.has(r.item?.id)&&
+        ['x','y','z'].every(k=>Number.isFinite(r[k])&&Math.abs(r[k])<3000)&&Number.isInteger(r.item.quantity)&&r.item.quantity>0&&r.item.quantity<=20);
+      const keys=new Set(valid.map(r=>r.key));
+      for(const root of [...collectibles])if(allowed.has(root.userData.collectible?.id)&&!keys.has(root.userData.duoKey))consume(root,false);
+      for(const r of valid){
+        let root=byDuoKey(r.key);
+        if(!root){
+          if(r.item.id==='rock')root=place(createRock(),r.x,r.z,.13);
+          else if(r.item.id==='branch')root=place(createBranch(),r.x,r.z,.085);
+          else root=window.gameCollectibles.spawnItem(r.item,r.x,r.z);
+        }
+        if(root){root.userData.duoKey=r.key;root.userData.collectible={...r.item};root.position.set(r.x,r.y,r.z);}
+      }
+    },
     root:collectRoot,
     get remaining(){return collectibles.length},
     get items(){return collectibles.slice()},

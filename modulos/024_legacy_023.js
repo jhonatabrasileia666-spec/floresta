@@ -443,6 +443,9 @@
     }
 
     function damagePlayer(z,amount=cfg.playerDamage,sourceLabel="Zumbi da horda") {
+      if(z?.duoTarget&&window.FlorestaOnline?.connected&&window.FlorestaOnline.isHost){
+        window.FlorestaOnline.send('zombie-player-hit',{id:String(z.id),amount,serial:++duoDamageSerial});return true;
+      }
       if(window.gameTestMode?.active && window.gameTestMode?.invulnerable) return false;
       amount=Math.max(0,amount)*(window.gameDifficulty?.preset?.enemyDamage||1);
       const now=performance.now();
@@ -566,7 +569,7 @@
       };
 
       mixer.addEventListener("finished",e=>{
-        if(!z.alive)return;
+        if(!z.alive||duoGuest())return;
 
         if(e.action===z.hitAction) {
           if(z.hp<=0) {
@@ -1528,8 +1531,9 @@
 
       const ax=z.root.position.x;
       const az=z.root.position.z;
-      const bx=game.player.x;
-      const bz=game.player.z;
+      const target=z.duoTarget||game.player;
+      const bx=target.x;
+      const bz=target.z;
 
       const pathX=bx-ax;
       const pathZ=bz-az;
@@ -1608,12 +1612,19 @@
     ){
       if(!z.alive)return;
 
+      const peer=window.FlorestaOnline?.isHost?window.FlorestaOnline.peerPosition:null;
+      // Keep the chosen victim throughout the attack wind-up.
+      if(z.state!==STATE.ATTACK){
+        z.duoTarget=peer&&peer.zone!=='cave'&&Math.hypot(peer.x-z.root.position.x,peer.z-z.root.position.z)<
+          Math.hypot(game.player.x-z.root.position.x,game.player.z-z.root.position.z)?peer:null;
+      }else if(z.duoTarget){z.duoTarget=peer&&peer.zone!=='cave'?peer:null;}
+      const target=z.duoTarget||game.player;
       const dx=
-        game.player.x-
+        target.x-
         z.root.position.x;
 
       const dz=
-        game.player.z-
+        target.z-
         z.root.position.z;
 
       const dist=
@@ -1701,7 +1712,7 @@
         // Collision / separation from the original game are preserved.
         const brain=window.gameDifficulty?.preset;
         let pursueX=dx,pursueZ=dz;
-        if(brain?.tier>=2&&dist>4.2&&dist<24){
+        if(!z.duoTarget&&brain?.tier>=2&&dist>4.2&&dist<24){
           const future=window.gameDifficulty.predict(brain.leadSeconds);
           const idN=String(z.id||'0').split('').reduce((n,c)=>(n*33+c.charCodeAt(0))|0,5381);
           const sign=(idN&1)?1:-1;
@@ -1889,6 +1900,26 @@
       return best;
     }
 
+    let duoDamageSerial=0,duoBackupZombies=null;
+    function duoGuest(){return !!(window.FlorestaOnline?.connected&&!window.FlorestaOnline.isHost);}
+    function damageZombie(z,damage){
+      if(duoGuest())return window.FlorestaDuoWorld?.requestZombieHit?.(z.id,damage)??false;
+      z.hp=Math.max(0,z.hp-damage);playHitReaction(z);return true;
+    }
+    function applyDuoZombies(records){
+      if(!duoGuest()||!Array.isArray(records))return;
+      if(duoBackupZombies===null)duoBackupZombies=zombies.map(z=>({z,alive:z.alive,hp:z.hp,state:z.state,visible:z.root.visible,x:z.root.position.x,y:z.root.position.y,zpos:z.root.position.z,yaw:z.root.rotation.y}));
+      const count=Math.max(0,...records.map(r=>Number(r.id)||0));
+      if(count>90)return;ensurePool(count);
+      const lookup=new Map(records.map(r=>[String(r.id),r]));
+      for(const z of zombies){
+        const r=lookup.get(String(z.id));
+        if(!r){z.alive=false;z.root.visible=false;continue;}
+        z.alive=r.alive;z.root.visible=r.visible!==false&&r.alive;
+        z.hp=Number.isFinite(r.hp)?r.hp:z.hp;z.crawler=!!r.crawler;z.manual=!!r.manual;
+        z.state=r.state;z.duoPosition=r;
+      }
+    }
     function onAxeImpact(e) {
       if(window.gameRightHand?.current!=="axe")return;
 
@@ -1902,8 +1933,7 @@
         ?? cfg.axeDamage
       )*(window.gameParry?.damageMultiplierFor?.(z.id)??1);
 
-      z.hp=Math.max(0,z.hp-axeDamage);
-      playHitReaction(z);
+      damageZombie(z,axeDamage);
 
       if(status) {
         status.textContent=
@@ -2135,6 +2165,24 @@
 
       lastT=now;
 
+      if(duoGuest()){
+        for(const z of zombies){
+          const r=z.duoPosition;if(!r)continue;
+          const blend=1-Math.exp(-18*dt),dist=Math.hypot(z.root.position.x-r.x,z.root.position.z-r.z);
+          const alpha=dist>8?1:blend;
+          z.root.position.x+=(r.x-z.root.position.x)*alpha;
+          z.root.position.y+=(r.y-z.root.position.y)*alpha;
+          z.root.position.z+=(r.z-z.root.position.z)*alpha;
+          z.root.rotation.y+=Math.atan2(Math.sin(r.yaw-z.root.rotation.y),Math.cos(r.yaw-z.root.rotation.y))*alpha;
+          if(z.alive)z.mixer.update(dt);
+        }
+        return; // Host alone spawns waves and integrates zombie AI.
+      }
+      if(duoBackupZombies!==null){
+        for(const z of zombies){z.duoPosition=null;z.duoTarget=null;z.alive=false;z.root.visible=false;}
+        for(const r of duoBackupZombies){const z=r.z;z.alive=r.alive;z.hp=r.hp;z.state=r.state;z.root.visible=r.visible;z.root.position.set(r.x,r.y,r.zpos);z.root.rotation.y=r.yaw;}
+        duoBackupZombies=null;
+      }
       updateNightAndWaves(now);
 
       const nightNow=isNight();
@@ -2301,7 +2349,9 @@
     requestAnimationFrame(loop);if(window.gameSpiderCave?.active)return;
 
     window.gameZombie={
- combatTargets(){return zombies.filter(z=>z.alive&&z.root.visible).map(z=>({root:z.root,radius:.43,height:z.crawler?.45:1.0,hit(damage){z.hp=Math.max(0,z.hp-damage*(window.gameParry?.damageMultiplierFor?.(z.id)??1));playHitReaction(z);}}));},
+      applyDuoZombies,
+      damageNetwork(id,amount){const z=zombies.find(z=>String(z.id)===String(id)&&z.alive);return z?damageZombie(z,amount):false;},
+ combatTargets(){return zombies.filter(z=>z.alive&&z.root.visible).map(z=>({root:z.root,radius:.43,height:z.crawler?.45:1.0,hit(damage){return damageZombie(z,damage*(window.gameParry?.damageMultiplierFor?.(z.id)??1));}}));},
       get active(){return aliveCount()>0;},
       get state(){return aliveCount()>0?"horde":"hidden";},
       get hp(){
@@ -2417,8 +2467,7 @@
           set.add(enemy);
           const falloff=Math.max(.45,1-.5*d/Math.max(.001,maxRadius||waveRadius||1));
           const postureMult=window.gameParry?.damageMultiplierFor?.(enemy.id)??1;
-          enemy.hp=Math.max(0,enemy.hp-Math.max(0,baseDamage)*falloff*postureMult);
-          playHitReaction(enemy);
+          damageZombie(enemy,Math.max(0,baseDamage)*falloff*postureMult);
           hits++;
         }
         return hits;
@@ -2433,8 +2482,7 @@
           set.add(enemy);
           const falloff=Math.max(.60,1-.40*d/Math.max(.001,radius));
           const postureMult=window.gameParry?.damageMultiplierFor?.(enemy.id)??1;
-          enemy.hp=Math.max(0,enemy.hp-Math.max(0,baseDamage)*falloff*postureMult);
-          playHitReaction(enemy);
+          damageZombie(enemy,Math.max(0,baseDamage)*falloff*postureMult);
           hits++;
         }
         return hits;

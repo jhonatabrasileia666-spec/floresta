@@ -10,7 +10,8 @@ const safe=s=>String(s||'').replace(/[<>\x00-\x1f]/g,'').slice(0,110);
 const MAP=new Map(),MAX_SITES=650,MAX_MESHES=1500;
 let connected=false,room='',lastWorldHash='',lastWorldTime=0,lastTime=0,lastSummary=0,lastImpact=0,lastEnemies=0;
 let unsub=null,statusEl=null,lastRemoteWorld=null,lastRemoteTime=null,friendItems=[],frames=0,remoteEnemyList=[];
-const takenPickups=new Set(),pendingPickups=new Map();
+const takenPickups=new Set(),pendingPickups=new Map(),pickupAwards=new Map();
+let lastPlayerHit=0;
 let sent={world:0,clock:0,hit:0,chat:0},received={world:0,clock:0,hit:0,chat:0};
 const createStatus=()=>{
  if(statusEl)return statusEl;
@@ -55,6 +56,7 @@ function snapshot(){
  return {schema:1,construction:{sites:siteList},cave:{queenDead:!!raw.cave?.queenDead},clock:{day:g.dayNight.day,hour:g.dayNight.hour},at:Date.now()};
 }
 function distribute(force=false){
+ if(window.FlorestaDuoShared)return;
  const world=snapshot();if(!world)return;
  const h=JSON.stringify({sites:world.construction.sites,cave:world.cave});
  if(force||h!==lastWorldHash){lastWorldHash=h;
@@ -76,17 +78,19 @@ function enemyState(){
   const p=e?.root?.position;
   return e?.id!=null&&p&&num(p.x)&&num(p.y)&&num(p.z);
  }).map(e=>({id:String(e.id).slice(0,42),x:e.root.position.x,y:e.root.position.y,z:e.root.position.z,
-  yaw:Number(e.root.rotation?.y)||0,alive:e.alive!==false,state:String(e.state||'').slice(0,26)}));
+  yaw:Number(e.root.rotation?.y)||0,hp:Number(e.hp)||0,visible:e.root.visible!==false,crawler:!!e.crawler,manual:!!e.manual,alive:e.alive!==false,state:String(e.state||'').slice(0,26)}));
 }
 function pullEnemyPositions(){
- if(N()?.isHost||!remoteEnemyList.length)return;
+ if(N()?.isHost)return;
+ if(window.gameZombie?.applyDuoZombies){window.gameZombie.applyDuoZombies(remoteEnemyList);return;}
+ if(!remoteEnemyList.length)return;
  const z=window.gameZombie?.zombies;if(!Array.isArray(z))return;
  const byId=new Map(z.map(e=>[String(e.id),e]));
  for(const r of remoteEnemyList){
   const live=byId.get(r.id),root=live?.root;
   if(!root?.position)continue;
   const d=Math.hypot(root.position.x-r.x,root.position.z-r.z);
-  if(d>32||!Number.isFinite(d))continue;
+  if(!Number.isFinite(d))continue;
   const blend=d>5?.35:.16;
   root.position.x+=(r.x-root.position.x)*blend;
   root.position.z+=(r.z-root.position.z)*blend;
@@ -130,8 +134,8 @@ function validPickupKey(key){return typeof key==='string'&&key.length<120&&/^[a-
 function requestPickup(key,itemId){
  const n=N();if(!n?.connected||n.isHost||!n.peerId||!validPickupKey(key))return false;
  const t=pendingPickups.get(key);
- if(t&&Date.now()-t<4000)return true;
- pendingPickups.set(key,Date.now());
+ if(t&&Date.now()-t.at<1500)return true;
+ pendingPickups.set(key,{at:Date.now(),itemId:String(itemId||'').slice(0,32)});
  send('pickup-request',{key,itemId:String(itemId||'').slice(0,32)});
  return true;
 }
@@ -144,6 +148,7 @@ function localPickup(e){
 function hostPickup(m){
  const n=N(),api=window.gameCollectibles,req=m.payload;
  if(!n?.connected||!n.isHost||m.peerId!==n.peerId||!validPickupKey(req?.key))return;
+ const awarded=pickupAwards.get(req.key);if(awarded){send('pickup-awarded',awarded);return;}
  const root=api?.getByNetworkKey?.(req.key),peer=n.peerPosition;
  if(!root||takenPickups.has(req.key)||!peer||!Number.isFinite(peer.x)||!Number.isFinite(peer.z)){
   send('pickup-denied',{key:req.key,to:m.peerId});return;
@@ -156,11 +161,14 @@ function hostPickup(m){
  const item=api.consumeByNetworkKey(req.key,false);
  if(!item){send('pickup-denied',{key:req.key,to:m.peerId});return;}
  if(takenPickups.size<1500)takenPickups.add(req.key);
- send('pickup-awarded',{key:req.key,to:m.peerId,item:{
+ const award={key:req.key,to:m.peerId,item:{
   id:item.id,name:item.name,type:item.type,quantity:item.quantity,weight:item.weight,description:item.description
- }});
+ }};pickupAwards.set(req.key,award);send('pickup-awarded',award);
 }
 function syncTakenPickups(){
+ const api=window.gameCollectibles;
+ if(N()?.isHost&&api?.networkSnapshot){send('resource-state',{records:api.networkSnapshot()});}
+
  const n=N();if(n?.connected&&n.isHost&&n.peerId&&takenPickups.size){
   send('pickup-snapshot',{keys:[...takenPickups].slice(-1400)});
  }
@@ -173,6 +181,10 @@ function onMessage(m){
  }
  if(m.peerId!==N()?.peerId)return;
  switch(m.type){
+ case 'resource-state':
+  if(!N().isHost&&Array.isArray(m.payload?.records)&&m.payload.records.length<=1500)
+    window.gameCollectibles?.applyNetworkSnapshot?.(m.payload.records);
+  break;
  case 'pickup-request':
   hostPickup(m);break;
  case 'pickup-denied':
@@ -189,13 +201,14 @@ function onMessage(m){
    const key=m.payload.key;
    // Do not award unsolicited packets that were never requested by this client.
    if(!pendingPickups.has(key))break;
-   pendingPickups.delete(key);takenPickups.add(key);
+   takenPickups.add(key);
    window.gameCollectibles?.consumeByNetworkKey?.(key,false);
    const i=m.payload.item;
    if(i&&['rock','branch','vine','wood_chip','wood_shield'].includes(i.id)&&
      Number.isInteger(i.quantity)&&i.quantity>=1&&i.quantity<=20){
      const added=window.gameInventory?.addItem?.(i);
-     note(added?`Coletado: ${i.name}`:'Inventário cheio: recurso não recebido.');
+     if(added)pendingPickups.delete(key);
+     note(added?`Coletado: ${i.name}`:'Inventário cheio: libere espaço para receber o recurso.');
    }
   }break;
  case 'pickup-snapshot':
@@ -207,6 +220,7 @@ function onMessage(m){
  case 'clock':
   updateClock(m.payload);break;
  case 'world-snapshot':
+  if(window.FlorestaDuoShared)break;
   if(m.payload?.schema!==1||!Array.isArray(m.payload?.construction?.sites)||m.payload.construction.sites.length>MAX_SITES)return;
   lastRemoteWorld=m.payload;received.world++;if(!N().isHost)updateClock(m.payload.clock);applyWorld(m.payload);break;
  case 'enemy-snapshot':
@@ -214,6 +228,19 @@ function onMessage(m){
   remoteEnemyList=m.payload.enemies.filter(e=>typeof e?.id==='string'&&e.id.length<43&&
    [e.x,e.y,e.z,e.yaw].every(x=>num(x))&&typeof e.alive==='boolean');
   break;
+ case 'zombie-player-hit':{
+  const p=m.payload;
+  if(!N().isHost&&Number.isInteger(p?.serial)&&p.serial>lastPlayerHit&&num(p.amount,101)&&p.amount>0){
+   lastPlayerHit=p.serial;window.gameZombie?.hurtPlayer?.(p.amount,'Zumbi da horda',p.id);
+  }break;
+ }
+ case 'zombie-hit':{
+  const n=N(),p=n.peerPosition,r=m.payload,now=performance.now();
+  if(!n.isHost||!p||p.zone==='cave'||!num(r?.damage,101)||r.damage<=0||now-lastImpact<260)break;
+  const z=window.gameZombie?.zombies?.find(z=>String(z.id)===r.id&&z.alive);
+  if(!z||Math.hypot(p.x-z.root.position.x,p.z-z.root.position.z)>4.7)break;
+  lastImpact=now;window.gameZombie?.damageNetwork?.(r.id,r.damage);break;
+ }
  case 'hit-request':
   hostDamage(m.payload,m.peerId);break;
  case 'impact':
@@ -226,7 +253,14 @@ function chat(message){
  const msg=safe(message).trim();if(!msg||!N()?.connected)return false;
  send('chat',{message:msg});sent.chat++;note('Você: '+msg);return true;
 }
+let lastZombieRequest=0;
+function requestZombieHit(id,damage){
+ const n=N();if(!n?.connected||n.isHost||!n.peerId)return false;
+ lastZombieRequest=performance.now();
+ send('zombie-hit',{id:String(id),damage:Math.max(0,Math.min(100,Number(damage)||0))});return true;
+}
 function onSword(e){
+ if(performance.now()-lastZombieRequest<100)return;
  const n=N(),info=e.detail;if(!n?.connected||n.isHost||!info||info.weapon!=='sword'||!info.position)return;
  const p=info.position;
  if(!num(p.x)||!num(p.z)||!num(p.y,2000))return;
@@ -246,24 +280,25 @@ function makeChatButton(){
 }
 function frame(ts){
  const n=N(),active=!!n?.connected;
- if(!active&&connected){connected=false;room='';clearWorld();lastWorldHash='';lastRemoteWorld=null;remoteEnemyList=[];takenPickups.clear();pendingPickups.clear();}
+ if(!active&&connected){connected=false;room='';lastPlayerHit=0;clearWorld();lastWorldHash='';lastRemoteWorld=null;remoteEnemyList=[];takenPickups.clear();pendingPickups.clear();pickupAwards.clear();}
  if(active&&(!connected||room!==n.room)){const switched=connected&&room!==n.room;connected=true;room=n.room;lastWorldHash='';if(switched){clearWorld();lastRemoteWorld=null;remoteEnemyList=[];}note('Duo conectado: '+(n.isHost?'anfitrião':'convidado'));}
  const cb=document.getElementById('foDuoChat')||makeChatButton();
  if(cb)cb.style.display=active&&n.playerCount>1?'block':'none';
  if(active&&n.playerCount>1&&window.gameFront172?.started){
   if(ts-lastWorldTime>3500){distribute();lastWorldTime=ts;}
   if(n.isHost){
-   if(ts-lastEnemies>1100){
-    const enemies=enemyState();if(enemies.length)send('enemy-snapshot',{enemies});
+   if(ts-lastEnemies>250){
+    const enemies=enemyState();send('enemy-snapshot',{enemies});
     lastEnemies=ts;
    }
    if(ts-lastTime>2300){
     const d=G()?.dayNight;
     if(d&&num(d.day,100000)&&num(d.hour,24.1)){send('clock',{day:d.day,hour:d.hour});sent.clock++;}
-    lastTime=ts;
+    syncTakenPickups();lastTime=ts;
    }
   }else{
    pullEnemyPositions();
+   for(const [key,p] of pendingPickups)if(Date.now()-p.at>1500)requestPickup(key,p.itemId);
    if(lastRemoteWorld&&++frames%240===0)applyWorld(lastRemoteWorld);
   }
  }
@@ -277,7 +312,7 @@ addEventListener('game:combat-hit-confirmed',onSword);
 addEventListener('game:duo-local-pickup',localPickup);
 addEventListener('pagehide',()=>{clearInterval(ready);unsub?.();clearWorld()},{once:true});
 requestAnimationFrame(frame);
-window.FlorestaDuoWorld={version:'1.1-collectibles',chat,requestPickup,refresh:()=>distribute(true),
+window.FlorestaDuoWorld={version:'1.1-collectibles',chat,requestPickup,requestZombieHit,refresh:()=>distribute(true),
  get guestVisualSites(){return MAP.size},
  diagnostic:()=>({connected:!!N()?.connected,isHost:!!N()?.isHost,remoteSites:MAP.size,sent,received,sharedWorld:!!lastRemoteWorld})};
 })();

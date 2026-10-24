@@ -46,3 +46,21 @@ Substituir adaptadores de aparência por rig/animações originais; implementar 
 ## Correção de 24/10/2026 — construção e coleta
 
 Teste manual informado: tablet e notebook entram na mesma sala; o usuário relatou materiais e colisão diferentes nas construções, além de pedras e galhos não desaparecerem no outro aparelho. Corrigido no código publicado usando a engine V224 que realmente roda em `Jogo.html`, e confirmação de coleta via host. Testes automáticos no GitHub Actions validam lógica de conexão, construção em mock, relógio, zumbis, combate e bloqueio de coleta dupla. Ainda é necessário **retestar visualmente com dois aparelhos** para confirmar geometria, colisão e coletas em partidas reais.
+
+## Correção em desenvolvimento — autoridade de construções e horda (24/10/2026)
+
+Branch `fix/duo-shared-world`, baseada em `2efedda9`. Não publicada.
+
+- Construções têm IDs persistentes. O anfitrião mantém a coleção canônica e salva também as peças criadas pelo convidado. As duas sessões usam os mesmos construtores nativos, materiais e colisores.
+- Edições do convidado são operações por peça com comparação do estado anterior. Alterações em peças diferentes podem coexistir; conflito na mesma peça recebe rejeição explícita. Novas edições durante uma confirmação pendente são preservadas.
+- Entrada tardia solicita o estado completo. Reenvio, deduplicação e atualização periódica recuperam mensagens/confirmacões perdidas. O mundo de construção solo do convidado é restaurado ao sair; o salvamento de perfil do convidado na sala é bloqueado para preservar o slot solo.
+- Zumbis da horda são gerados e simulados pelo anfitrião; convidado recebe criação do pool, posição, rotação, vida, estado e visibilidade. O anfitrião pode selecionar qualquer um dos jogadores como alvo. Acertos do convidado passam pelo anfitrião; dano remoto tem limite de alcance/valor/frequência, ainda não é uma solução antitrapaça.
+- Pedras, galhos, cipós, lascas e escudos de madeira recebem uma lista autoritativa de recursos presentes. Isso corrige recursos iniciais gerados em torno de posições salvas diferentes. Confirmações de coleta perdidas são reenviadas sem conceder o item duas vezes; inventário cheio mantém a concessão pendente.
+
+### Verificação e limites desta correção
+
+`node world.test.mjs`, `node shared.test.mjs` e `node native-avatar.test.mjs`: testes de lógica com adaptadores simulados; não equivalem a duas cenas 3D reais. `smoke.mjs`: duas conexões reais de Presence/Broadcast aceitas pelo Supabase. Sintaxe e diff verificados.
+
+O navegador conectado recusou o endereço local de desenvolvimento (`ERR_CONNECTION_REFUSED`); validação visual desta branch permanece pendente. Não foi feito merge ou deploy.
+
+**Ainda não é cooperativo integral:** outros monstros/chefes, árvores e troncos, montarias, carrinho, mineração, alquimia/forja, progressão de caverna e transações de inventário de baús continuam com lógica local. As mudanças de inventário ligadas a uma construção rejeitada por conflito não têm rollback. Golpes de área do convidado ainda esbarram no limite de frequência de dano. O anfitrião dentro da caverna pausa a horda da floresta. Falta persistência completa dos recursos consumidos e da horda entre reinicializações. O tamanho de snapshots grandes ainda precisa de teste de carga. Não apresentar esta branch como modo online completo ou pronto para produção.
