@@ -10,7 +10,7 @@ const alphabet='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const roomCode=()=>{const bytes=crypto.getRandomValues(new Uint8Array(9));return [...bytes].map(x=>alphabet[x%alphabet.length]).join('')};
 const DUO_URL="https://fswfhhymihuypkudnopg.supabase.co",DUO_KEY="sb_publishable_6rVU7k20yCUFzlMHmjOYzQ_kXFWDOSo";
 const id=crypto.randomUUID(),state={url:DUO_URL,key:DUO_KEY,name:get('fo-name')||'Viajante',room:Q.get('room')||'',client:null,channel:null,connected:false,connecting:false,peers:new Map(),status:''};
-let attempt=0,mounted=false,lastSent=0;
+let attempt=0,mounted=false,lastSent=0,lastLocalPos=null;
 const listeners=new Set();let isHost=false;
 const emitLocal=(type,payload,peerId)=>{for(const fn of listeners){try{fn({type,payload,peerId})}catch(err){console.warn('[DUO bridge]',err)}}};
 const playing=()=>!!(window.gameFront172?.started&&window.gameFront172?.shell?.hidden);
@@ -45,7 +45,7 @@ function avatar(p){
  const cloth=new T.MeshStandardMaterial({color:0x455447,roughness:1,flatShading:true});
  const face=new T.MeshStandardMaterial({color:0xc09a79,roughness:1,flatShading:true});
  const piece=(geometry,material,x,y,z)=>{
-  const m=new T.Mesh(geometry,material);m.position.set(x,y,z);m.castShadow=true;r.add(m);
+  const m=new T.Mesh(geometry,material);m.position.set(x,y,z);m.castShadow=true;r.add(m);return m;
  };
  piece(new T.CylinderGeometry(.2,.32,.78,7),cloth,0,1.06,0);
  piece(new T.SphereGeometry(.16,8,6),face,0,1.62,0);
@@ -58,6 +58,13 @@ function avatar(p){
  const ctx=canvas.getContext('2d');ctx.fillStyle='#0b160ddf';ctx.fillRect(2,4,252,48);
  ctx.strokeStyle='#9b845d';ctx.strokeRect(2,4,252,48);ctx.fillStyle='#f1dfbf';
  ctx.textAlign='center';ctx.font='bold 20px system-ui';ctx.fillText(p.name,128,35);
+ const torchMat=new T.MeshStandardMaterial({color:0xed9a35,emissive:0x8f4a11,emissiveIntensity:0.8});
+ const ironMat=new T.MeshStandardMaterial({color:0x84938d,roughness:.55,metalness:.35});
+ const logMat=new T.MeshStandardMaterial({color:0x62503b,roughness:1,flatShading:true});
+ p.torch=piece(new T.SphereGeometry(.11,8,6),torchMat,-.42,1.19,-.07);p.torch.visible=false;
+ p.weapon=piece(new T.BoxGeometry(.06,.68,.08),ironMat,.45,1.11,-.17);p.weapon.visible=false;
+ p.log=piece(new T.CylinderGeometry(.14,.17,1.65,7),logMat,0,1.49,.08);
+ p.log.rotation.z=Math.PI/2;p.log.visible=false;
  const tex=new T.CanvasTexture(canvas),label=new T.Sprite(new T.SpriteMaterial({map:tex,transparent:true,depthWrite:false}));
  label.position.y=2.2;label.scale.set(1.6,.4,1);r.add(label);
  g.scene.add(r);p.root=r;
@@ -173,7 +180,11 @@ function tick(){
   const g=window.gameReview,p=g?.player,t=performance.now();
   if(g?.scene&&p&&t-lastSent>=250){
    const y=g.groundY?.(p.x,p.z);
-   const pos={x:p.x,y:Number.isFinite(y)?y:Number(p.y)||0,z:p.z,yaw:p.yaw||0};
+   const moved=lastLocalPos?Math.hypot(p.x-lastLocalPos.x,p.z-lastLocalPos.z)>.07:false;
+   const pos={x:p.x,y:Number.isFinite(y)?y:Number(p.y)||0,z:p.z,yaw:p.yaw||0,
+    moving:moved,torch:!!g.isEquipped?.(),weapon:String(window.gameRightHand?.current||'').slice(0,30),
+    carryingLog:!!window.gameLumber?.carrying,mounted:!!window.gameCreativeSpiderMount?.mounted};
+   lastLocalPos={x:p.x,z:p.z};
    if([pos.x,pos.y,pos.z,pos.yaw].every(Number.isFinite)){
     state.channel.send({type:'broadcast',event:'position',payload:{id,pos}});lastSent=t;
    }
@@ -190,6 +201,11 @@ function tick(){
    p.root.position.z+=(v.z-p.root.position.z)*.18;
    p.root.rotation.y+=Math.atan2(Math.sin(v.yaw-p.root.rotation.y),Math.cos(v.yaw-p.root.rotation.y))*.18;
   }
+  if(p.torch)p.torch.visible=!!v.torch;
+  if(p.weapon)p.weapon.visible=!!v.weapon;
+  if(p.log)p.log.visible=!!v.carryingLog;
+  const swing=v.moving?Math.sin(performance.now()*.009)*.12:0;
+  for(const leg of p.root.children)if(leg.geometry?.type==='CylinderGeometry'&&leg.position.y<.7&&Math.abs(leg.position.x)>.08)leg.rotation.x=(leg.position.x>0?1:-1)*swing;
  }
  requestAnimationFrame(tick);
 }
