@@ -415,8 +415,12 @@ try {
   const collectibles=[];
   const meshes=[];
 
+  const netIds=new Map();
   function place(root,x,z,yOffset) {
     root.position.set(x,groundY(x,z)+yOffset,z);
+    const key=String(root.userData.collectible?.id)+':'+x.toFixed(4)+':'+z.toFixed(4);
+    const serial=(netIds.get(key)||0)+1;netIds.set(key,serial);
+    root.userData.duoId=key+':'+serial;
     root.traverse(o=>{if(o.isMesh)meshes.push(o)});
     collectRoot.add(root);
     collectibles.push(root);
@@ -622,20 +626,8 @@ try {
     }
   }
 
-  function collect(){
-    if(window.gameInventory?.isOpen)return false;
-    const root=findCandidate();
-    if(lastCandidate&&lastCandidate!==root)setHighlight(lastCandidate,false);
+  function removeResource(root){
     if(!validRoot(root))return false;
-
-    const item={...root.userData.collectible};
-    const added=window.gameInventory.addItem(item);
-    if(!added){
-      const status=document.getElementById("status");
-      if(status)status.textContent="Inventário cheio";
-      return false;
-    }
-
     setHighlight(root,false);
     root.traverse(o=>{
       if(!o.isMesh)return;
@@ -646,6 +638,27 @@ try {
     const ci=collectibles.indexOf(root);if(ci>=0)collectibles.splice(ci,1);
     collectRoot.remove(root);
     candidate=null;lastCandidate=null;
+
+    updatePrompt();return true;
+  }
+  function collect(){
+    if(window.gameInventory?.isOpen)return false;
+    const root=findCandidate();
+    if(lastCandidate&&lastCandidate!==root)setHighlight(lastCandidate,false);
+    if(!validRoot(root))return false;
+
+    if(window.FlorestaOnline?.connected){
+      return window.FlorestaDuoCollection?.collect(root)||false;
+    }
+    const item={...root.userData.collectible};
+    const added=window.gameInventory.addItem(item);
+    if(!added){
+      const status=document.getElementById("status");
+      if(status)status.textContent="Inventário cheio";
+      return false;
+    }
+
+    removeResource(root);
 
     const status=document.getElementById("status");
     if(status)status.textContent=`Coletado: ${item.name} • inventário atualizado`;
@@ -674,6 +687,7 @@ try {
 
   window.gameCollectibles={
     root:collectRoot,
+    removeResource,
     get remaining(){return collectibles.length},
     get items(){return collectibles.slice()},
     collectNearest:collect,

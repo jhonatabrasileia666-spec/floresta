@@ -7,3 +7,5 @@ Thumbs.db
 *.tmp
 _test_*.cjs
 test-ui-*.html
+
+node_modules/

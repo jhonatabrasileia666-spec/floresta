@@ -32,7 +32,7 @@
    for(const id of ['timeTestPanel','graphicsPanelV146','testHudV112','hint','status','lumberStatus','resourceStatus','pickupStatus','zombieHudState','playerXpText','skillPointsHud','quickHandsHud','quickHandsHelp'])adopt($(id),$('h171Details'));
    // Catch extra/future utility controls without moving touch or contextual actions.
    for(const b of [...document.querySelectorAll('body > button,#hud > button')]){
-    if(adopted.has(b)||b.closest('#hud171,#h171Drawer')||/mobile|jump|pickup|roll|crouch|run|log|lumber|constructionAction|constructionCancel|plank|board|place|confirm|cancel/i.test(b.id))continue;
+    if(/^fo(HUD|DuoChat)$/.test(b.id)||adopted.has(b)||b.closest('#hud171,#h171Drawer')||/mobile|jump|pickup|roll|crouch|run|log|lumber|constructionAction|constructionCancel|plank|board|place|confirm|cancel/i.test(b.id))continue;
     if(window.__CAVE_PLATFORM==='mobile'&&/^(v206|v207|v266|v267|forge222Entry|alq189Button|alq194Collect)/.test(b.id))continue;
     const rect=b.getBoundingClientRect();if(rect.width&&rect.top<innerHeight*.62)adopt(b,$('h171Native'));
    }

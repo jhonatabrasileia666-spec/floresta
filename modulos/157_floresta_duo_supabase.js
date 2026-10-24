@@ -10,8 +10,8 @@ const alphabet='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const roomCode=()=>{const bytes=crypto.getRandomValues(new Uint8Array(9));return [...bytes].map(x=>alphabet[x%alphabet.length]).join('')};
 const DUO_URL="https://fswfhhymihuypkudnopg.supabase.co",DUO_KEY="sb_publishable_6rVU7k20yCUFzlMHmjOYzQ_kXFWDOSo";
 const id=crypto.randomUUID(),state={url:DUO_URL,key:DUO_KEY,name:get('fo-name')||'Viajante',room:Q.get('room')||'',client:null,channel:null,connected:false,connecting:false,peers:new Map(),status:''};
-let attempt=0,mounted=false,lastSent=0,lastLocalPos=null;
-const listeners=new Set();let isHost=false;
+let attempt=0,mounted=false,lastSent=0,lastLocalPos=null,positionSeq=0;
+const listeners=new Set();let isHost=false,joinedAt=0;
 const emitLocal=(type,payload,peerId)=>{for(const fn of listeners){try{fn({type,payload,peerId})}catch(err){console.warn('[DUO bridge]',err)}}};
 const playing=()=>!!(window.gameFront172?.started&&window.gameFront172?.shell?.hidden);
 function status(s){state.status=s;if($('foStatus'))$('foStatus').textContent=s}
@@ -31,9 +31,16 @@ function removePeer(p){
 function syncPeers(){
  if(!state.connected||!state.channel)return;
  const peers=Object.values(state.channel.presenceState()||{}).flat().filter(p=>p.id!==id&&p.id);
- const keep=new Set(peers.slice(0,1).map(p=>p.id));
+ const hosts=peers.filter(p=>p.host===true);
+ if(!isHost&&hosts.length!==1){leave();status('O anfitrião desconectou. A partida online foi encerrada.');return;}
+ // The host selects one guest deterministically; all clients make the same selection.
+ const guests=(isHost?peers:peers.concat([{id,host:false,connected_at:joinedAt}])).filter(p=>p.host===false)
+  .sort((a,b)=>(a.connected_at-b.connected_at)||String(a.id).localeCompare(String(b.id)));
+ if(!isHost&&guests[0]?.id!==id){leave();status('Sala cheia. Apenas dois jogadores.');return;}
+ const selected=isHost?guests.slice(0,1):hosts;
+ const keep=new Set(selected.map(p=>p.id));
  for(const [pid,p] of state.peers)if(!keep.has(pid)){removePeer(p);state.peers.delete(pid)}
- for(const p of peers.slice(0,1))if(!state.peers.has(p.id))state.peers.set(p.id,{id:p.id,name:safe(p.name).slice(0,20),target:null,root:null});
+ for(const p of selected)if(!state.peers.has(p.id))state.peers.set(p.id,{id:p.id,name:safe(p.name).slice(0,20),target:null,root:null});
  if(state.connected&&!isHost&&peers.length===0){leave();status('O anfitrião desconectou. A partida online foi encerrada.');return;}
  emitLocal('presence',{count:1+state.peers.size},null);
  display();
@@ -70,11 +77,12 @@ function avatar(p){
  g.scene.add(r);p.root=r;
 }
 function leave(){
+ emitLocal('disconnect',{},null);
  attempt++;state.connected=false;state.connecting=false;isHost=false;
  const client=state.client,channel=state.channel;state.client=null;state.channel=null;
  if(client&&channel)client.removeChannel(channel).catch(()=>{});
  for(const p of state.peers.values())removePeer(p);
- state.peers.clear();display();
+ state.peers.clear();lastSent=0;lastLocalPos=null;display();
 }
 async function connect(create){
  if(state.connected||state.connecting)return;
@@ -85,7 +93,7 @@ async function connect(create){
  if(!(/^sb_publishable_[a-z0-9_-]+$/i.test(key)||(/^eyJ[a-z0-9_-]+\.[a-z0-9_-]+\.[a-z0-9_-]+$/i.test(key)&&key.length>100)))return status('Use somente a chave publishable (pública). Nunca a service_role.');
  if(!create&&!/^[A-HJ-NP-Z2-9]{9}$/.test(code))return status('Digite o código de 9 caracteres do seu amigo.');
  state.url=url;state.key=key;state.name=name;state.room=create?roomCode():code;
- isHost=create;
+ isHost=create;joinedAt=Date.now();
  put('fo-url',url);put('fo-key',key);put('fo-name',name);
  state.connecting=true;display();status('Conectando ao Supabase Realtime…');
  const ticket=++attempt;
@@ -105,17 +113,18 @@ async function connect(create){
   channel.on('broadcast',{event:'position'},({payload})=>{
    if(!state.connected||!payload||payload.id===id)return;
    const p=state.peers.get(payload.id),v=payload.pos;
-   if(p&&v&&[v.x,v.y,v.z,v.yaw].every(Number.isFinite)&&Math.abs(v.x)<10000&&Math.abs(v.z)<10000)p.target=v;
+   if(!Number.isSafeInteger(payload.seq)||payload.seq<1||payload.seq<=(p?.lastSeq||0))return;
+   if(p&&v&&[v.x,v.y,v.z,v.yaw].every(Number.isFinite)&&Math.abs(v.x)<10000&&Math.abs(v.z)<10000) {p.target=v;p.lastSeq=payload.seq;p.lastSeen=Date.now();}
   });
   channel.on('presence',{event:'sync'},async()=>{
    if(ticket!==attempt)return;
    if(!started){
     started=true;
     const others=Object.values(channel.presenceState()).flat().filter(p=>p.id&&p.id!==id);
-    if((create&&others.length)||(!create&&others.length!==1)){
+    if((create&&others.length)||(!create&&(others.length!==1||others[0].host!==true))){
      clearTimeout(timeout);leave();status(create?'Código ocupado. Crie outra sala.':others.length?'Sala cheia. Apenas dois jogadores.':'Sala inexistente ou anfitrião desconectado.');return;
     }
-    const response=await channel.track({id,name,host:create,connected_at:Date.now()});
+    const response=await channel.track({id,name,host:create,connected_at:joinedAt});
     if(ticket!==attempt)return;
     if(response!=='ok'){clearTimeout(timeout);leave();status('Erro registrando o jogador.');return;}
     clearTimeout(timeout);state.connected=true;state.connecting=false;
@@ -150,7 +159,7 @@ function open(){
  $('foCreate').onclick=()=>connect(true);$('foJoin').onclick=()=>connect(false);
  $('foLeave').onclick=()=>{leave();status('Saiu da sala. Modo solo preservado.')};
  $('foInvite').onclick=async()=>{
-  const u=new URL('index.html',location.href);
+  const u=new URL(location.pathname.endsWith('/qa.html')?'qa.html':'index.html',location.href);
   u.searchParams.set('room',state.room);
   try{await navigator.clipboard.writeText(u.href);status('Convite copiado!')}catch{status('Copie o código '+state.room)}
  };
@@ -165,7 +174,7 @@ function mount(){
  '#foForm button{padding:10px;background:#28372c;border:1px solid #ab8e56;color:#f4e4bf;border-radius:5px;min-height:44px}'+
  '#foForm .foActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}'+
  '#foForm button:disabled{opacity:.45}'+
- '#foHUD{position:fixed;top:max(8px,env(safe-area-inset-top));right:8px;z-index:4000;background:#132016ed;color:#f3deb5;border:1px solid #a68a54;padding:7px;border-radius:4px;font:700 11px system-ui}'+
+ '#foHUD{position:fixed;top:max(92px,env(safe-area-inset-top));right:8px;z-index:4000;background:#132016ed;color:#f3deb5;border:1px solid #a68a54;padding:7px;border-radius:4px;font:700 11px system-ui}'+
  '#foHUD[hidden]{display:none!important}';
  document.head.append(css);
  const btn=document.createElement('button');btn.type='button';btn.dataset.action='duo';
@@ -187,7 +196,7 @@ function tick(){
     zone:window.gameSpiderCave?.active?'cave':'forest'};
    lastLocalPos={x:p.x,z:p.z};
    if([pos.x,pos.y,pos.z,pos.yaw].every(Number.isFinite)){
-    state.channel.send({type:'broadcast',event:'position',payload:{id,pos}});lastSent=t;
+    state.channel.send({type:'broadcast',event:'position',payload:{id,pos,seq:++positionSeq}});lastSent=t;
    }
   }
  }
@@ -210,17 +219,17 @@ function tick(){
   const swing=v.moving?Math.sin(performance.now()*.009)*.12:0;
   for(const leg of p.root.children)if(leg.geometry?.type==='CylinderGeometry'&&leg.position.y<.7&&Math.abs(leg.position.x)>.08)leg.rotation.x=(leg.position.x>0?1:-1)*swing;
  }
- requestAnimationFrame(tick);
+ (window.gameFront172?.nativeRaf||requestAnimationFrame)(tick);
 }
 window.addEventListener('floresta:ready',mount);
 const timer=setInterval(mount,400);
 window.addEventListener('pagehide',()=>{clearInterval(timer);leave()},{once:true});
-requestAnimationFrame(tick);
+(window.gameFront172?.nativeRaf||requestAnimationFrame)(tick);
 window.FlorestaOnline={open,leave,
  get connected(){return state.connected},get room(){return state.room},
  get isHost(){return isHost},get clientId(){return id},
  get peerId(){return [...state.peers.keys()][0]||null},
- get peerPosition(){return [...state.peers.values()][0]?.target||null},
+ get peerPosition(){const p=[...state.peers.values()][0];return p&&Date.now()-p.lastSeen<5000?p.target:null},
  get playerCount(){return state.peers.size+(state.connected?1:0)},
  onNetwork(fn){if(typeof fn!=='function')return()=>{};listeners.add(fn);return()=>listeners.delete(fn)},
  send(type,data){if(!state.connected||!state.channel||!state.peers.size||typeof type!=='string'||type.length>48)return Promise.resolve('not_connected');

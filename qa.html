@@ -1,0 +1,17 @@
+<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FLORESTA — QA isolado</title><body style="background:#101810;color:#efd9a8;font:18px system-ui;padding:32px">Preparando FLORESTA QA…<script>
+(async()=>{
+ try{
+  // Every QA tab has its own gameplay save area; no existing solo key is read
+  // or overwritten. The prefix survives reload in this tab only.
+  let scope=sessionStorage.getItem('floresta-qa-scope');
+  if(!scope){scope=crypto.randomUUID();sessionStorage.setItem('floresta-qa-scope',scope);}
+  const store=window.localStorage,prefix='floresta-qa:'+scope+':';
+  const keys=()=>Object.keys(store).filter(k=>k.startsWith(prefix));
+  const scoped={getItem:k=>store.getItem(prefix+String(k)),setItem:(k,v)=>store.setItem(prefix+String(k),String(v)),removeItem:k=>store.removeItem(prefix+String(k)),clear:()=>keys().forEach(k=>store.removeItem(k)),key:i=>keys()[i]?.slice(prefix.length)??null,get length(){return keys().length}};
+  Object.defineProperty(window,'localStorage',{configurable:true,value:scoped});
+  window.FlorestaQAScope=scope;
+  const response=await fetch('Jogo.html');if(!response.ok)throw Error('Jogo.html: HTTP '+response.status);
+  const html=await response.text();document.open();document.write(html);document.close();
+ }catch(error){document.body.textContent='Falha ao abrir QA: '+error.message;}
+})();
+</script></body></html>
