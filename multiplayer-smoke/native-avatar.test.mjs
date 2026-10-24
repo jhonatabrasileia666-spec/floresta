@@ -124,7 +124,7 @@ assert.equal(hammer.visual.children[0].geometry,realHammerGeometry);
 assert.equal(hammer.visual.position.x,0,'remote copy must not inherit original first-person x position');
 assert.ok(realHammer.position.equals(beforePosition),'source must retain first-person coordinates');
 assert.equal(hand.current,oldCurrent,'observer remains equipped with original axe');
-assert.equal(calledEquip,0,'rendering another player's hammer never calls equip');
+assert.equal(calledEquip,0,"rendering another player's hammer never calls equip");
 assert.equal(api.dispose(peer),true);
 assert.equal(peer.root,null);
 assert.equal(mesh.geometry.isBufferGeometry,true,'descarregar avatar remoto não pode destruir corpo original');
