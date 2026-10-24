@@ -9,6 +9,13 @@ if(platform==='mobile'){try{window.__CAVE_PLATFORM='mobile'}catch(e){console.war
 if(platform==='pc'){try{window.__CAVE_PLATFORM='pc'}catch{}}
 if(mobile)document.documentElement.classList.add('v266-mobile');
 const apply=()=>{
+ // Lobby online carregado separadamente: nunca bloqueia o modo solo.
+ if(!document.getElementById('florestaOnlineMVP1Loader')){
+  const online=document.createElement('script');online.id='florestaOnlineMVP1Loader';
+  online.src='modulos/156_floresta_online_mvp.js?v=online-1';
+  online.onerror=()=>console.warn('[FLORESTA ONLINE] Módulo não disponível; modo solo preservado.');
+  document.body.append(online);
+ }
  // Portal independente dos inimigos e do HUD: deve ser carregado em PC e mobile.
  if(!document.getElementById('florestaCavePortal281Loader')){
   const p=document.createElement('script');p.id='florestaCavePortal281Loader';
