@@ -1895,6 +1895,14 @@
     }
   };
 
+  // Native shield and wood chip meshes already exist in this module.
+  (window.FlorestaEquipmentModels ||= {}).wood_shield=()=>{
+    const c=heldShield.clone(true);c.removeFromParent();return c;
+  };
+  (window.FlorestaEquipmentModels ||= {}).wood_chip=()=>{
+    const c=heldChip.clone(true);c.removeFromParent();return c;
+  };
+
   window.gameShield={
     version:"V79B",
 
