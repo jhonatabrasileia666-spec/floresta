@@ -54,7 +54,15 @@ const nativeShaft=new THREE.Mesh(new THREE.CylinderGeometry(.04,.05,.55,7),new T
 nativeShaft.name='TorchHandle';nativeTorch.add(nativeShaft);
 const nativeFire=new THREE.Mesh(new THREE.ConeGeometry(.08,.20,7),new THREE.MeshStandardMaterial({color:0xffbb39}));
 nativeFire.name='TorchFlame';nativeFire.position.y=.34;nativeTorch.add(nativeFire);
+// The actual base-game torch has two strong PointLights and a glowing Sprite.
+const strongTorchLight=new THREE.PointLight(0xff6633,24,34,1.08);
+const smallTorchLight=new THREE.PointLight(0xffc66a,5.5,10,1.45);
+const fpBloom=new THREE.Sprite(new THREE.SpriteMaterial({color:0xffcc66,transparent:true,opacity:.9}));
+fpBloom.scale.set(1.8,2.2,1);
+nativeTorch.add(strongTorchLight,smallTorchLight,fpBloom);
+nativeTorch.position.set(-.62,-.52,-1.07);
 gameReview.torchRoot=nativeTorch;
+gameReview.isTorchLit=()=>true;
 api.pose(peer,{pose:newPose,look:{style:'longo',color:'#674229',size:1},
  equipment:{right:'axe',left:'',torch:false}});
 assert.ok(Math.abs(peer.bones.get('hips').quaternion.y-bones[0].quaternion.y)<.01,'replicar animação sem deslocar rig');
@@ -69,7 +77,17 @@ assert.equal(api.diagnosticPeer(peer).models.find(x=>x.id==='torch')?.meshCount,
 assert.ok(torch.native&&!torch.pending,'tocha deve ser clonada do modelo real');
 assert.equal(torch.visual.children[0].geometry,nativeShaft.geometry);
 assert.equal(torch.visual.children[1].geometry,nativeFire.geometry);
-assert.equal(torch.visual.children.length,2,'não criar nova chama nem outro visual');
+assert.equal(torch.visual.children.length,2,'não copiar luzes FPS nem Sprite exagerado');
+assert.ok(torch.visual.userData.duoTorchNative,'deve usar a tocha original com pivô de cabo');
+assert.equal(torch.visual.children.some(o=>o.isLight||o.isSprite),false,'evita duplicar iluminação de 24 e 5.5 no amigo');
+assert.equal(nativeTorch.children.includes(strongTorchLight),true,'não mexer nas luzes do modo solo');
+assert.equal(nativeTorch.children.includes(fpBloom),true,'não alterar o Sprite do modo solo');
+assert.ok(torch.visual.position.y<.25,'o cabo fica preso à mão, sem compensar FX por centro de chama');
+api.pose(peer,{pose:newPose,equipment:{right:'axe',left:'',torch:true,torchLit:false}});
+assert.equal(torch.visual.children[1].visible,false,'tocha apagada oculta só a chama');
+assert.equal(torch.visual.children[0].visible,true,'tocha apagada mantém o cabo 3D original');
+api.pose(peer,{pose:newPose,equipment:{right:'axe',left:'',torch:true,torchLit:true}});
+assert.equal(torch.visual.children[1].visible,true,'tocha acesa mostra a chama');
 const torchSocket=torch.root;
 api.pose(peer,{pose:newPose,equipment:{right:'axe',left:'',torch:true}});
 assert.equal(peer.gear.get('left').root,torchSocket,'não reconstruir a tocha a cada frame');
