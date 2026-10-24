@@ -833,7 +833,79 @@
   }
   requestAnimationFrame(frame);
 
-  window.gameConstruction={version:'V205_Fundacao_Cobertura_Snap_Real_HackZ',definitions:DEF,sites,completedFloors,completedStairs,get level(){return buildLevel},setLevel,goGround:()=>setLevel(0),collisionAt:(x,z,feet)=>solidAt(x,z,feet),get active(){return positioning},get selected(){return selected?.id||null},open:openMenu,close:closeMenu,select:selectBlueprint,cancel:cancelPlacement,interact};
+  // DUO: rebuild remote works using the SAME material, slot geometry and physics as local builds.
+  // Remote site records remain in the normal sites[] / completedFloors[] / completedStairs[]
+  // so the native blockMove / heightAt and snap solver see both players' work.
+  function duoSiteKey(s){return [s.id,...['x','y','z','yaw'].map(k=>Number(s[k]).toFixed(3))].join(':');}
+  function duoSnapshot(){
+    return {schema:1,sites:sites.filter(s=>!s.duoRemote&&s.count>0).map(s=>({
+      id:s.def.id,x:s.root.position.x,y:s.root.position.y,z:s.root.position.z,yaw:s.root.rotation.y,
+      count:s.count,level:s.level,edgeX:s.edgeX,edgeZ:s.edgeZ,wallSign:s.wallSign,
+      wallAttached:!!s.wallAttached
+    }))};
+  }
+  function duoForget(site){
+    const i=sites.indexOf(site);if(i>=0)sites.splice(i,1);
+    for(const list of [completedFloors,completedStairs]){const x=list.indexOf(site);if(x>=0)list.splice(x,1);}
+    site.root.removeFromParent();
+    // Never dispose shared native materials (woodTop / rockMat etc.).
+    site.root.traverse(o=>{if(o.isMesh)o.geometry?.dispose?.();});
+  }
+  function duoApply(owner,records){
+    if(typeof owner!=='string'||!owner||owner.length>90||!Array.isArray(records)||records.length>650)return false;
+    const desired=new Map();
+    for(const raw of records){
+      if(!raw||!DEF[raw.id]||!['x','y','z','yaw'].every(k=>Number.isFinite(raw[k])&&Math.abs(raw[k])<3000))continue;
+      const def=DEF[raw.id],count=raw.count;
+      if(!Number.isInteger(count)||count<1||count>def.slots.length)continue;
+      const key=duoSiteKey(raw);
+      desired.set(key,{...raw,count});
+    }
+    let changed=false;
+    for(const site of [...sites]){
+      if(site.duoOwner!==owner)continue;
+      const key=duoSiteKey({id:site.def.id,x:site.root.position.x,y:site.root.position.y,z:site.root.position.z,yaw:site.root.rotation.y});
+      if(!desired.has(key)||desired.get(key).count!==site.count){duoForget(site);changed=true;}
+    }
+    for(const [key,raw] of desired){
+      if(sites.some(s=>s.duoOwner===owner&&duoSiteKey({id:s.def.id,x:s.root.position.x,y:s.root.position.y,z:s.root.position.z,yaw:s.root.rotation.y})===key&&s.count===raw.count))continue;
+      // Do not duplicate a structure if the same location already belongs to a local site.
+      const existing=sites.find(s=>!s.duoRemote&&duoSiteKey({id:s.def.id,x:s.root.position.x,y:s.root.position.y,z:s.root.position.z,yaw:s.root.rotation.y})===key);
+      if(existing)continue;
+      const def=DEF[raw.id];
+      const t={x:raw.x,y:raw.y,z:raw.z,yaw:raw.yaw,
+        level:Number.isInteger(raw.level)?Math.max(0,Math.min(2,raw.level)):0,
+        edgeX:Number.isFinite(raw.edgeX)?raw.edgeX:undefined,
+        edgeZ:Number.isFinite(raw.edgeZ)?raw.edgeZ:undefined,
+        wallSign:raw.wallSign||0};
+      const site=makeSite(def,t);site.duoRemote=true;site.duoOwner=owner;
+      site.wallAttached=!!raw.wallAttached;
+      site.ghost?.removeFromParent?.();site.ghost=null;
+      for(let i=0;i<raw.count;i++){
+        const sl=def.slots[i];let piece;
+        if(sl.kind==='log'){
+          // Native cargo generator preserves the original tree material and geometry.
+          piece=lumber.createCargoLog?.()||logGhostMesh(sl.len,sl.radius||WALL_LOG_RADIUS,logMat);
+          sizeConstructionLog(piece,sl);
+        }else piece=pieceMesh(sl.kind,sl.len);
+        if(!piece)continue;
+        site.root.add(piece);piece.position.copy(sl.pos);piece.quaternion.copy(sl.quat);
+        piece.castShadow=!mobile;piece.receiveShadow=true;site.parts.push(piece);
+      }
+      site.count=site.parts.length;site.physicsBoxes=null;
+      if(site.count===def.slots.length){site.complete=true;onComplete(site);}
+      else rebuildSiteGhost(site);
+      changed=true;
+    }
+    if(changed){reconnectWallsToFloor();refreshStairOpenings();}
+    return changed;
+  }
+  function duoClear(owner){
+    if(typeof owner!=='string'||!owner)return;
+    for(const site of [...sites])if(site.duoOwner===owner)duoForget(site);
+    refreshStairOpenings();
+  }
+  window.gameConstruction={version:'V205_Fundacao_Cobertura_Snap_Real_HackZ',definitions:DEF,sites,completedFloors,completedStairs,snapshot:duoSnapshot,applyRemote:duoApply,clearRemote:duoClear,get level(){return buildLevel},setLevel,goGround:()=>setLevel(0),collisionAt:(x,z,feet)=>solidAt(x,z,feet),get active(){return positioning},get selected(){return selected?.id||null},open:openMenu,close:closeMenu,select:selectBlueprint,cancel:cancelPlacement,interact};
   console.info('[V205] Construção: fundações/pisos sem fendas, encaixe no topo real de pilares/paredes, piso elevado sólido, PC/Mobile');
 })();
 
