@@ -34,7 +34,7 @@ function harness(host){
   FlorestaOnline:bridge,__THREE_MODULE:T,gameReview:{scene,dayNight},
   gameConstruction:{definitions:{wall:{resource:'log',slots:[{kind:'log',len:2,pos:{x:0,y:0,z:0},quat:{x:0,y:0,z:0,w:1}}]}}},
   gameFront172:{started:true,getWorldSnapshot(){return {schema:1,construction:{sites:[{id:'wall',x:2,y:0,z:3,yaw:0,count:1}]},cave:{queenDead:false}};}},
-  gameZombie:{combatTargets(){return[{root:{position:{x:1,y:0,z:1}},hit(amount){w.hitDamage=amount;return true;}}]}}
+  gameZombie:{zombies:[{id:'z-1',root:{position:{x:1,y:0,z:1},rotation:{y:0}},alive:true,state:'idle'}],combatTargets(){return[{root:{position:{x:1,y:0,z:1}},hit(amount){w.hitDamage=amount;return true;}}]}}
  };
  const context={window:w,document:display,performance:{now(){return 1000}},
    requestAnimationFrame(fn){onFrame=fn},setInterval(fn){intervals.push(fn);return 3;},clearInterval(){},
@@ -51,6 +51,8 @@ assert.ok(worldPacket,'anfitrião deve compartilhar o estado da construção');
 assert.equal(worldPacket.payload.construction.sites[0].id,'wall');
 host.frame(3000);
 assert.ok(host.packets.some(x=>x.type==='clock'),'anfitrião deve compartilhar hora do mundo');
+const enemyPacket=host.packets.find(x=>x.type==='enemy-snapshot');
+assert.equal(enemyPacket?.payload?.enemies?.[0]?.id,'z-1','host deve anunciar zumbis da cena');
 host.bridge.receive({type:'hit-request',peerId:'amigo',payload:{weapon:'sword',x:1,y:0,z:1}});
 assert.equal(host.w.hitDamage,32,'anfitrião valida e aplica dano fixo do ataque remoto');
 const guest=harness(false);
@@ -59,6 +61,10 @@ assert.equal(guest.api.guestVisualSites,1,'convidado deve visualizar obra do anf
 guest.bridge.receive({type:'clock',peerId:'amigo',payload:{day:5,hour:18}});
 assert.equal(guest.w.gameReview.dayNight.day,5,'convidado deve acompanhar dia do anfitrião');
 assert.equal(guest.w.gameReview.dayNight.hour,18,'convidado deve acompanhar hora');
+const zombie=guest.w.gameZombie.zombies[0];zombie.root.position.x=-2;zombie.root.position.z=-2;
+guest.bridge.receive({type:'enemy-snapshot',peerId:'amigo',payload:enemyPacket.payload});
+guest.frame(4800);
+assert.ok(zombie.root.position.x>-2&&zombie.root.position.z>-2,'convidado interpola monstro do host');
 guest.bridge.receive({type:'world-snapshot',peerId:'intruso',payload:worldPacket.payload});
 assert.equal(guest.api.guestVisualSites,1,'ignora pacotes de outros IDs');
 console.log('Duo world: construção, relógio, autoridade de dano e validação de remetente OK');
