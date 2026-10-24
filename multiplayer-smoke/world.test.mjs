@@ -32,7 +32,11 @@ function harness(host){
  const listeners={};
  const w={
   FlorestaOnline:bridge,__THREE_MODULE:T,gameReview:{scene,dayNight},
-  gameConstruction:{definitions:{wall:{resource:'log',slots:[{kind:'log',len:2,pos:{x:0,y:0,z:0},quat:{x:0,y:0,z:0,w:1}}]}}},
+  gameConstruction:{sites:[],definitions:{wall:{resource:'log',slots:[{kind:'log',len:2,pos:{x:0,y:0,z:0},quat:{x:0,y:0,z:0,w:1}}]}},
+    applyRemote(owner,records){this.sites=this.sites.filter(s=>s.duoOwner!==owner);
+      for(const rec of records)this.sites.push({...rec,duoOwner:owner});return true;},
+    clearRemote(owner){this.sites=this.sites.filter(s=>s.duoOwner!==owner);}
+   },
   gameFront172:{started:true,getWorldSnapshot(){return {schema:1,construction:{sites:[{id:'wall',x:2,y:0,z:3,yaw:0,count:1}]},cave:{queenDead:false}};}},
   gameZombie:{zombies:[{id:'z-1',root:{position:{x:1,y:0,z:1},rotation:{y:0}},alive:true,state:'idle'}],combatTargets(){return[{root:{position:{x:1,y:0,z:1}},hit(amount){w.hitDamage=amount;return true;}}]}}
  };
