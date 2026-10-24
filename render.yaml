@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: floresta-online
+    runtime: node
+    plan: free
+    rootDir: multiplayer-server
+    buildCommand: npm install --omit=dev
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ALLOWED_ORIGINS
+        value: https://jhonatabrasileia666-spec.github.io
