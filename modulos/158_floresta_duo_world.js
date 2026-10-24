@@ -8,8 +8,8 @@ const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
 const num=(n,limit=3000)=>typeof n==='number'&&Number.isFinite(n)&&Math.abs(n)<limit;
 const safe=s=>String(s||'').replace(/[<>\x00-\x1f]/g,'').slice(0,110);
 const MAP=new Map(),MAX_SITES=650,MAX_MESHES=1500;
-let connected=false,room='',lastWorldHash='',lastWorldTime=0,lastTime=0,lastSummary=0,lastImpact=0;
-let unsub=null,statusEl=null,lastRemoteWorld=null,lastRemoteTime=null,friendItems=[],frames=0;
+let connected=false,room='',lastWorldHash='',lastWorldTime=0,lastTime=0,lastSummary=0,lastImpact=0,lastEnemies=0;
+let unsub=null,statusEl=null,lastRemoteWorld=null,lastRemoteTime=null,friendItems=[],frames=0,remoteEnemyList=[];
 let sent={world:0,clock:0,hit:0,chat:0},received={world:0,clock:0,hit:0,chat:0};
 const createStatus=()=>{
  if(statusEl)return statusEl;
@@ -94,6 +94,32 @@ function updateClock(data){
  }catch(e){}
  received.clock++;
 }
+function enemyState(){
+ const z=window.gameZombie?.zombies;if(!Array.isArray(z))return[];
+ return z.slice(0,90).filter(e=>{
+  const p=e?.root?.position;
+  return e?.id!=null&&p&&num(p.x)&&num(p.y)&&num(p.z);
+ }).map(e=>({id:String(e.id).slice(0,42),x:e.root.position.x,y:e.root.position.y,z:e.root.position.z,
+  yaw:Number(e.root.rotation?.y)||0,alive:e.alive!==false,state:String(e.state||'').slice(0,26)}));
+}
+function pullEnemyPositions(){
+ if(N()?.isHost||!remoteEnemyList.length)return;
+ const z=window.gameZombie?.zombies;if(!Array.isArray(z))return;
+ const byId=new Map(z.map(e=>[String(e.id),e]));
+ for(const r of remoteEnemyList){
+  const live=byId.get(r.id),root=live?.root;
+  if(!root?.position)continue;
+  const d=Math.hypot(root.position.x-r.x,root.position.z-r.z);
+  if(d>32||!Number.isFinite(d))continue;
+  const blend=d>5?.35:.16;
+  root.position.x+=(r.x-root.position.x)*blend;
+  root.position.z+=(r.z-root.position.z)*blend;
+  root.position.y+=(r.y-root.position.y)*blend;
+  if(root.rotation&&Number.isFinite(r.yaw)){
+   root.rotation.y+=Math.atan2(Math.sin(r.yaw-root.rotation.y),Math.cos(r.yaw-root.rotation.y))*.19;
+  }
+ }
+}
 function enemyTargets(){
  const out=[];
  const add=entries=>{
@@ -136,6 +162,11 @@ function onMessage(m){
  case 'world-snapshot':
   if(m.payload?.schema!==1||!Array.isArray(m.payload?.construction?.sites)||m.payload.construction.sites.length>MAX_SITES)return;
   lastRemoteWorld=m.payload;received.world++;if(!N().isHost)updateClock(m.payload.clock);applyWorld(m.payload);break;
+ case 'enemy-snapshot':
+  if(N().isHost||!Array.isArray(m.payload?.enemies)||m.payload.enemies.length>90)return;
+  remoteEnemyList=m.payload.enemies.filter(e=>typeof e?.id==='string'&&e.id.length<43&&
+   [e.x,e.y,e.z,e.yaw].every(x=>num(x))&&typeof e.alive==='boolean');
+  break;
  case 'hit-request':
   hostDamage(m.payload,m.peerId);break;
  case 'impact':
@@ -168,19 +199,26 @@ function makeChatButton(){
 }
 function frame(ts){
  const n=N(),active=!!n?.connected;
- if(!active&&connected){connected=false;room='';clearWorld();lastWorldHash='';lastRemoteWorld=null;}
+ if(!active&&connected){connected=false;room='';clearWorld();lastWorldHash='';lastRemoteWorld=null;remoteEnemyList=[];}
  if(active&&(!connected||room!==n.room)){connected=true;room=n.room;lastWorldHash='';clearWorld();note('Duo conectado: '+(n.isHost?'anfitrião':'convidado'));}
  const cb=document.getElementById('foDuoChat')||makeChatButton();
  if(cb)cb.style.display=active&&n.playerCount>1?'block':'none';
  if(active&&n.playerCount>1&&window.gameFront172?.started){
   if(ts-lastWorldTime>3500){distribute();lastWorldTime=ts;}
   if(n.isHost){
+   if(ts-lastEnemies>1100){
+    const enemies=enemyState();if(enemies.length)send('enemy-snapshot',{enemies});
+    lastEnemies=ts;
+   }
    if(ts-lastTime>2300){
     const d=G()?.dayNight;
     if(d&&num(d.day,100000)&&num(d.hour,24.1)){send('clock',{day:d.day,hour:d.hour});sent.clock++;}
     lastTime=ts;
    }
-  }else if(lastRemoteWorld&&++frames%240===0){applyWorld(lastRemoteWorld);}
+  }else{
+   pullEnemyPositions();
+   if(lastRemoteWorld&&++frames%240===0)applyWorld(lastRemoteWorld);
+  }
  }
  requestAnimationFrame(frame);
 }
