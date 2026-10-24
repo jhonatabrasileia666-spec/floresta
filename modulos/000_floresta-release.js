@@ -12,7 +12,7 @@ const apply=()=>{
  // Lobby online carregado separadamente: nunca bloqueia o modo solo.
  if(!document.getElementById('florestaOnlineMVP1Loader')){
   const online=document.createElement('script');online.id='florestaOnlineMVP1Loader';
-  online.src='modulos/156_floresta_online_mvp.js?v=online-1';
+  online.src='modulos/157_floresta_duo_supabase.js?v=duo-1';
   online.onerror=()=>console.warn('[FLORESTA ONLINE] Módulo não disponível; modo solo preservado.');
   document.body.append(online);
  }
