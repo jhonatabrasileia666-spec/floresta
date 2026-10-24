@@ -21,53 +21,22 @@ const createStatus=()=>{
 let noteHide=null;
 function note(message){const el=createStatus();el.textContent=safe(message);el.style.opacity='1';clearTimeout(noteHide);noteHide=setTimeout(()=>{el.style.opacity='0';},2600)}
 function send(type,payload){const n=N();if(!n?.connected||!n.peerId)return;void n.send(type,payload);}
-function buildPart(def,slot){
- const tr=T();if(!tr?.Mesh)return null;
- const kind=String(slot.kind||def.resource||'');
- const len=clamp(Number(slot.len)||1.8,.1,15);
- let geo,color;
- if(kind==='log'){const radius=clamp(Number(slot.radius)||.18,.07,.8);
-  geo=new tr.CylinderGeometry(radius,radius,len,7);color=0x62503b;
- }else if(kind==='plank'){geo=new tr.BoxGeometry(.31,.13,len);color=0x796047;}
- else if(kind==='rock'){geo=new tr.DodecahedronGeometry(.24,0);color=0x686967;}
- else{geo=new tr.BoxGeometry(.10,.12,Math.min(2.5,len));color=0x74674b;}
- const mat=new tr.MeshStandardMaterial({color,roughness:1,flatShading:true});
- const mesh=new tr.Mesh(geo,mat);mesh.castShadow=true;mesh.receiveShadow=true;
- mesh.position.set(Number(slot.pos?.x)||0,Number(slot.pos?.y)||0,Number(slot.pos?.z)||0);
- if(slot.quat&&['x','y','z','w'].every(k=>num(slot.quat[k],2)))mesh.quaternion.set(slot.quat.x,slot.quat.y,slot.quat.z,slot.quat.w);
- return mesh;
-}
+// The native construction engine owns materials, geometry, snapping and collision.
 function clearWorld(){
- for(const entity of MAP.values()){
-  entity.root.parent?.remove(entity.root);
-  entity.root.traverse(o=>{o.geometry?.dispose?.();if(o.material)o.material.dispose?.()});
- }
- MAP.clear();
+ const own=N()?.peerId;
+ if(own)window.gameConstruction?.clearRemote?.(own);
+ for(const owner of remoteOwners)window.gameConstruction?.clearRemote?.(owner);
+ remoteOwners.clear();MAP.clear();
 }
+const remoteOwners=new Set();
 function applyWorld(world){
- const T3=T(),g=G(),defs=window.gameConstruction?.definitions;
- if(!T3?.Group||!g?.scene||!defs||!Array.isArray(world?.construction?.sites))return;
- const locations=world.construction.sites.slice(0,MAX_SITES),used=new Set();
- let meshes=0;
- for(const site of locations){
-  if(!site||typeof site.id!=='string'||site.id.length>90||!['x','y','z','yaw'].every(k=>num(site[k]))||!Number.isInteger(site.count)||site.count<0||site.count>500)continue;
-  const def=defs[site.id];if(!def?.slots)continue;
-  const key=site.id+':'+site.x.toFixed(2)+':'+site.y.toFixed(2)+':'+site.z.toFixed(2)+':'+site.yaw.toFixed(2);
-  used.add(key);
-  const old=MAP.get(key);
-  if(old&&old.count===site.count){meshes+=old.parts;continue;}
-  if(old){old.root.parent?.remove(old.root);old.root.traverse(o=>{o.geometry?.dispose?.();o.material?.dispose?.()});MAP.delete(key);}
-  const root=new T3.Group();root.name='Floresta_Duo_Construcao_Remota_'+site.id;
-  root.position.set(site.x,site.y,site.z);root.rotation.y=site.yaw;
-  const count=Math.min(site.count,def.slots.length,180,MAX_MESHES-meshes);
-  for(let i=0;i<count;i++){const part=buildPart(def,def.slots[i]);if(part)root.add(part);}
-  meshes+=count;if(!count)continue;
-  // Réplicas são apenas visuais até a colisão/consumo terem suporte multiplayer nativo.
-  root.userData.florestaDuoRemote=true;g.scene.add(root);
-  MAP.set(key,{root,count:site.count,parts:count});
-  if(meshes>=MAX_MESHES)break;
- }
- for(const [key,v] of [...MAP])if(!used.has(key)){v.root.parent?.remove(v.root);v.root.traverse(o=>{o.geometry?.dispose?.();o.material?.dispose?.()});MAP.delete(key);}
+ const owner=N()?.peerId||'remote';
+ if(!Array.isArray(world?.construction?.sites)||!window.gameConstruction?.applyRemote)return;
+ remoteOwners.add(owner);
+ window.gameConstruction.applyRemote(owner,world.construction.sites);
+ // Count is only diagnostic. Remote geometry is inside native sites[].
+ const n=window.gameConstruction.sites?.filter?.(s=>s.duoOwner===owner).length||0;
+ MAP.clear();for(let i=0;i<n;i++)MAP.set(i,true);
 }
 function snapshot(){
  const f=window.gameFront172,g=G();if(!f?.getWorldSnapshot||!g?.dayNight)return null;
@@ -75,7 +44,9 @@ function snapshot(){
  try{raw=f.getWorldSnapshot();}catch(e){return null}
  if(!raw||!Array.isArray(raw.construction?.sites))return null;
  const siteList=raw.construction.sites.slice(0,MAX_SITES).filter(a=>a&&['x','y','z','yaw'].every(k=>num(a[k]))&&Number.isInteger(a.count)&&a.count>=0)
-  .map(a=>({id:String(a.id).slice(0,90),x:a.x,y:a.y,z:a.z,yaw:a.yaw,count:a.count}));
+  .map(a=>({id:String(a.id).slice(0,90),x:a.x,y:a.y,z:a.z,yaw:a.yaw,count:a.count,
+    level:Number.isInteger(a.level)?a.level:0,edgeX:a.edgeX,edgeZ:a.edgeZ,
+    wallSign:a.wallSign,wallAttached:!!a.wallAttached}));
  return {schema:1,construction:{sites:siteList},cave:{queenDead:!!raw.cave?.queenDead},clock:{day:g.dayNight.day,hour:g.dayNight.hour},at:Date.now()};
 }
 function distribute(force=false){
