@@ -23,6 +23,7 @@ function display(){
  for(const x of ['foLeave','foInvite'])if($(x))$(x).disabled=!state.connected;
 }
 function removePeer(p){
+ if(p?.nativeAvatar){window.FlorestaDuoAvatar?.dispose?.(p);return;}
  const root=p?.root;if(!root)return;
  root.parent?.remove(root);
  root.traverse(o=>{o.geometry?.dispose?.();o.material?.map?.dispose?.();o.material?.dispose?.()});
@@ -41,6 +42,7 @@ function syncPeers(){
 function avatar(p){
  const T=window.__THREE_MODULE,g=window.gameReview;
  if(p.root||!T?.Group||!g?.scene)return;
+ if(window.FlorestaDuoAvatar?.create?.(p,T,g))return;
  const r=new T.Group();r.name='Floresta_Amigo_'+p.id;
  const cloth=new T.MeshStandardMaterial({color:0x455447,roughness:1,flatShading:true});
  const face=new T.MeshStandardMaterial({color:0xc09a79,roughness:1,flatShading:true});
@@ -185,7 +187,12 @@ function tick(){
    const pos={x:p.x,y:Number.isFinite(y)?y:Number(p.y)||0,z:p.z,yaw:p.yaw||0,
     moving:moved,torch:!!g.isEquipped?.(),weapon:String(window.gameRightHand?.current||'').slice(0,30),
     carryingLog:!!window.gameLumber?.carrying,mounted:!!window.gameCreativeSpiderMount?.mounted,
-    zone:window.gameSpiderCave?.active?'cave':'forest'};
+    zone:window.gameSpiderCave?.active?'cave':'forest',
+    look:window.gameCharacterV263?.get?.()||null,
+    equipment:{right:window.gameForgedEquipmentV230?.right||window.gameRightHand?.current||'',
+     left:window.gameForgedEquipmentV230?.left||(window.gameShield?.equipped?'wood_shield':''),
+     torch:!!g.isEquipped?.(),armor:!!window.gamePrimitive?.armorEquipped},
+    pose:window.FlorestaDuoAvatar?.capture?.()||null};
    lastLocalPos={x:p.x,z:p.z};
    if([pos.x,pos.y,pos.z,pos.yaw].every(Number.isFinite)){
     state.channel.send({type:'broadcast',event:'position',payload:{id,pos}});lastSent=t;
@@ -193,6 +200,10 @@ function tick(){
   }
  }
  for(const p of state.peers.values()){
+  // Replace the temporary geometry as soon as the native Mixamo model is loaded.
+  if(p.root&&!p.nativeAvatar&&window.FlorestaDuoAvatar?.probe?.().ready){
+   removePeer(p);avatar(p);
+  }
   if(!p.root)avatar(p);
   if(p.root&&window.gameReview?.scene&&p.root.parent!==window.gameReview.scene)window.gameReview.scene.add(p.root);
   if(!p.root||!p.target)continue;
@@ -207,6 +218,7 @@ function tick(){
   if(p.torch)p.torch.visible=!!v.torch;
   if(p.weapon)p.weapon.visible=!!v.weapon;
   if(p.log)p.log.visible=!!v.carryingLog;
+  if(p.nativeAvatar)window.FlorestaDuoAvatar?.pose?.(p,v);
   p.root.visible=(v.zone==='cave'?'cave':'forest')===(window.gameSpiderCave?.active?'cave':'forest');
   const swing=v.moving?Math.sin(performance.now()*.009)*.12:0;
   for(const leg of p.root.children)if(leg.geometry?.type==='CylinderGeometry'&&leg.position.y<.7&&Math.abs(leg.position.x)>.08)leg.rotation.x=(leg.position.x>0?1:-1)*swing;
