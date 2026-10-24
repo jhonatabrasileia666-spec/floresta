@@ -10,6 +10,7 @@ const safe=s=>String(s||'').replace(/[<>\x00-\x1f]/g,'').slice(0,110);
 const MAP=new Map(),MAX_SITES=650,MAX_MESHES=1500;
 let connected=false,room='',lastWorldHash='',lastWorldTime=0,lastTime=0,lastSummary=0,lastImpact=0,lastEnemies=0;
 let unsub=null,statusEl=null,lastRemoteWorld=null,lastRemoteTime=null,friendItems=[],frames=0,remoteEnemyList=[];
+const takenPickups=new Set(),pendingPickups=new Map();
 let sent={world:0,clock:0,hit:0,chat:0},received={world:0,clock:0,hit:0,chat:0};
 const createStatus=()=>{
  if(statusEl)return statusEl;
@@ -121,14 +122,84 @@ function hostDamage(request,peerId){
   send('impact',{x:request.x,z:request.z,weapon:'sword'});sent.hit++;
  }}catch(err){console.warn('[Duo] dano remoto não aceito',err);}
 }
+function validPickupKey(key){return typeof key==='string'&&key.length<120&&/^[a-z_]+:-?\d+:-?\d+$/.test(key);}
+function requestPickup(key,itemId){
+ const n=N();if(!n?.connected||n.isHost||!n.peerId||!validPickupKey(key))return false;
+ const t=pendingPickups.get(key);
+ if(t&&Date.now()-t<4000)return true;
+ pendingPickups.set(key,Date.now());
+ send('pickup-request',{key,itemId:String(itemId||'').slice(0,32)});
+ return true;
+}
+function localPickup(e){
+ const n=N(),key=e.detail?.key;
+ if(!n?.connected||!n.isHost||!validPickupKey(key))return;
+ if(takenPickups.size<1500)takenPickups.add(key);
+ send('pickup-claimed',{key});
+}
+function hostPickup(m){
+ const n=N(),api=window.gameCollectibles,req=m.payload;
+ if(!n?.connected||!n.isHost||m.peerId!==n.peerId||!validPickupKey(req?.key))return;
+ const root=api?.getByNetworkKey?.(req.key),peer=n.peerPosition;
+ if(!root||takenPickups.has(req.key)||!peer||!Number.isFinite(peer.x)||!Number.isFinite(peer.z)){
+  send('pickup-denied',{key:req.key,to:m.peerId});return;
+ }
+ // Server-authority-for-this-room: only allow picking up near the claimed resource.
+ if(Math.hypot(root.position.x-peer.x,root.position.z-peer.z)>3.6||
+    req.itemId!==root.userData?.collectible?.id){
+  send('pickup-denied',{key:req.key,to:m.peerId});return;
+ }
+ const item=api.consumeByNetworkKey(req.key,false);
+ if(!item){send('pickup-denied',{key:req.key,to:m.peerId});return;}
+ if(takenPickups.size<1500)takenPickups.add(req.key);
+ send('pickup-awarded',{key:req.key,to:m.peerId,item:{
+  id:item.id,name:item.name,type:item.type,quantity:item.quantity,weight:item.weight,description:item.description
+ }});
+}
+function syncTakenPickups(){
+ const n=N();if(n?.connected&&n.isHost&&n.peerId&&takenPickups.size){
+  send('pickup-snapshot',{keys:[...takenPickups].slice(-1400)});
+ }
+}
 function onMessage(m){
  if(!N()?.connected)return;
  if(m.type==='presence'){
-  if(m.payload?.count===2)setTimeout(()=>distribute(true),850);
+  if(m.payload?.count===2){setTimeout(()=>distribute(true),850);setTimeout(syncTakenPickups,1200);}
   return;
  }
  if(m.peerId!==N()?.peerId)return;
  switch(m.type){
+ case 'pickup-request':
+  hostPickup(m);break;
+ case 'pickup-denied':
+  if(!N().isHost&&m.payload?.to===N().clientId&&validPickupKey(m.payload?.key)){
+   pendingPickups.delete(m.payload.key);note('Recurso já coletado ou fora do alcance.');
+  }break;
+ case 'pickup-claimed':
+  if(!N().isHost&&validPickupKey(m.payload?.key)){
+   window.gameCollectibles?.consumeByNetworkKey?.(m.payload.key,false);
+   takenPickups.add(m.payload.key);pendingPickups.delete(m.payload.key);
+  }break;
+ case 'pickup-awarded':
+  if(!N().isHost&&m.payload?.to===N().clientId&&validPickupKey(m.payload?.key)){
+   const key=m.payload.key;
+   // Do not award unsolicited packets that were never requested by this client.
+   if(!pendingPickups.has(key))break;
+   pendingPickups.delete(key);takenPickups.add(key);
+   window.gameCollectibles?.consumeByNetworkKey?.(key,false);
+   const i=m.payload.item;
+   if(i&&['rock','branch','vine','wood_chip','wood_shield'].includes(i.id)&&
+     Number.isInteger(i.quantity)&&i.quantity>=1&&i.quantity<=20){
+     const added=window.gameInventory?.addItem?.(i);
+     note(added?`Coletado: ${i.name}`:'Inventário cheio: recurso não recebido.');
+   }
+  }break;
+ case 'pickup-snapshot':
+  if(!N().isHost&&Array.isArray(m.payload?.keys)){
+   for(const key of m.payload.keys.slice(0,1500))if(validPickupKey(key)){
+    takenPickups.add(key);window.gameCollectibles?.consumeByNetworkKey?.(key,false);
+   }
+  }break;
  case 'clock':
   updateClock(m.payload);break;
  case 'world-snapshot':
@@ -171,7 +242,7 @@ function makeChatButton(){
 }
 function frame(ts){
  const n=N(),active=!!n?.connected;
- if(!active&&connected){connected=false;room='';clearWorld();lastWorldHash='';lastRemoteWorld=null;remoteEnemyList=[];}
+ if(!active&&connected){connected=false;room='';clearWorld();lastWorldHash='';lastRemoteWorld=null;remoteEnemyList=[];takenPickups.clear();pendingPickups.clear();}
  if(active&&(!connected||room!==n.room)){const switched=connected&&room!==n.room;connected=true;room=n.room;lastWorldHash='';if(switched){clearWorld();lastRemoteWorld=null;remoteEnemyList=[];}note('Duo conectado: '+(n.isHost?'anfitrião':'convidado'));}
  const cb=document.getElementById('foDuoChat')||makeChatButton();
  if(cb)cb.style.display=active&&n.playerCount>1?'block':'none';
@@ -199,9 +270,10 @@ const ready=setInterval(()=>{
  if(n?.onNetwork){unsub=n.onNetwork(onMessage);clearInterval(ready);}
 },300);
 addEventListener('game:combat-hit-confirmed',onSword);
+addEventListener('game:duo-local-pickup',localPickup);
 addEventListener('pagehide',()=>{clearInterval(ready);unsub?.();clearWorld()},{once:true});
 requestAnimationFrame(frame);
-window.FlorestaDuoWorld={version:'1.0-test',chat,refresh:()=>distribute(true),
+window.FlorestaDuoWorld={version:'1.1-collectibles',chat,requestPickup,refresh:()=>distribute(true),
  get guestVisualSites(){return MAP.size},
  diagnostic:()=>({connected:!!N()?.connected,isHost:!!N()?.isHost,remoteSites:MAP.size,sent,received,sharedWorld:!!lastRemoteWorld})};
 })();
