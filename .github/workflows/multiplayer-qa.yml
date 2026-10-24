@@ -20,6 +20,11 @@ jobs:
           node-version: "22"
       - name: Validar sintaxe do cliente e loader
         run: node --check modulos/157_floresta_duo_supabase.js && node --check modulos/000_floresta-release.js
+      - name: Smoke test Realtime com duas conexões (canal temporário)
+        working-directory: multiplayer-smoke
+        run: |
+          npm install --ignore-scripts --no-audit --no-fund
+          npm test
       - name: Verificar configuração da integração
         run: |
           grep -q '157_floresta_duo_supabase.js' modulos/000_floresta-release.js
