@@ -1,0 +1,23 @@
+name: Multiplayer smoke tests
+on:
+  push:
+    branches: [feature/multiplayer-online-mvp]
+  pull_request:
+    paths:
+      - "multiplayer-server/**"
+      - "modulos/156_floresta_online_mvp.js"
+      - "modulos/000_floresta-release.js"
+      - ".github/workflows/multiplayer-qa.yml"
+jobs:
+  multiplayer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validar sintaxe do cliente
+        run: node --check modulos/156_floresta_online_mvp.js && node --check modulos/000_floresta-release.js
+      - name: Instalar e testar servidor
+        working-directory: multiplayer-server
+        run: npm install --ignore-scripts --no-audit --no-fund && npm test
