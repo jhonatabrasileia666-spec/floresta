@@ -20,7 +20,10 @@
  // Jogo.html has legacy query versions in script tags, so a fresh SW alone
  // may not immediately refresh previously cached sources on older Safari.
  let shouldRefresh=true;try{shouldRefresh=!sessionStorage.getItem('floresta-mobile-v281-code-refresh')}catch{};
- if(navigator.onLine!==false && 'caches' in window && shouldRefresh){
+ // Só refazer o carregamento caro quando houver caches de uma versão antiga.
+ let outdatedCaches=[];
+ if('caches' in window){try{outdatedCaches=(await caches.keys()).filter(k=>k.startsWith('floresta-v')&&k!=='floresta-v281-perf-1')}catch{}}
+ if(navigator.onLine!==false && outdatedCaches.length && shouldRefresh){
   try{
    const probe=await fetch('modulos/000_floresta-release.js?check=v281',{cache:'no-store'});
    if(probe.ok && (await probe.text()).includes('"version":"V281"')){
