@@ -12,6 +12,10 @@
   let game=null,renderer=null,scene=null,THREE=null,baseRender=null;
   let target=null,postScene=null,postCamera=null,postMesh=null,postMaterial=null;
   let retroActive=false;
+  let renderQuality=1, nativePixelRatio=1;
+  // Ajuste de resolucao (nao mexe nas texturas, na grade PSX nem no save).
+  const minQuality=isMobile?.70:.76;
+  const performanceTarget=isMobile?44:48;
   let savedPos=null,savedQuat=null,tmpEuler=null;
   let oldToneMapping=null,oldExposure=1,oldSortObjects=true,oldShadowType=null;
   let oldCanvasFilter='',oldImageRendering='';
@@ -179,8 +183,8 @@
   function targetSize(){
     const w=Math.max(1,innerWidth),h=Math.max(1,innerHeight);
     // A cena 3D é rasterizada com mais resolução apenas para preservar cobertura/silhueta ao longe.
-    const scale=isMobile?.78:.86;
-    return {w:Math.max(isMobile?420:640,Math.round(w*scale)),h:Math.max(isMobile?260:360,Math.round(h*scale))};
+    const scale=(isMobile?.78:.86)*renderQuality;
+    return {w:Math.max(Math.round((isMobile?420:640)*renderQuality),Math.round(w*scale)),h:Math.max(Math.round((isMobile?260:360)*renderQuality),Math.round(h*scale))};
   }
   function farGridSize(){
     const w=Math.max(1,innerWidth),h=Math.max(1,innerHeight);
@@ -207,10 +211,39 @@
     }
   }
 
+  function applyPixelRatio(){
+    if(!renderer?.setPixelRatio)return;
+    // Em celulares com DPR 2/3, limitar pixels evita sobrecarregar a GPU.
+    // A grade visual Retro PSX permanece independente desta resolucao.
+    const ratio=Math.min(isMobile?1.35:1.8,Math.max(1,nativePixelRatio)*renderQuality);
+    if(Math.abs((renderer.getPixelRatio?.()||1)-ratio)>.025)renderer.setPixelRatio(ratio);
+  }
+
+  function watchPerformance(){
+    let good=0,bad=0;
+    const timer=setInterval(()=>{
+      if(document.hidden||!window.gameFront172?.started||!window.gameFront172?.shell?.hidden)return;
+      const fps=Number(window.gamePerformanceV103?.fps)||0;
+      if(!fps)return;
+      bad=fps<performanceTarget?bad+1:0;
+      good=fps>=56?good+1:0;
+      let next=renderQuality;
+      if(bad>=2){next=Math.max(minQuality,Math.round((renderQuality-.08)*100)/100);bad=0;good=0;}
+      else if(good>=4){next=Math.min(1,Math.round((renderQuality+.04)*100)/100);good=0;bad=0;}
+      if(next===renderQuality)return;
+      renderQuality=next;
+      applyPixelRatio();
+      if(retroActive)resizeTarget();
+      window.dispatchEvent(new CustomEvent('game:graphics-quality',{detail:{quality:renderQuality,fps}}));
+    },3500);
+    addEventListener('pagehide',()=>clearInterval(timer),{once:true});
+  }
+
   function setMode(next){
     if(next!=='normal'&&next!=='retro') return;
     mode=next;retroActive=mode==='retro';
     if(renderer){
+      applyPixelRatio();
       if(retroActive){
         renderer.toneMapping=THREE.NoToneMapping;
         renderer.toneMappingExposure=1.0;
@@ -256,14 +289,16 @@
       renderer.setRenderTarget(previousTarget);renderer.clear();postMaterial.uniforms.uTime.value=performance.now()/1000;if(cam?.isCamera){postMaterial.uniforms.uCameraNear.value=Math.max(.001,Number(cam.near)||.1);postMaterial.uniforms.uCameraFar.value=Math.max(postMaterial.uniforms.uCameraNear.value+1,Number(cam.far)||180)}baseRender(postScene,postCamera);
     };
     addEventListener('resize',resizeTarget);
+    addEventListener('resize',()=>requestAnimationFrame(applyPixelRatio));
   }
 
   function start(){
     game=window.gameReview;THREE=window.__THREE_MODULE;
     if(!game?.renderer||!game?.scene||!THREE){setTimeout(start,120);return}
     renderer=game.renderer;scene=game.scene;
-    ensureUI();patchRenderer();setMode(mode);
-    window.gameGraphics={version:'V149B',get mode(){return mode},setMode,toggle(){setMode(mode==='retro'?'normal':'retro')}};
+    nativePixelRatio=renderer.getPixelRatio?.()||window.devicePixelRatio||1;
+    ensureUI();patchRenderer();setMode(mode);watchPerformance();
+    window.gameGraphics={version:'V149B-performance-1',get mode(){return mode},get performanceQuality(){return renderQuality},setMode,toggle(){setMode(mode==='retro'?'normal':'retro')}};
     console.info('[V149B] visual Retro PSX da V146 preservado; somente a grade distante recebe detalhe 3D extra por profundidade');
   }
   start();
