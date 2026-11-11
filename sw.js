@@ -1,6 +1,6 @@
 /* FLORESTA V281 — JS network-first; large media cache-first. Never cache HTML.
    Important on iOS: an old PWA may keep a V264 script URL even after code changes. */
-const CACHE='floresta-v281-duo-torch-realgeometry-8';
+const CACHE='floresta-v281-perf-1';
 self.addEventListener('install',event=>event.waitUntil(self.skipWaiting()));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{
  for(const key of await caches.keys())if(key.startsWith('floresta-v')&&key!==CACHE)await caches.delete(key);
@@ -15,10 +15,10 @@ self.addEventListener('fetch',event=>{
  const isScript=/\.js$/i.test(path);
  event.respondWith((async()=>{
   const cache=await caches.open(CACHE);
-  // Scripts: always request current GitHub file, bypass browser HTTP cache.
+  // Scripts: revalidate with HTTP ETag/Last-Modified. Keep code fresh without redownloading unchanged multi-MB files.
   if(isScript){
    try{
-    const fresh=await fetch(req,{cache:'no-store'});
+    const fresh=await fetch(req,{cache:'no-cache'});
     if(fresh.ok){cache.put(req,fresh.clone()).catch(()=>{});return fresh;}
     const fallback=await cache.match(req);return fallback||fresh;
    }catch(err){const fallback=await cache.match(req);if(fallback)return fallback;throw err;}
